@@ -1,5 +1,8 @@
 *.aux
+*.log
+*.gz
 *.pdf
+*.bak
 
 template-nb.ipynb
 
