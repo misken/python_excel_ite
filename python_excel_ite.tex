@@ -1,0 +1,185 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Author style for INFORMS Transactions on Education (ited)
+%% Mirko Janc, Ph.D., INFORMS, pubtech@informs.org
+%% ver. 0.92, June 2009 -- default options: single-spaced, double-blinded
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\documentclass[ited]{informs3}                      % for a regular run
+%\documentclass[ited,nonblindrev]{informs3}          % for review, not blinded
+%\documentclass[ited,blindrev,copyedit]{informs3}    % spaced for copyediting
+\documentclass[ited,blindrev]{informs3}              % for review, blinded
+
+% If hyperref is used, dvi-to-ps driver of choice must be declared as
+%   an additional option to the \documentstyle. For example
+%\documentclass[dvips,ited]{informs1}      % if dvips is used 
+%\documentclass[dvipsone,ited]{informs1}   % if dvipsone is used, etc. 
+
+% Private macros here (check that there is no clash with the style)
+
+% Natbib setup for author-year style
+\usepackage{natbib}
+ \bibpunct[, ]{(}{)}{,}{a}{}{,}%
+ \def\bibfont{\small}%
+ \def\bibsep{\smallskipamount}%
+ \def\bibhang{24pt}%
+ \def\newblock{\ }%
+ \def\BIBand{and}%
+
+%% Setup of theorem styles. Outcomment only one. 
+%% Preferred default is the first option.
+\TheoremsNumberedThrough     % Preferred (Theorem 1, Lemma 1, Theorem 2)
+%\TheoremsNumberedByChapter  % (Theorem 1.1, Lema 1.1, Theorem 1.2)
+
+%% Setup of the equation numbering system. Outcomment only one.
+%% Preferred default is the first option.
+\EquationsNumberedThrough    % Default: (1), (2), ...
+%\EquationsNumberedBySection % (1.1), (1.2), ...
+
+% In the reviewing and copyediting stage enter the manuscript number.
+%\MANUSCRIPTNO{} % When the article is logged in and DOI assigned to it,
+                 %   this manuscript number is no longer necessary
+
+%%%%%%%%%%%%%%%%
+\begin{document}
+%%%%%%%%%%%%%%%%
+
+% Outcomment only when entries are known. Otherwise leave as is and 
+%   default values will be used.
+%\setcounter{page}{1}
+%\VOLUME{00}%
+%\NO{0}%
+%\MONTH{Xxxxx}% (month or a similar seasonal id)
+%\YEAR{0000}% e.g., 2005
+%\FIRSTPAGE{000}%
+%\LASTPAGE{000}%
+%\SHORTYEAR{00}% shortened year (two-digit)
+%\ISSUE{0000} %
+%\LONGFIRSTPAGE{0001} %
+%\DOI{10.1287/xxxx.0000.0000}%
+
+% Author's names for the running heads
+% Sample depending on the number of authors;
+% \RUNAUTHOR{Jones}
+% \RUNAUTHOR{Jones and Wilson}
+% \RUNAUTHOR{Jones, Miller, and Wilson}
+% \RUNAUTHOR{Jones et al.} % for four or more authors
+% Enter authors following the given pattern:
+\RUNAUTHOR{Isken}
+
+% Title or shortened title suitable for running heads. Sample:
+% \RUNTITLE{Bundling Information Goods of Decreasing Value}
+% Enter the (shortened) title:
+\RUNTITLE{Python for spreadsheet type modeling}
+
+% Full title. Sample:
+% \TITLE{Bundling Information Goods of Decreasing Value}
+% Enter the full title:
+\TITLE{Using Python for spreadsheet type modeling}
+
+% Block of authors and their affiliations starts here:
+% NOTE: Authors with same affiliation, if the order of authors allows, 
+%   should be entered in ONE field, separated by a comma. 
+%   \EMAIL field can be repeated if more than one author
+\ARTICLEAUTHORS{%
+\AUTHOR{Mark W. Isken}
+\AFF{Oakland University, \EMAIL{isken@oakland.edu}, \URL{http://www.sba.oakland.edu/faculty/isken/}}
+% Enter all authors
+} % end of the block
+
+\ABSTRACT{%
+TODO: Text of your abstract % Enter your abstract
+}%
+
+% Sample
+%\KEYWORDS{deterministic inventory theory; infinite linear programming duality; 
+%  existence of optimal policies; semi-Markov decision process; cyclic schedule}
+
+% Fill in data. If unknown, outcomment the field
+\KEYWORDS{python, spreadsheet modeling}
+\HISTORY{}
+
+\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Samples of sectioning (and labeling) in ITED
+% NOTE: (1) \section and \subsection do NOT end with a period
+%       (2) \subsubsection and lower need end punctuation
+%       (3) capitalization is as shown (title style).
+%
+%\section{Introduction.}\label{intro} %%1.
+%\subsection{Duality and the Classical EOQ Problem.}\label{class-EOQ} %% 1.1.
+%\subsection{Outline.}\label{outline1} %% 1.2.
+%\subsubsection{Cyclic Schedules for the General Deterministic SMDP.}
+%  \label{cyclic-schedules} %% 1.2.1
+%\section{Problem Description.}\label{problemdescription} %% 2.
+
+% Text of your paper here
+
+\section{Introduction}
+
+% The opening part of the what-if notebook has some language for the motivation behind this module.
+
+Why I created 
+
+Excel is widely used for building and using models of business problems to explore the impact of various model inputs on key outputs. Built in "what if?" tools such as Excel [Data Tables](https://support.microsoft.com/en-us/office/calculate-multiple-results-by-using-a-data-table-e95e2487-6ca6-4413-ad12-77542a5ea50b) and [Goal Seek](https://support.microsoft.com/en-us/office/use-goal-seek-to-find-the-result-you-want-by-adjusting-an-input-value-320cb99e-f4a4-417f-b1c3-4f369d6e66c7) are well known to power spreadsheet modelers. How might we do similar modeling and analysis using Python? 
+
+While Python has been gaining momentum in the business analytics world, it is often used for data wrangling, analysis and visualization of tablular data using tools like pandas and matplotlib or Seaborn. You can find some great examples at [Chris Moffit's Practical Business Python blog](https://pbpython.com/). I use Python all the time for such tasks and teach a course called [Practical Computing for Data Analytics](http://www.sba.oakland.edu/faculty/isken/courses/mis5470/) that is Python (and R) based. But, it got me to thinking. What about those things for which Excel is well suited such as building formula based models and doing sensitivity analysis on these models? What would those look like in Python?
+
+\section{Module structure}
+
+\section{The modeling notebooks}
+\subsection{Notebook 1: Modeling and data tables}
+\subsection{Notebook 2: Goal seek}
+\subsection{Notebook 3: Monte-Carlo simulation}
+
+\section{The packaging notebooks}
+\subsection{Notebook 4: Project packaging}
+\subsection{Notebook 5: Documentation}
+
+\section{The wrangling notebooks}
+\subsection{Notebook 6: Manipulating Excel files with Python}
+
+\section{Student assignment}
+
+\section{Random notes}
+Learning good Python programming practices via learning to model in similar way that students learn good spreadsheet practices through building spreadsheet models using the W\&A textbook.
+
+How aap course fits in relation to pcda course. Could also be second part of a fully Python based course. Builds on basic intro Python concepts and skills.
+
+The Quant Econ website is a good example of another use of Python for typical Excel things.
+
+% Acknowledgments here
+\ACKNOWLEDGMENT{%
+% Enter the text of acknowledgments here
+}% Leave this (end of acknowledgment)
+
+
+% Appendix here
+% Options are (1) APPENDIX (with or without general title) or 
+%             (2) APPENDICES (if it has more than one unrelated sections)
+% Outcomment the appropriate case if necessary
+%
+% \begin{APPENDIX}{<Title of the Appendix>}
+% \end{APPENDIX}
+%
+%   or 
+%
+% \begin{APPENDICES}
+% \section{<Title of Section A>}
+% \section{<Title of Section B>}
+% etc
+% \end{APPENDICES}
+
+
+% References here (outcomment the appropriate case) 
+
+% CASE 1: BiBTeX used to constantly update the references 
+%   (while the paper is being written).
+%\bibliographystyle{informs2014} % outcomment this and next line in Case 1
+%\bibliography{<your bib file(s)>} % if more than one, comma separated
+
+% CASE 2: BiBTeX used to generate mypaper.bbl (to be further fine tuned)
+%\input{mypaper.bbl} % outcomment this line in Case 2
+
+\end{document}
+
+
