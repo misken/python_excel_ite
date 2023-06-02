@@ -141,22 +141,33 @@ What kind of Python background do students need have in order to be ready for th
 
 The EwP module could easily be used as part of a semester long Python based analytics course. At our institution, this module is part of a business course entitled "Advanced Analytics with Python" (\href{http://www.sba.oakland.edu/faculty/isken/courses/mis6900}{AAP}). The students taking this course have already taken my "Practical Computing for Business Analytics" (\href{http://www.sba.oakland.edu/faculty/isken/courses/mis5470}{PCDA}) course in which they spend about half the semester learning R and the other half learning Python, both in the context of business analytics. Some Linux basics are also part of the PCDA course. The students have also already taken "Business Analytics" (\href{http://www.sba.oakland.edu/faculty/isken/courses/mis5460}{BA}) which is a spreadsheet based introduction to business analytics. The BA and PCDA courses have historically been offered in face to face mode in a computer teaching lab. Since 2020, these two courses have been also offered as online, asynchronous courses. The newer AAP course has been offered since 2021 in an online asynchronous mode. All three courses have extensive course websites that are publicly accessible, including access to all of the video content and files needed. We will describe the AAP course web in more detail below in the context of the EwP module.
 
-The EwP module is made of three submodules. The first of these focuses on building and using typical spreadsheet model using Python 
+The EwP module is made of three submodules. The first of these focuses on building and using a typical spreadsheet model using Python. Then the functionality developed for doing this type of modeling in Python is deployed as a reusable package. We end with an introduction to using Python to manipulate Excel files, an extremely common use case.
+
+Combination of Jupyter notebooks, Python scripts, videos walking through the notebooks and scripts, all accessible from submodule specific course web pages. 
 
 \section{Submodule 1: The modeling notebooks}
 
-
-<<<<<<< HEAD
-=======
-The "Excel with Python" module is comprised of three submodules.
-
-\section{The modeling notebooks}
-
-The first focuses on building a simple what-if model and doing sensitivity analysis much like one would do using Excel's Data-Table functionality. The next submodule explores the creation and use of goal seeking capability so that we can do things like finding the break-even point in our model. 
+There are two overarching learning objectives for this first set of Jupyter notebooks. Students learn how Python might be used to do something they are quite familiar with doing in a spreadsheet - model building and sensitivity analysis. At the same time, students encounter, as they are needed, more advanced Python programming techniques such as object oriented programming, ADD MORE FROM THE MODULES. In this way, the computational problem to be solved drives the introduction of more advanced Python concepts and techniques instead of such things being presented in a vacuum. I make it a point to try to convey the notion that there are often multiple possible approaches by embarking on one path and then starting over and doing things in a different way. MORE NEEDED
  
->>>>>>> 3c0dd0d3a129d1e1cff1755ab1ef16bf3dbb382f
+ 
 \subsection{Notebook 1: Modeling and data tables}
+
+\begin{quote}
+	For example, here's a high level screenshot of a model that I assign for homework in my [MIS 4460/5460 Business Analytics class](http://www.sba.oakland.edu/faculty/isken/courses/mis5460/) (a spreadsheet based modeling class).
+	It's a really simple model in which we are selling a single product that we produce. There is a fixed cost to producing the product as well as a variable production cost per unit. We can sell the product for some price and we believe that demand for the product is related to the selling price through a power function. Let's assume for now that we have sufficient capacity to produce to demand and that all inputs are deterministic (we'll deal with simulating uncertainty later in this document).
+	
+	The details aren't so important right now as is the overall structure of the model. There's a few key inputs and some pretty straightforward formulas for computing cost, revenue and profit. Notice the 1-way Data Table being used to explore how profit varies for different selling prices. There's a graph driven by the Data Table and some Text Boxes used for annotation and summary interpretative comments. There's a button that launches Goal Seek to find the break even selling price and a 2-way Data Table (not shown) to explore the joint effect of selling price and variable cost. Classic Excel modeling stuff. How might we go about building a similar model using Python?  
+	
+	What if we wanted to push it a little further and model some of the key inputs with probability distributions to reflect our uncertainty about their values? In the Excel world, we might use add-ins such as @Risk which allow uncertain quantities to be directly modeled with probability distributions. For example, we might have a key input such as the exponent in the power function that relates selling price to demand that is highly uncertain. By modeling it with a probability distribution and then sampling from that distribution many times (essentially by recalcing the spreadsheet) we can generate a bunch of possible values for key outputs (e.g. profit) and use statistics to summarize these outputs using things like histograms and summary stats. Often this type of simulation model is referred to as a *Monte-Carlo* model to suggest repeated sampling from one or more probability distributions within an otherwise pretty static model. If you want to see such models in action, check out my [Simulation Modeling with Excel page](http://www.sba.oakland.edu/faculty/isken/courses/mis5460/simulation.html) from my Business Analytics course. Again, how might we do this with Python?
+\end{quote}
+
+
+The first focuses on building a simple what-if model and doing sensitivity analysis much like one would do using Excel's Data-Table functionality.
+
 \subsection{Notebook 2: Goal seek}
+
+The next submodule explores the creation and use of goal seeking capability so that we can do things like finding the break-even point in our model.
+ 
 \subsection{Notebook 3: Monte-Carlo simulation}
 
 \section{Submodule 2: The packaging notebooks}
