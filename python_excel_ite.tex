@@ -8,12 +8,41 @@
 %\documentclass[ited,blindrev,copyedit]{informs3}    % spaced for copyediting
 \documentclass[ited,blindrev]{informs3}              % for review, blinded
 
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+
 % If hyperref is used, dvi-to-ps driver of choice must be declared as
 %   an additional option to the \documentstyle. For example
 %\documentclass[dvips,ited]{informs1}      % if dvips is used 
 %\documentclass[dvipsone,ited]{informs1}   % if dvipsone is used, etc. 
 
 % Private macros here (check that there is no clash with the style)
+\definecolor{LightGray}{gray}{0.9}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{LightGray},   
+    commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegreen},
+	stringstyle=\color{codepurple},
+	basicstyle=\footnotesize\ttfamily,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
 
 % Natbib setup for author-year style
 \usepackage{natbib}
@@ -120,13 +149,18 @@ TODO: Text of your abstract % Enter your abstract
 
 Why I created 
 
+- more topics I wanted to cover than were possible in PCDA course
+- weave in more SE type material which is often overlooked in BA programs
+
 Excel is widely used for building and using models of business problems to explore the impact of various model inputs on key outputs. Built in "what if?" tools such as Excel [Data Tables](https://support.microsoft.com/en-us/office/calculate-multiple-results-by-using-a-data-table-e95e2487-6ca6-4413-ad12-77542a5ea50b) and [Goal Seek](https://support.microsoft.com/en-us/office/use-goal-seek-to-find-the-result-you-want-by-adjusting-an-input-value-320cb99e-f4a4-417f-b1c3-4f369d6e66c7) are well known to power spreadsheet modelers. How might we do similar modeling and analysis using Python? 
 
 While Python has been gaining momentum in the business analytics world, it is often used for data wrangling, analysis and visualization of tablular data using tools like pandas and matplotlib or Seaborn. You can find some great examples at [Chris Moffit's Practical Business Python blog](https://pbpython.com/). I use Python all the time for such tasks and teach a course called [Practical Computing for Data Analytics](http://www.sba.oakland.edu/faculty/isken/courses/mis5470/) that is Python (and R) based. But, it got me to thinking. What about those things for which Excel is well suited such as building formula based models and doing sensitivity analysis on these models? What would those look like in Python?
 
 \section{Module positioning and structure}
 
-What kind of Python background do students need have in order to be ready for this EwP module? This module does presume a basic familiarity with Python fundamentals for data analysis such as:
+PCDA ends with intro to sklearn and AAP begins with review of sklearn and some more ML content - logistic regression with regularization
+
+What kind of Python background do students need to have in order to be ready for this EwP module? This module does presume a basic familiarity with Python fundamentals for data analysis such as:
 
 \begin{itemize}
 	\item variables, artithmetic and boolean operators, and basic data types,
@@ -163,6 +197,28 @@ There are two overarching learning objectives for this first set of Jupyter note
 
 
 The first focuses on building a simple what-if model and doing sensitivity analysis much like one would do using Excel's Data-Table functionality.
+
+This example is based on one in the [spreadsheet modeling textbook(s) I've used in my classes since 2001](https://host.kelley.iu.edu/albrightbooks/). I started out using Practical Management Science by Winston and Albright and switched to their Business Analytics: Data Analysis and Decision Making (Albright and Winston) around 2013ish. In both books, they introduce the "Walton Bookstore" problem in the chapter on Monte-Carlo simulation. Here's the basic problem (with a few modifications):
+
+\begin{itemize}
+	\item we have to place an order for a perishable product (e.g. a calendar),
+	\item there's a known unit cost for each one ordered,
+	\item we have a known selling price,
+	\item demand is uncertain but we can model it with some simple probability distribution,
+	\item for each unsold item, we can get a partial refund of our unit cost,
+	\item we need to select the order quantity for our one order for the year; orders can only be in multiples of 25.
+\end{itemize}
+ 
+
+
+The notebook begins with a suggestion to start with a very simple model that ignores the demand uncertainty and that is not object oriented. Proceeding much like we would in Excel, we store base input values in variables. (unit cost, unit price, selling prce, unit refund and demand)
+
+\begin{lstlisting}[language=Python]
+order_cost = unit_cost * order_quantity
+sales_revenue = ??? * selling_price
+refund_revenue = ??? * unit_refund
+profit = sales_revenue + refund_revenue - order_cost
+\end{lstlisting}
 
 \subsection{Notebook 2: Goal seek}
 
