@@ -18,6 +18,8 @@
 %\documentclass[dvipsone,ited]{informs1}   % if dvipsone is used, etc. 
 
 % Private macros here (check that there is no clash with the style)
+\newcommand{\code}[1]{\texttt{#1}}
+
 \definecolor{LightGray}{gray}{0.9}
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -152,9 +154,22 @@ Why I created
 - more topics I wanted to cover than were possible in PCDA course
 - weave in more SE type material which is often overlooked in BA programs
 
-Excel is widely used for building and using models of business problems to explore the impact of various model inputs on key outputs. Built in "what if?" tools such as Excel [Data Tables](https://support.microsoft.com/en-us/office/calculate-multiple-results-by-using-a-data-table-e95e2487-6ca6-4413-ad12-77542a5ea50b) and [Goal Seek](https://support.microsoft.com/en-us/office/use-goal-seek-to-find-the-result-you-want-by-adjusting-an-input-value-320cb99e-f4a4-417f-b1c3-4f369d6e66c7) are well known to power spreadsheet modelers. How might we do similar modeling and analysis using Python? 
+Excel is widely used for building and using models of business problems to explore the impact of various model inputs on key outputs. Built in "what if?" tools such as Excel [Data Tables](https://support.microsoft.com/en-us/office/calculate-multiple-results-by-using-a-data-table-e95e2487-6ca6-4413-ad12-77542a5ea50b) and [Goal Seek](https://support.microsoft.com/en-us/office/use-goal-seek-to-find-the-result-you-want-by-adjusting-an-input-value-320cb99e-f4a4-417f-b1c3-4f369d6e66c7) are well known to power spreadsheet modelers. How might we do similar modeling and analysis using Python?
+
+Limitations of spreadsheets such as reproducibility and automation.
+
 
 While Python has been gaining momentum in the business analytics world, it is often used for data wrangling, analysis and visualization of tablular data using tools like pandas and matplotlib or Seaborn. You can find some great examples at [Chris Moffit's Practical Business Python blog](https://pbpython.com/). I use Python all the time for such tasks and teach a course called [Practical Computing for Data Analytics](http://www.sba.oakland.edu/faculty/isken/courses/mis5470/) that is Python (and R) based. But, it got me to thinking. What about those things for which Excel is well suited such as building formula based models and doing sensitivity analysis on these models? What would those look like in Python?
+
+Quant Econ example
+
+PBB blog
+
+
+Teach relevant Python to business students using familiar and relevant modeling examples.
+Give sense of software development process and design decisions
+Model a learning journey
+Teach students to think and act like a software developer, not just an analyst
 
 \section{Module positioning and structure}
 
@@ -177,7 +192,7 @@ The EwP module could easily be used as part of a semester long Python based anal
 
 The EwP module is made of three submodules. The first of these focuses on building and using a typical spreadsheet model using Python. Then the functionality developed for doing this type of modeling in Python is deployed as a reusable package. We end with an introduction to using Python to manipulate Excel files, an extremely common use case.
 
-Combination of Jupyter notebooks, Python scripts, videos walking through the notebooks and scripts, all accessible from submodule specific course web pages. 
+Combination of Jupyter notebooks, Python scripts, videos walking through the notebooks and scripts, all accessible from submodule specific course web pages. Some background on Jupyter notebooks for analytics. Questions and coding challenges sprinkled throughout the notebooks - answers at bottom.
 
 \section{Submodule 1: The modeling notebooks}
 
@@ -198,20 +213,39 @@ There are two overarching learning objectives for this first set of Jupyter note
 
 The first focuses on building a simple what-if model and doing sensitivity analysis much like one would do using Excel's Data-Table functionality.
 
-This example is based on one in the [spreadsheet modeling textbook(s) I've used in my classes since 2001](https://host.kelley.iu.edu/albrightbooks/). I started out using Practical Management Science by Winston and Albright and switched to their Business Analytics: Data Analysis and Decision Making (Albright and Winston) around 2013ish. In both books, they introduce the "Walton Bookstore" problem in the chapter on Monte-Carlo simulation. Here's the basic problem (with a few modifications):
+This example is based on one in the [spreadsheet modeling textbooks I've used in my classes since 2001](https://host.kelley.iu.edu/albrightbooks/). In both books, they introduce the "Walton Bookstore" problem in the chapter on Monte-Carlo simulation. Here is the basic problem (with a few modifications):
 
 \begin{itemize}
 	\item we have to place an order for a perishable product (e.g. a calendar),
-	\item there's a known unit cost for each one ordered,
+	\item there is a known unit cost for each one ordered,
 	\item we have a known selling price,
 	\item demand is uncertain but we can model it with some simple probability distribution,
 	\item for each unsold item, we can get a partial refund of our unit cost,
 	\item we need to select the order quantity for our one order for the year; orders can only be in multiples of 25.
 \end{itemize}
+
+\subsubsection{Build first model - procedural approach}
  
+The notebook begins with a suggestion to start with a very simple model that ignores the uncertainty in demand and that is not object oriented. Proceeding much like we would in Excel, we store base input values in variables. 
 
+\begin{lstlisting}[language=Python]
+# Base inputs
+unit_cost = 7.50
+selling_price = 10.00
+unit_refund = 2.50
 
-The notebook begins with a suggestion to start with a very simple model that ignores the demand uncertainty and that is not object oriented. Proceeding much like we would in Excel, we store base input values in variables. (unit cost, unit price, selling prce, unit refund and demand)
+# Demand parameters
+demand_mean = 193
+demand_sd = 40
+
+# Deterministic model
+demand = demand_mean
+
+# Initial value for order quantity - this is the decision variable
+order_quantity = 200
+\end{lstlisting}
+
+Then students are given some skeleton code and must finish the expressions for computing key intermediate outputs (\code{order_cost, sales_revenue, refund_revenue} and the final output, \code{profit}. Answers are provided at the bottom of the notebook so that students can attempt to finish the code but have a resource to correctly complete the code and move on. The screencast associated with the notebook also shows me completing the code. Using skeleton code in this way has worked well both for face to face lab based versions of this type of course as well as for online asynchronous versions.
 
 \begin{lstlisting}[language=Python]
 order_cost = unit_cost * order_quantity
@@ -219,6 +253,55 @@ sales_revenue = ??? * selling_price
 refund_revenue = ??? * unit_refund
 profit = sales_revenue + refund_revenue - order_cost
 \end{lstlisting}
+
+At this point we discuss a fundamental difference between the computing model of Excel and that of Jupyter notebooks. While spreadsheets respond automatically to changes, Jupyter notebooks require rerunning all code cells that include or follow the changed code.
+
+\subsubsection{Sensitivity analysis}
+
+Since order quantity is the key decision variable, we might want to see how profit changes for different order quantities in this first simplified model. In Excel, the Data Table tool provides an easy way to do this and is a staple of spreadsheet based management science textbooks. In a Data Table, a range of order quantities can be used as row or column input and one or more output values can be computed. In Python, we can rely on the built in vectorized behavior of the language. A range of order quantities is created as a NumPy array and then can be used directly to compute vectors of all of the intermediate and final output variables. Much like Data Tables, vectorized computations avoid having to explicitly iterate (loop) through a collection of input values.
+
+A natural next step is to do the equivalent of an Excel 2-way Data Table. Can't do 2 vectors since we need all combinations of entries in each vector. List comprehensions provide a compact way to create nested loops over the two vectors. By creating a profit function that takes all of the base inputs as arguments, we can construct a list comprehension that does what an Excel 2-Way Data Table does. Even better, this actually allows us to do the equivalent of an n-Way Data Table.
+
+\begin{lstlisting}[language=Python]
+	def bookstore_profit(unit_cost, selling_price, unit_refund, order_quantity, demand):
+	'''
+	Compute profit in bookstore model
+	'''
+		order_cost = unit_cost * order_quantity
+		sales_revenue = np.minimum(order_quantity, demand) * selling_price
+		refund_revenue = np.maximum(0, order_quantity - demand)
+		profit = sales_revenue + refund_revenue - order_cost
+		return profit
+	
+	# Set up input vector ranges	
+	demand_range = np.arange(50, 301, 5)
+	order_quantity_range = np.arange(50, 301, 25)
+	
+	# Create data table (as a list of tuples)
+	data_table_1 = [(d, oq, bookstore_profit(unit_cost, selling_price, unit_refund, oq, d)) 
+	for d in demand_range for oq in order_quantity_range]
+	
+	# Convert to dataframe
+	dtbl_1_df = pd.DataFrame(data_table_1, columns=['Demand', 'OrderQuantity', 'Profit'])
+	
+\end{lstlisting}
+
+TODO - add output listing and plot
+
+\subsubsection{The object nature of Python}
+
+Introducing basic OO concepts is a primary learning objective. It's not clear whether an OO or a non-OO approach will end up making the most sense for doing spreadsheet type modeling. This uncertainty is made explicit in the notebook and students are led on a bit of a journey of discovery as we explore different software designs for our modeling problem. I purposefully designed the notebooks in this way to show students that the path to a solution is not necessarily linear and that giving yourself the freedom to explore alternatives, many of which will be dead ends, can lead to a rich learning experience. It is also more realistic in the sense that this is how most real problems are solved. It's analogous to the idea that mathematical proofs usually don't reflect the myriad of failed approaches that were tried but that ultimately contributed to the final product.
+
+In preparation for building an object oriented version of the model, basic object concepts are reviewed. Since most students have done some Excel VBA programming in a previous course, I refer back to a few properties and methods of the Excel \code{Worksheet} object. In Python, everything is an object. Using Python lists as an example, we explore some of its attributes such as methods for appending items to a list and reversing the order of its elements. The \code{dir} function is used to see all of an object's attributes and we see that even things like integers are objects in Python. With this basic object refresher, we are ready to do some actual object oriented programming and create our own objects - well, actually classes.
+
+For our initial design of a \code{BookstoreModel} class we make all of the base inputs attributes (properties) and then add method attributes to compute outputs such as costs, revenues and profits. Student can easily see the mapping between things in the initial procedural model and this new object oriented version of the model. I highlight several important concepts and syntactical details of doing OO programming Python. Again, the goal is to weave in these more advanced Python programming concepts within the context of a very familiar modeling problem. This section of the notebook ends with us using our \code{BookstoreModel} class to an actual model objects with all of its base inputs instantiated with values. Before moving on students are presented with a few challenges involving enhancements to the \code{BookstoreModel} class.
+
+
+
+
+
+
+
 
 \subsection{Notebook 2: Goal seek}
 
@@ -233,7 +316,7 @@ The next submodule explores the creation and use of goal seeking capability so t
 \section{Submodule 3: The wrangling notebook}
 \subsection{Notebook 6: Manipulating Excel files with Python}
 
-\section{Student assignment}
+\section{Classroom experience}
 
 \section{Random notes}
 Learning good Python programming practices via learning to model in similar way that students learn good spreadsheet practices through building spreadsheet models using the W\&A textbook.
