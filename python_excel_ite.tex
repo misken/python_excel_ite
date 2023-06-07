@@ -99,12 +99,12 @@
 % Title or shortened title suitable for running heads. Sample:
 % \RUNTITLE{Bundling Information Goods of Decreasing Value}
 % Enter the (shortened) title:
-\RUNTITLE{Python for spreadsheet type modeling}
+\RUNTITLE{Python for spreadsheet modeling}
 
 % Full title. Sample:
 % \TITLE{Bundling Information Goods of Decreasing Value}
 % Enter the full title:
-\TITLE{Using Python for spreadsheet type modeling}
+\TITLE{Python for spreadsheet modeling}
 
 % Block of authors and their affiliations starts here:
 % NOTE: Authors with same affiliation, if the order of authors allows, 
@@ -192,11 +192,11 @@ The EwP module could easily be used as part of a semester long Python based anal
 
 The EwP module is made of three submodules. The first of these focuses on building and using a typical spreadsheet model using Python. Then the functionality developed for doing this type of modeling in Python is deployed as a reusable package. We end with an introduction to using Python to manipulate Excel files, an extremely common use case.
 
-Combination of Jupyter notebooks, Python scripts, videos walking through the notebooks and scripts, all accessible from submodule specific course web pages. Some background on Jupyter notebooks for analytics. Questions and coding challenges sprinkled throughout the notebooks - answers at bottom.
+Combination of Jupyter notebooks, Python scripts, videos walking through the notebooks and scripts, all accessible from submodule specific course web pages. Some background on Jupyter notebooks for analytics. Questions and coding challenges sprinkled throughout the notebooks - answers at bottom. While AAP is online asynch, this same approach has been used very successfully in a computer teaching lab for the PCDA course. The screencasts are highly valued by the students as they can rewatch things as needed. Many are working professionals and a 2.5 hour evening class in a warm computer lab can be taxing.
 
-\section{Submodule 1: The modeling notebooks}
+\section{Submodule 1: What-if analysis with Python}
 
-There are two overarching learning objectives for this first set of Jupyter notebooks. Students learn how Python might be used to do something they are quite familiar with doing in a spreadsheet - model building and sensitivity analysis. At the same time, students encounter, as they are needed, more advanced Python programming techniques such as object oriented programming, ADD MORE FROM THE MODULES. In this way, the computational problem to be solved drives the introduction of more advanced Python concepts and techniques instead of such things being presented in a vacuum. I make it a point to try to convey the notion that there are often multiple possible approaches by embarking on one path and then starting over and doing things in a different way. MORE NEEDED
+There are two overarching learning objectives for this first set of Jupyter notebooks. Students learn how Python might be used to do something they are quite familiar with doing in a spreadsheet - model building and sensitivity analysis. At the same time, students encounter, as they are needed, more advanced Python programming techniques such as object oriented programming and manipulation of tuples, lists and dictionaries. In this way, the computational problem to be solved drives the introduction of more advanced Python concepts and techniques instead of such things being presented in a vacuum. I make it a point to try to convey the notion that there are often multiple possible approaches by embarking on one path and then starting over and doing things in a different way. Each notebook is accompanied by a few to several videos that walk the students through the material - a guided tour with challenges to overcome along the way. 
  
  
 \subsection{Notebook 1: Modeling and data tables}
@@ -294,13 +294,15 @@ Introducing basic OO concepts is a primary learning objective. It's not clear wh
 
 In preparation for building an object oriented version of the model, basic object concepts are reviewed. Since most students have done some Excel VBA programming in a previous course, I refer back to a few properties and methods of the Excel \code{Worksheet} object. In Python, everything is an object. Using Python lists as an example, we explore some of its attributes such as methods for appending items to a list and reversing the order of its elements. The \code{dir} function is used to see all of an object's attributes and we see that even things like integers are objects in Python. With this basic object refresher, we are ready to do some actual object oriented programming and create our own objects - well, actually classes.
 
-For our initial design of a \code{BookstoreModel} class we make all of the base inputs attributes (properties) and then add method attributes to compute outputs such as costs, revenues and profits. Student can easily see the mapping between things in the initial procedural model and this new object oriented version of the model. I highlight several important concepts and syntactical details of doing OO programming Python. Again, the goal is to weave in these more advanced Python programming concepts within the context of a very familiar modeling problem. This section of the notebook ends with us using our \code{BookstoreModel} class to an actual model objects with all of its base inputs instantiated with values. Before moving on students are presented with a few challenges involving enhancements to the \code{BookstoreModel} class.
+\subsubsection{Creating an object oriented model}
 
+For our initial design of a \code{BookstoreModel} class we make all of the base inputs class attributes (properties) and then add method attributes to compute outputs such as costs, revenues and profits. Students can easily see the mapping between things in the initial procedural model and this new object oriented version of the model. I highlight several important concepts and syntactical details of doing OO programming Python. Again, the goal is to weave in these more advanced Python programming concepts within the context of a very familiar modeling problem. This section of the notebook ends with us using our \code{BookstoreModel} class to create a model object with all of its base inputs instantiated with values. Before moving on students are presented with a few challenges involving enhancements to the \code{BookstoreModel} class. Interspersing short coding challenges throughout the notebook gives students a chance to test themselves on their understanding and to get some coding practice.
 
+Then a few design dilemmas are posed and some non-working approaches illustrated as we try to decide on how to implement an n-way data table function for this new object oriented model. These meta reflections are intentionally included to better mimic actual software development and reinforce the idea that software development is much more than simply writing code to implement a perfectly thought out design. We forge ahead with some preliminary ideas and are confronted with an intermediate problem related to generating a list of dictionaries that represent combinations of inputs (i.e. scenarios) to evaluate by our n-way data table function. This provides a great opportunity to remind students of one of the great strengths of the open source software ecosystem - we can leverage work done in other packages and even look at actual source code to see how something was implemented. In this case, the well known scikit-learn package has a \code{ParameterGrid} function that solves our scenario generation problem quite nicely. This example also reminds the students of the value of being able to make sense of API documentation and of object oriented code written by others. Most data science related Python packages are object oriented in nature. 
 
+Whew! This first notebook draws to a close with the creation of an n-way data table function that allows us to do sensitivity analysis with our objected oriented model. The payoff is the creation of the following faceted plot showing how profit varies for different order quantities and demand levels. We also recap the main things we learned in this notebook and reiterate that we will now move on to adding goal seeking capability to our model.
 
-
-
+INSERT PLOT HERE
 
 
 \subsection{Notebook 2: Goal seek}
