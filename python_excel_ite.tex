@@ -193,7 +193,7 @@ The EwP module could easily be used as part of a semester long Python based anal
 
 The EwP module is made of three submodules. The first of these focuses on building and using a typical spreadsheet model using Python. Then the functionality developed for doing this type of modeling in Python is deployed as a reusable package. We end with an introduction to using Python to manipulate Excel files, an extremely common use case.
 
-Combination of Jupyter notebooks, Python scripts, videos walking through the notebooks and scripts, all accessible from submodule specific course web pages. Some background on Jupyter notebooks for analytics. Questions and coding challenges sprinkled throughout the notebooks - answers at bottom. While AAP is online asynch, this same approach has been used very successfully in a computer teaching lab for the PCDA course. The screencasts are highly valued by the students as they can rewatch things as needed. Many are working professionals and a 2.5 hour evening class in a warm computer lab can be taxing.
+Combination of Jupyter notebooks, Python scripts, videos walking through the notebooks and scripts, all publicly accessible from submodule specific course web pages. GIVE URL. Some background on Jupyter notebooks for analytics. Questions and coding challenges sprinkled throughout the notebooks - answers at bottom. While AAP is online asynch, this same approach has been used very successfully in a computer teaching lab for the PCDA course. The screencasts are highly valued by the students as they can rewatch things as needed. Many are working professionals and a 2.5 hour evening class in a warm computer lab can be taxing.
 
 \section{Submodule 1: What-if analysis with Python}
 
@@ -358,9 +358,11 @@ This is followed by a well commented first attempt at a \code{simulate} function
 
 INSERT GROUPED BOX PLOT HERE and FACETED HISTOGRAMS
 
+The first submodule and its three notebooks are very much about the type of modeling typically done in a spreadsheet based course. In a spreadsheet based course, students learn numerous Excel functions and techniques in the process of building and exercising such models. Similarly, numerous Python techniques are scattered throughout the three modeling focused notebooks. Now we shift gears and move beyond what might be considered prototyping and into the realm of deployment. 
+
 \section{Submodule 2: The packaging notebooks}
 
-The first submodule and its three notebooks are very much about the type of modeling typically done in a spreadsheet based course. In a spreadsheet base course, students learn numerous Excel functions and techniques in the process of building and exercising such models. Similarly, numerous Python techniques are scattered throughout the three modeling focused notebooks. Now we shift gears and move beyond what might be considered prototyping and into the realm of deployment. 
+
 
 \begin{quote}
 	content...
@@ -400,13 +402,112 @@ such as:
 Now that we've got a critical mass of "proof of concept" code, let's figure out how to structure our project and create a deployable package. In addition, let's rethink our OO design and add some much needed documentation to the code.
 \end{quote}
 
-Creating a deployable Python package is 
+Creating a deployable Python package is a good exercise in designing and creating reusable software artifacts. Thinking about how others will interact with your software usually leads to better designed software. Basic software engineering practices are often overlooked in business analytics programs but are certainly desirable in the professional world. In this submodule we create a Python package that can be imported and used by other modelers. This will require some design changes to our software and will also involve moving code out of Jupyter notebooks and into Python script files. While Jupyter notebooks can be integrated into production environments \cite{netflix}, it is much more common for code to live in a Python script file. In addition to creating a deployable package, this submodule also discusses the importance of documentation in its many forms in a Python project.
 
 \subsection{Notebook 4: Project packaging}
+
+The first notebook in this submodule starts by explaining what Python package are and their role in sharing code. We then revisit a concept from earlier in the course - creating a good project folder structure. For this we use what is known as a \textit{cookiecutter} that can automatically generate a project folder structure and key files from the answers to a few prompts. Their are a few different folder layouts used in Python projects and there is a bit of discussion on the folder stucture we will use and resources given for exploring this issue further. Students are reminded of the importance of version control and we initialize a git repository for our budding package. The basics of version control were already covered in the first week of the course. My experience is that most students have little exposure to simple software project management concepts such as project folder structures and version control. This can lead to a jumble of files with incoherent names used as a proxy for version control - whatif_v1.py, whatif_v2.py, whatif_final.py, whatif_finalfinal.py, ...
+
+Key software design changes are then made and discussed which will make our code easier on our users. These changes include creating an abstract \code{Model} base class from which different model classes can be created and moving the \code{data_table}, \code{goal_seek}, and \code{simulate} functions into the \code{Model} base class. All of the code is moved into a code module named \code{whatif.py}. We are now ready to learn about the basics of turning our code into an installable package. This requires a basic understanding of two key Python files that are ubiquitous in Python pacakges - \code{__init__.py} and \code{setup.py}. Next comes a discussion of options for installing our package locally so that we can use it for different modeling projects. This includes an explanation of how and where Python searches for packages when \code{import} statements are encountered in code. We defer discussion of uploading our package to a public code sharing platform such as PyPI. All of this can be quite complex and I have made every effort to distill things down to a minimal level of complexity needed to convey the important points. I stress that there is much complexity lurking here and it is something they will need to revisit time and time again.
+
+This notebook ends by pointing the students to another notebook in which our newly deployed whatif package is used for a completely different model. The example used is the New Car Simulation that has been a staple of Winston and Albright's textbooks for many years \cite{bibid}.
+
 \subsection{Notebook 5: Documentation}
 
-\section{Submodule 3: The wrangling notebook}
-\subsection{Notebook 6: Manipulating Excel files with Python}
+This deployment focused submodule ends with a short notebook discussing the different types of documentation needed in a typical project. This includes things like code comments, docstrings, readme files and generating documentation by writing restrutured text files and using Sphinx. This is one of those tasks that few people like to do but can be very important for the long term success of a project. Even if you are just creating a tool for yourself, you will forget the details over time and documentation can be very beneficial in refreshing your memory. 
+
+\section{Submodule 3: Excel data wrangling with Python}
+
+The EwP module ends with what has become a relatively common use of Python with Excel - automating various Excel data wrangling tasks. Examples include:
+
+\begin{itemize}
+	\tightlist
+	\item
+	You have a whole folder full of csv (or Excel) files with the same
+	file structure and you need to combine them into a single file. You
+	might also need to make some changes to the consolidated file.
+	\item
+	You have an Excel file with multiple sheets of similarly structured
+	data and you want to consolidate them into a single sheet.
+	\item
+	You have an Excel file with data in ``wide'' format and you need to
+	convert it to long format, and then perhaps export out individual
+	files (one per the key column(s) in the long formatted data).
+	\item
+	You have an Excel file acting as a simple flatfile database.
+	Periodically, you get new Excel files that need to get appended to the
+	``database'' file.
+\end{itemize}
+
+A single Jupyter notebook is used to give a taste of using Python to automate the process of working with Excel files by tackling each of the four examples above. Each of these examples are based on real problems I encountered either in research or industrial projects. TRANSITION NEEDED Several web based resources are shared with one particularly good one being the Practical Business Python blog written by Chris Moffitt. It includes numerous posts on different aspects of Python and Excel integration. There are a number of Python based tools that either include functionality for working with Excel files or are dedicated to specific Excel related operations. These include:
+
+\begin{itemize}
+	\tightlist
+	\item
+	pandas -
+	\href{https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html}{read\_excel},
+	\href{https://pandas.pydata.org/docs/reference/api/pandas.ExcelWriter.html}{ExcelWriter},
+	\href{https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_excel.html}{to\_excel}
+	\item
+	\href{https://openpyxl.readthedocs.io/en/stable/}{openpyxl} - can
+	read, write, and modify Excel files
+	\item
+	\href{https://xlsxwriter.readthedocs.io/}{XlsxWriter} - powerful but
+	can't edit existing Excel files
+	https://xlsxwriter.readthedocs.io/working\_with\_tables.html
+	\item
+	\href{https://www.xlwings.org/}{xlwings} - provides ``glue'' between
+	Python and Excel
+\end{itemize}
+
+\subsection{Example 1: Concatenating many csv files}
+
+While this first example is not necessarily Excel related, using Excel to consolidate csv files through a series of copy-paste operations is something that many Excel users will admit to doing. We also use this example to introduce the newish pathlib Python library for working with file paths. After getting familiar with pathlib, students are led through the development of a short procedure that creates a list of the csv files to concatenate and then uses the pandas library to read and combine the files in a \code{DataFrame} and then writes out the consolidated data as a csv file.
+
+\subsection{Example 2: Consolidating data from multiple sheets in a Excel file using pandas}
+
+Two different approaches are shown to consolidate data from multiple sheets into a single sheet. One approach uses the pandas library while the other relies on a library specifically created for working with Excel files from Python, openpyxl. One advantage to using Python rather than Visual Basic for Applications for this task is that Python is well suited for working with data in many different formats. The Excel file may be just one data source out of a collection of data sources that are used to create some sort of combined database. The generality of Python is a strength in such scenarios.
+
+\subsection{Example 3: Dealing with wide data and a multi-row header}
+
+Reshaping data from wide to long is a common data wrangling task especially in preparation for plotting. In this example, not only do students have to grapple with reshaping the data in an Excel workbook, they also have to deal with the all too common problem of multi-row header lines in a spreadsheet. Excel's flexibility makes it easy to create such multi-row headers and pity the poor analyst who then has to deal with it when trying to move the data into some sort of data frame or database table. This example is posed as a challenge to the students. Examples of the desired outputs are shown and a few hints given. The answer is provided at the end of the notebook. This example really shows the power of Python in creating a reproducible and automated approach to dealing with a poorly structured Excel workbook, creating not only restructured data frames but also non-trivial plots. Attempting to do all of this in Excel, even with VBA, is not an easy task.
+
+\subsection{Example 4: Appending new spreadsheet data in consolidated Excel workbook}
+
+Excel is not a database. But, that does not stop people from using it as a simple flat-file database. In such a scenario, it is not uncommon to have to periodically append new data to the end of a range of data in an Excel workbook. Again, a combination of openpyxl and pandas allows us to meet this challenge.
+
+\subsection{More on Python/Excel integration}
+
+The examples above barely scratch the surface of the use cases for Python integration with Excel. Our notebook ends with a shout out to the highly regarding Practical Business with Python blog and a list of specific examples that students can explore on their own.
+
+\begin{itemize}
+	\tightlist
+	\item
+	\href{https://pbpython.com/excel-file-combine.html}{Combining Data
+		From Multiple Excel Files} - file globbing, concatenating dataframes,
+	\item
+	\href{https://pbpython.com/pandas-excel-range.html}{Reading Poorly
+		Structured Excel Files with Pandas} - advanced use of
+	\texttt{read\_excel}, accessing ranges and Tables
+	\item
+	\href{https://pbpython.com/excel-pandas-comp.html}{Common Excel Tasks
+		Demonstrated in Pandas} - totals rows, fuzzy string matching
+	\item
+	\href{https://pbpython.com/excel-pandas-comp-2.html}{Common Excel
+		Tasks Demonstrated in Pandas - Part 2} - selection and filtering
+	\item
+	\href{https://pbpython.com/improve-pandas-excel-output.html}{Improving
+		pandas Excel output} - using XlsxWriter to format Excel workbooks from
+	Python
+	\item
+	\href{https://pbpython.com/advanced-excel-workbooks.html}{Creating
+		Advanced Excel Workbooks} - XlsxWriter, inserting VBA from Python(!),
+	using COM to merge sheets
+	\item
+	\href{https://pbpython.com/xlwings-pandas-excel.html}{Interactive Data
+		Analysis with Python and Excel} - using xlwings to ``glue'' Python and
+	Excel together, using sqlalchemy to interact with databases
+\end{itemize}
 
 \section{Classroom experience}
 
@@ -416,6 +517,8 @@ Learning good Python programming practices via learning to model in similar way 
 How aap course fits in relation to pcda course. Could also be second part of a fully Python based course. Builds on basic intro Python concepts and skills.
 
 The Quant Econ website is a good example of another use of Python for typical Excel things.
+
+Everything discussed in this article is available from the publicly accessible course website.
 
 % Acknowledgments here
 \ACKNOWLEDGMENT{%
