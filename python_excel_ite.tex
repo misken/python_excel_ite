@@ -148,6 +148,7 @@ TODO: Text of your abstract % Enter your abstract
 \section{Introduction}
 
 % The opening part of the what-if notebook has some language for the motivation behind this module.
+Spreadsheet based modeling wave of the early 2000s. Business schools with business analytics programs are the context. Grad and undergrad.
 
 Why I created 
 
@@ -196,7 +197,7 @@ Combination of Jupyter notebooks, Python scripts, videos walking through the not
 
 \section{Submodule 1: What-if analysis with Python}
 
-There are two overarching learning objectives for this first set of Jupyter notebooks. Students learn how Python might be used to do something they are quite familiar with doing in a spreadsheet - model building and sensitivity analysis. At the same time, students encounter, as they are needed, more advanced Python programming techniques such as object oriented programming and manipulation of tuples, lists and dictionaries. In this way, the computational problem to be solved drives the introduction of more advanced Python concepts and techniques instead of such things being presented in a vacuum. I make it a point to try to convey the notion that there are often multiple possible approaches by embarking on one path and then starting over and doing things in a different way. Each notebook is accompanied by a few to several videos that walk the students through the material - a guided tour with challenges to overcome along the way. 
+There are two overarching learning objectives for this first set of Jupyter notebooks. Students learn how Python might be used to do something they are quite familiar with doing in a spreadsheet - model building and sensitivity analysis. At the same time, students encounter, as they are needed, more advanced Python programming techniques such as object oriented programming and manipulation of tuples, lists and dictionaries. In this way, the computational problem to be solved drives the introduction of more advanced Python concepts and techniques instead of such things being presented in a vacuum. I make it a point to try to convey the notion that there are often multiple possible approaches by embarking on one path and then starting over and doing things in a different way. Each notebook is accompanied by a few to several videos that walk the students through the material - a guided tour with challenges to overcome along the way. The screenshot in \ref{fig:activities} shows the portion of the course web page that provides the high level roadmap through the notebooks and associated screencasts.
  
  
 \subsection{Notebook 1: Modeling and data tables}
@@ -300,16 +301,66 @@ For our initial design of a \code{BookstoreModel} class we make all of the base 
 
 Then a few design dilemmas are posed and some non-working approaches illustrated as we try to decide on how to implement an n-way data table function for this new object oriented model. These meta reflections are intentionally included to better mimic actual software development and reinforce the idea that software development is much more than simply writing code to implement a perfectly thought out design. We forge ahead with some preliminary ideas and are confronted with an intermediate problem related to generating a list of dictionaries that represent combinations of inputs (i.e. scenarios) to evaluate by our n-way data table function. This provides a great opportunity to remind students of one of the great strengths of the open source software ecosystem - we can leverage work done in other packages and even look at actual source code to see how something was implemented. In this case, the well known scikit-learn package has a \code{ParameterGrid} function that solves our scenario generation problem quite nicely. This example also reminds the students of the value of being able to make sense of API documentation and of object oriented code written by others. Most data science related Python packages are object oriented in nature. 
 
-Whew! This first notebook draws to a close with the creation of an n-way data table function that allows us to do sensitivity analysis with our objected oriented model. The payoff is the creation of the following faceted plot showing how profit varies for different order quantities and demand levels. We also recap the main things we learned in this notebook and reiterate that we will now move on to adding goal seeking capability to our model.
+Whew! This first notebook draws to a close with the creation of an \code{data_table} function that allows us to do sensitivity analysis with our objected oriented model. Unlike Excel's Data Table tool, our \code{data_table} function can handle an arbitrary number of inputs and outputs. The payoff is the creation of the following faceted plot showing how profit varies for different order quantities and demand levels. We also recap the main things we learned in this notebook and reiterate that we will now move on to adding goal seeking capability to our model.
 
 INSERT PLOT HERE
 
 
 \subsection{Notebook 2: Goal seek}
 
-The next submodule explores the creation and use of goal seeking capability so that we can do things like finding the break-even point in our model.
- 
+No self respecting modeling tool would be complete without goal seeking capability to do things such as finding the break even point in the bookstore model. For many students, Excel's Goal Seek tool can seem almost magical when encountered for the first time. Even after they get a sense of what it is doing, understanding the importance of the initial guess and how it can lead to Goal Seek reporting different solutions, is not very transparent. With Python, students can gain a much better understanding of how tools like Goal Seek really work. 
+
+Before trying to build our \code{goal_seek} function we take a brief detour into basic root finding algorithms through packages like SciPy as well as in standalone Python scripts that are widely available in the Python data science ecosystem (refs). We compare the output of Excel's Goal Seek with different starting values to the values obtained by different root finding algorithms implemented in Python. The importance of starting values and also the range of different root finding algorithms available is often surprising to business students who have spent most of their life in Excel.
+
+A \code{} function is created that implements a simple bisection search and we use it to find the break even demand point in our bookstore model. With \code{data_table} and \code{goal_seek} functions implemented, we are ready to move on to doing Monte-Carlo simulation.
+
 \subsection{Notebook 3: Monte-Carlo simulation}
+
+In the Excel modeling world, Monte-Carlo simulation can be done without add-ins, but packages like @Risk \cite{} can make the process much easier. In particular, random variable generation for a wide range of probability distributions is facilitated by @Risk. In Python, the NumPy package provide random variate generation for a large number of distributions (https://numpy.org/doc/stable/reference/random/legacy.html#distributions) and similarly, SciPy provides functions for computing distribution related quantities for many probability distributions \cite{}. Much like we did when creating the \code{data_table} function, we start with adding uncertainty to a single input variable in the bookstore model and rely on Python's vectorized computing capabilities to generate the profit associated with each realization of the random input. Then we can do standard statistical analysis of the simulation output using Python packages such as Pandas and SciPy. In spreadsheet based simulation textbooks, the notion of the ``Flaw of Averages'' popularized by Sam Savage \cite{} is illustrated. We do the same with our Python based model, showing how replacing random demand by its mean can result in a wildly optimistic estimate of the mean profit found through analyzing the simulation output. Much like doing simulation in Excel without add-ins, using Python makes transparent the quite simple and brute force nature of Monte-Carlo simulation.
+
+Moving on to multiple uncertain inputs raises challenges much like those we faced when moving from a 1-way to an n-way data table function. In addition to modeling multiple uncertain inputs, we want to be able to specify a range of scenarios to run, much like we did for the \code{data_table} function. The following set of design criteria are presented for a \code{simulate} function.
+
+\begin{itemize}
+	\tightlist
+	\item
+	The first argument will be a model object (i.e.~something like the
+	\texttt{BookstoreModel} model) that contains an \texttt{update}
+	method. Soon, we should add an abstract \texttt{Model} class from
+	which specific models such as the \texttt{BookstoreModel} class can be
+	created. The abstract class will contain the \texttt{update} method.
+	\item
+	The random inputs will be passed in as a dictionary whose keys are the
+	input variables being modeled as random and whose values are an
+	iterable representing the draws from some probability distribution.
+	Structurally, this is similar to how inputs are specified in the
+	\texttt{data\_table} function.
+	\item
+	We can optionally pass in a dictionary of scenario inputs. This is
+	exactly like the \texttt{data\_table} variable input.
+	
+	\begin{itemize}
+		\tightlist
+		\item
+		If no scenario input dictionary is passed in, a single simulation
+		scenario is run using the current input values in the model object,
+		\item
+		If a scenario input dictionary is passed in, then a simulation
+		scenario is run for every combination of parameters in the
+		dictionary. Again, this is just like we do in the
+		\texttt{data\_table} function.
+	\end{itemize}
+	\item
+	The output will be a set of dictionaries containing dataframes of
+	simulation output as well standard summary stats and plots.
+\end{itemize}
+
+This is followed by a well commented first attempt at a \code{simulate} function. By this point, students are well equipped to understand the code as it builds on basic Python concepts and more advanced things that we have already covered in this EwP module. The rest of the notebook is spent trying out the \code{simulate} function and ends with creating a plot that many of them have likely created before with @Risk along with a faceted plot of histograms of profit created with the popular Seaborn package.
+
+INSERT GROUPED BOX PLOT HERE and FACETED HISTOGRAMS
+
+
+
+
 
 \section{Submodule 2: The packaging notebooks}
 \subsection{Notebook 4: Project packaging}
