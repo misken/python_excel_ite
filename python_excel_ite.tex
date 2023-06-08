@@ -358,11 +358,50 @@ This is followed by a well commented first attempt at a \code{simulate} function
 
 INSERT GROUPED BOX PLOT HERE and FACETED HISTOGRAMS
 
-
-
-
-
 \section{Submodule 2: The packaging notebooks}
+
+The first submodule and its three notebooks are very much about the type of modeling typically done in a spreadsheet based course. In a spreadsheet base course, students learn numerous Excel functions and techniques in the process of building and exercising such models. Similarly, numerous Python techniques are scattered throughout the three modeling focused notebooks. Now we shift gears and move beyond what might be considered prototyping and into the realm of deployment. 
+
+\begin{quote}
+	content...
+
+In the first three notebooks, we've developed some Python approaches to
+typical Excel ``what if?'' analyses. Along the way we explored some
+slightly more advanced Python topics (for relative newcomers to Python)
+such as:
+
+\begin{itemize}
+	\tightlist
+	\item
+	List comprehensions,
+	\item
+	Basic OO programming, creating our own classes and using things like
+	\texttt{setattr} and \texttt{getattr},
+	\item
+	Leveraging scikit-learn's \texttt{ParameterGrid} class,
+	\item
+	Faceted plots using Seaborn and matplotlib,
+	\item
+	Tuple unpacking, zip, and itertools,
+	\item
+	Safely copying objects,
+	\item
+	Root finding with, and without, \texttt{scipy.optimize},
+	\item
+	Using \texttt{numpy.random} to generate random variates from various
+	probability distributions,
+	\item
+	Using \texttt{scipy.stats} to compute probabilities and percentiles,
+	\item
+	Importing our \texttt{data\_table}, \texttt{goal\_seek} and
+	\texttt{simulate} functions from a module.
+\end{itemize}
+
+Now that we've got a critical mass of "proof of concept" code, let's figure out how to structure our project and create a deployable package. In addition, let's rethink our OO design and add some much needed documentation to the code.
+\end{quote}
+
+Creating a deployable Python package is 
+
 \subsection{Notebook 4: Project packaging}
 \subsection{Notebook 5: Documentation}
 
