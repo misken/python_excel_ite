@@ -99,12 +99,12 @@
 % Title or shortened title suitable for running heads. Sample:
 % \RUNTITLE{Bundling Information Goods of Decreasing Value}
 % Enter the (shortened) title:
-\RUNTITLE{Python for spreadsheet modeling}
+\RUNTITLE{Spreadsheet modeling with Python}
 
 % Full title. Sample:
 % \TITLE{Bundling Information Goods of Decreasing Value}
 % Enter the full title:
-\TITLE{Python for spreadsheet modeling}
+\TITLE{Spreadsheet modeling with Python}
 
 % Block of authors and their affiliations starts here:
 % NOTE: Authors with same affiliation, if the order of authors allows, 
@@ -148,14 +148,30 @@ TODO: Text of your abstract % Enter your abstract
 \section{Introduction}
 
 % The opening part of the what-if notebook has some language for the motivation behind this module.
-Spreadsheet based modeling wave of the early 2000s. Business schools with business analytics programs are the context. Grad and undergrad.
+% TODO - opening should really grab reader
+Spreadsheet based modeling wave of the early 2000s. TMS conferences. Ground breaking textbooks such as Ragsdale and W\&A.
+
+Advent of programmatic analytics using tools like R and Python have changed the teaching landscape. Motivated by reproducibility, open source, free, and ease of integration with web and cloud databases.
+
+Created PCDA course in response. Challenges with finding good textbooks. Developed much of my own curricular materials. Taught using combo of R Markdown documents and Jupyter notebooks. Literate programming. PCDA course focused mostly on data wrangling, EDA, statistical and machine learning based predictive models though I did include a Python based simulation of the Monte Hall 3-door problem. In teaching EDA using tools like ggplot2, I would challenge students to think about how they would go about trying to do some of the plots we were making in Excel. There is also some limited coverage of using Python to open Excel files and do some sheet manipulation. However, there was no real attempt to do the kind of modeling that was the focus of textbooks like PMS or DADM.
+
+% TODO - how should pandas appear in text
+Python has continued to make inroads to analytical territory that was formerly dominated by Excel. The widely used Python data analysis library, pandas, was created by Wes McKinney while working as a quantitative financial analyst. However, Python was mainly used for data wrangling, visualization and predictive modeling using various flavors of regression and tree based models. The blog \href{https://pbpython.com/}{Practical Business Python} written primarily by Chris Moffitt contributed greatly to making Python more accessible to business analytics practitioners through high quality posts that were extremely practical and useful. For some time I had been thinking about exploring the general problem of doing spreadsheet type modeling with Python. 
+
+Business schools with business analytics programs are the context. Grad and undergrad.
 
 Why I created 
 
 - more topics I wanted to cover than were possible in PCDA course
 - weave in more SE type material which is often overlooked in BA programs
 
-Excel is widely used for building and using models of business problems to explore the impact of various model inputs on key outputs. Built in "what if?" tools such as Excel [Data Tables](https://support.microsoft.com/en-us/office/calculate-multiple-results-by-using-a-data-table-e95e2487-6ca6-4413-ad12-77542a5ea50b) and [Goal Seek](https://support.microsoft.com/en-us/office/use-goal-seek-to-find-the-result-you-want-by-adjusting-an-input-value-320cb99e-f4a4-417f-b1c3-4f369d6e66c7) are well known to power spreadsheet modelers. How might we do similar modeling and analysis using Python?
+Excel is widely used for building and using models of business problems
+to explore the impact of various model inputs on key outputs. Built in
+``what if analysis'' tools such as \href{https://support.microsoft.com/en-us/office/calculate-multiple-results-by-using-a-data-table-e95e2487-6ca6-4413-ad12-77542a5ea50b}{Data
+	Tables} and
+\href{https://support.microsoft.com/en-us/office/use-goal-seek-to-find-the-result-you-want-by-adjusting-an-input-value-320cb99e-f4a4-417f-b1c3-4f369d6e66c7}{Goal
+	Seek} are well known to power spreadsheet modelers. How might we do
+similar modeling and analysis using Python?
 
 Limitations of spreadsheets such as reproducibility and automation.
 
