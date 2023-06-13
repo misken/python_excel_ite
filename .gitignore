@@ -3,6 +3,7 @@
 *.gz
 *.pdf
 *.bak
+*.out
 
 template-nb.ipynb
 

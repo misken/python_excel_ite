@@ -190,18 +190,17 @@ Teach students to think and act like a software developer, not just an analyst
 
 Created the ``Excel with Python'' (EwP) module as part
 
+Integrated or separate lit review section?
+
 \section{Module positioning and structure}
 
 
+At our institution, The EwP module is part of a business course entitled ``Advanced Analytics with Python'' (\href{http://www.sba.oakland.edu/faculty/isken/courses/mis6900}{AAP}). The students taking this course have already taken my ``Practical Computing for Business Analytics'' (\href{http://www.sba.oakland.edu/faculty/isken/courses/mis5470}{PCDA}) course in which they spend about half the semester learning R and the other half learning Python, both in the context of business analytics. Basic Linux skills are also part of the PCDA course. The PCDA course ends with intro to the sklearn library for doing predictive modeling in Python and the AAP course begins where the PCDA course ends.  The EwP module could certainly be used as part of a semester long Python based analytics course. The students have also already taken "Business Analytics" (\href{http://www.sba.oakland.edu/faculty/isken/courses/mis5460}{BA}) which is a spreadsheet based introduction to business analytics. The BA and PCDA courses have historically been offered in face to face mode in a computer teaching lab. Since 2020, these two courses have been also offered as online, asynchronous courses. The newer AAP course has been offered since 2021 in an online asynchronous mode. All three courses have extensive course websites that are publicly accessible, including access to all of the video content and files needed. We will describe the AAP course web in more detail below in the context of the EwP module.
 
-
-
-At our institution, this module is part of a business course entitled ``Advanced Analytics with Python'' (\href{http://www.sba.oakland.edu/faculty/isken/courses/mis6900}{AAP}). The students taking this course have already taken my ``Practical Computing for Business Analytics'' (\href{http://www.sba.oakland.edu/faculty/isken/courses/mis5470}{PCDA}) course in which they spend about half the semester learning R and the other half learning Python, both in the context of business analytics. Basic Linux skills are also part of the PCDA course. The PCDA course ends with intro to the sklearn library for doing predictive modeling in Python and the AAP course begins where the PCDA course ends.  The EwP module could certainly be used as part of a semester long Python based analytics course. The students have also already taken "Business Analytics" (\href{http://www.sba.oakland.edu/faculty/isken/courses/mis5460}{BA}) which is a spreadsheet based introduction to business analytics. The BA and PCDA courses have historically been offered in face to face mode in a computer teaching lab. Since 2020, these two courses have been also offered as online, asynchronous courses. The newer AAP course has been offered since 2021 in an online asynchronous mode. All three courses have extensive course websites that are publicly accessible, including access to all of the video content and files needed. We will describe the AAP course web in more detail below in the context of the EwP module.
-
-What kind of Python background do students need to have in order to be ready for the EwP module? This module presumes a basic familiarity with Python fundamentals for data analysis such as:
+What kind of Python background do students need to have in order to be ready for the EwP module? A basic familiarity with Python fundamentals for data analysis is needed, including:
 
 \begin{itemize}
-	\item variables, artithmetic and boolean operators, and basic data types,
+	\item variables, arithmetic and boolean operators, and basic data types,
 	\item data structures such as lists, dictionaries, tuples, NumPy arrays and pandas dataframes,
 	\item flow control such as branching with \texttt{if \ldots else} and looping with \texttt{for} and \texttt{while}
 	\item module imports,
@@ -213,14 +212,16 @@ What kind of Python background do students need to have in order to be ready for
 
 The EwP module is made of three submodules. The first of these focuses on building and using a typical spreadsheet model using Python. Then the functionality developed for doing this type of modeling in Python is deployed as a reusable package. We end with an introduction to using Python to manipulate Excel files, an extremely common use case.
 
-All of the Python modules in the PCDA course as well as the entire AAP course are taught using a combination of Jupyter notebooks, Python scripts, and videos walking through the notebooks, all publicly accessible from extensive course web pages. GIVE URL. Some background on Jupyter notebooks for analytics. Questions and coding challenges sprinkled throughout the notebooks - answers at bottom. While AAP is online asynch, this same approach has been used very successfully in a computer teaching lab for the PCDA course. The screencasts are highly valued by the students as they can rewatch things as needed. Many are working professionals and a 2.5 hour evening class in a warm computer lab can be taxing.
+All of the Python modules in the PCDA course as well as the entire AAP course are taught using a combination of Jupyter notebooks, Python scripts, and videos walking through the notebooks, all publicly accessible from extensive course web pages. GIVE URL. Some background on Jupyter notebooks for analytics - see downloaded papers. Questions and coding challenges sprinkled throughout the notebooks - answers at bottom. While AAP is online asynch, this same approach has been used very successfully in a computer teaching lab for the PCDA course. The screencasts are highly valued by the students as they can rewatch things as needed. Many are working professionals and a 2.5 hour evening class in a warm computer lab can be taxing.
 
 \section{Submodule 1: What-if analysis with Python}
 
-There are two overarching learning objectives for this first set of Jupyter notebooks. Students learn how Python might be used to do something they are quite familiar with doing in a spreadsheet - model building and sensitivity analysis. At the same time, students encounter, as they are needed, more advanced Python programming techniques such as object oriented programming and manipulation of tuples, lists and dictionaries. In this way, the computational problem to be solved drives the introduction of more advanced Python concepts and techniques instead of such things being presented in a vacuum. I make it a point to try to convey the notion that there are often multiple possible approaches by embarking on one path and then starting over and doing things in a different way. Each notebook is accompanied by a few to several videos that walk the students through the material - a guided tour with challenges to overcome along the way. The screenshot in \ref{fig:activities} shows the portion of the course web page that provides the high level roadmap through the notebooks and associated screencasts.
+There are two overarching learning objectives for this first set of Jupyter notebooks. Students learn how Python might be used to do something they are quite familiar with doing in a spreadsheet - model building and sensitivity analysis. At the same time, students encounter, as they are needed, more advanced Python programming techniques such as object oriented programming and manipulation of tuples, lists and dictionaries. In this way, the computational problem to be solved drives the introduction of more advanced Python concepts and techniques instead of such things being presented in a vacuum. I make it a point to try to convey the notion that there are often multiple possible approaches by embarking on one path and there can be value to starting over and doing things in a different way. Each notebook is accompanied by videos that walk the students through the material and act as a guided tour with challenges to overcome along the way. The screenshot in \ref{fig:activities} shows the portion of the course web page that provides the high level roadmap through the notebooks and associated screencasts.
  
  
 \subsection{Notebook 1: Modeling and data tables}
+
+The stage is set with an overview of a typical spreadsheet based model.
 
 \begin{quote}
 	For example, here's a high level screenshot of a model that I assign for homework in my [MIS 4460/5460 Business Analytics class](http://www.sba.oakland.edu/faculty/isken/courses/mis5460/) (a spreadsheet based modeling class).
@@ -231,10 +232,17 @@ There are two overarching learning objectives for this first set of Jupyter note
 	What if we wanted to push it a little further and model some of the key inputs with probability distributions to reflect our uncertainty about their values? In the Excel world, we might use add-ins such as @Risk which allow uncertain quantities to be directly modeled with probability distributions. For example, we might have a key input such as the exponent in the power function that relates selling price to demand that is highly uncertain. By modeling it with a probability distribution and then sampling from that distribution many times (essentially by recalcing the spreadsheet) we can generate a bunch of possible values for key outputs (e.g. profit) and use statistics to summarize these outputs using things like histograms and summary stats. Often this type of simulation model is referred to as a *Monte-Carlo* model to suggest repeated sampling from one or more probability distributions within an otherwise pretty static model. If you want to see such models in action, check out my [Simulation Modeling with Excel page](http://www.sba.oakland.edu/faculty/isken/courses/mis5460/simulation.html) from my Business Analytics course. Again, how might we do this with Python?
 \end{quote}
 
+\begin{figure}[!ht]
+	\centering
+	\begin{minipage}{.80\textwidth}
+		\includegraphics[width=1.0\textwidth]{images/output_2_0.png}
+	\end{minipage}
+	\caption{Typical spreadsheet model}
+	\label{fig:ldr_pvsa}
+\end{figure}
 
-The first focuses on building a simple what-if model and doing sensitivity analysis much like one would do using Excel's Data-Table functionality.
 
-This example is based on one in the [spreadsheet modeling textbooks I've used in my classes since 2001](https://host.kelley.iu.edu/albrightbooks/). In both books, they introduce the "Walton Bookstore" problem in the chapter on Monte-Carlo simulation. Here is the basic problem (with a few modifications):
+The example used throughout the rest of the notebook is based on one in the [spreadsheet modeling textbooks I've used in my classes since 2001](https://host.kelley.iu.edu/albrightbooks/). In both books, they introduce the "Walton Bookstore" problem in the chapter on Monte-Carlo simulation. Here is the basic problem (with a few modifications):
 
 \begin{itemize}
 	\item we have to place an order for a perishable product (e.g. a calendar),
@@ -247,7 +255,7 @@ This example is based on one in the [spreadsheet modeling textbooks I've used in
 
 \subsubsection{Build first model - procedural approach}
  
-The notebook begins with a suggestion to start with a very simple model that ignores the uncertainty in demand and that is not object oriented. Proceeding much like we would in Excel, we store base input values in variables. 
+We start with a very simple model that ignores the uncertainty in demand and that is not object oriented. Proceeding much like we would in Excel, we store base input values in variables. 
 
 \begin{lstlisting}[language=Python]
 # Base inputs
@@ -279,7 +287,7 @@ At this point we discuss a fundamental difference between the computing model of
 
 \subsubsection{Sensitivity analysis}
 
-Since order quantity is the key decision variable, we might want to see how profit changes for different order quantities in this first simplified model. In Excel, the Data Table tool provides an easy way to do this and is a staple of spreadsheet based management science textbooks. In a Data Table, a range of order quantities can be used as row or column input and one or more output values can be computed. In Python, we can rely on the built in vectorized behavior of the language. A range of order quantities is created as a NumPy array and then can be used directly to compute vectors of all of the intermediate and final output variables. Much like Data Tables, vectorized computations avoid having to explicitly iterate (loop) through a collection of input values.
+Since order quantity is the key decision variable, we might want to see how profit changes for different order quantities in this first simplified model. In Excel, the Data Table tool provides an easy way to do this and is a staple of spreadsheet based management science textbooks. In a Data Table, a range of order quantities can be used as row or column input and one or more output values can be computed. In Python, we can rely on the vectorized behavior of the language. A range of order quantities is created as a NumPy array that can be used directly to compute vectors of all of the intermediate and final output variables. Much like Data Tables, vectorized computations avoid having to explicitly iterate, or loop, through a collection of input values.
 
 A natural next step is to do the equivalent of an Excel 2-way Data Table. Can't do 2 vectors since we need all combinations of entries in each vector. List comprehensions provide a compact way to create nested loops over the two vectors. By creating a profit function that takes all of the base inputs as arguments, we can construct a list comprehension that does what an Excel 2-Way Data Table does. Even better, this actually allows us to do the equivalent of an n-Way Data Table.
 
