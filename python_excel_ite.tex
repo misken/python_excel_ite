@@ -238,7 +238,7 @@ The stage is set with an overview of a typical spreadsheet based model.
 		\includegraphics[width=1.0\textwidth]{images/output_2_0.png}
 	\end{minipage}
 	\caption{Typical spreadsheet model}
-	\label{fig:ldr_pvsa}
+	\label{fig:xl_model}
 \end{figure}
 
 
@@ -274,7 +274,7 @@ demand = demand_mean
 order_quantity = 200
 \end{lstlisting}
 
-Then students are given some skeleton code and must finish the expressions for computing key intermediate outputs (\code{order_cost, sales_revenue, refund_revenue} and the final output, \code{profit}. Answers are provided at the bottom of the notebook so that students can attempt to finish the code but have a resource to correctly complete the code and move on. The screencast associated with the notebook also shows me completing the code. Using skeleton code in this way has worked well both for face to face lab based versions of this type of course as well as for online asynchronous versions.
+Then students are given some skeleton code and must finish the expressions for computing key intermediate outputs (\code{order_cost, sales_revenue, refund_revenue}) and the final output, \code{profit}. Answers are provided at the bottom of the notebook so that students can attempt to finish the code but have a resource to correctly complete the code and move on. The screencast associated with the notebook also shows me completing the code. Using skeleton code in this way has worked well both for face to face lab based versions of this type of course as well as for online asynchronous versions.
 
 \begin{lstlisting}[language=Python]
 order_cost = unit_cost * order_quantity
@@ -283,13 +283,13 @@ refund_revenue = ??? * unit_refund
 profit = sales_revenue + refund_revenue - order_cost
 \end{lstlisting}
 
-At this point we discuss a fundamental difference between the computing model of Excel and that of Jupyter notebooks. While spreadsheets respond automatically to changes, Jupyter notebooks require rerunning all code cells that include or follow the changed code.
+At this point we discuss a fundamental difference between the computing model of Excel and that of Jupyter notebooks -- while spreadsheets respond automatically to changes, Jupyter notebooks require rerunning all code cells that include or follow the changed code.
 
 \subsubsection{Sensitivity analysis}
 
 Since order quantity is the key decision variable, we might want to see how profit changes for different order quantities in this first simplified model. In Excel, the Data Table tool provides an easy way to do this and is a staple of spreadsheet based management science textbooks. In a Data Table, a range of order quantities can be used as row or column input and one or more output values can be computed. In Python, we can rely on the vectorized behavior of the language. A range of order quantities is created as a NumPy array that can be used directly to compute vectors of all of the intermediate and final output variables. Much like Data Tables, vectorized computations avoid having to explicitly iterate, or loop, through a collection of input values.
 
-A natural next step is to do the equivalent of an Excel 2-way Data Table. Can't do 2 vectors since we need all combinations of entries in each vector. List comprehensions provide a compact way to create nested loops over the two vectors. By creating a profit function that takes all of the base inputs as arguments, we can construct a list comprehension that does what an Excel 2-Way Data Table does. Even better, this actually allows us to do the equivalent of an n-Way Data Table.
+A natural next step is to do the equivalent of an Excel 2-way Data Table. By creating a profit function that takes all of the base inputs as arguments, we can construct a list comprehension that does what an Excel 2-Way Data Table does. Even better, this actually allows us to do the equivalent of an n-Way Data Table with an arbitrary number of outputs - something Excel does not have. This example provides an effective way to show the power of creating reusable functions and Python's handy list comprehension tool.
 
 \begin{lstlisting}[language=Python]
 	def bookstore_profit(unit_cost, selling_price, unit_refund, order_quantity, demand):
@@ -319,19 +319,26 @@ A natural next step is to do the equivalent of an Excel 2-way Data Table. Can't 
 
 \subsubsection{The object nature of Python}
 
-Introducing basic OO concepts is a primary learning objective. It's not clear whether an OO or a non-OO approach will end up making the most sense for doing spreadsheet type modeling. This uncertainty is made explicit in the notebook and students are led on a bit of a journey of discovery as we explore different software designs for our modeling problem. I purposefully designed the notebooks in this way to show students that the path to a solution is not necessarily linear and that giving yourself the freedom to explore alternatives, many of which will be dead ends, can lead to a rich learning experience. It is also more realistic in the sense that this is how most real problems are solved. It's analogous to the idea that mathematical proofs usually don't reflect the myriad of failed approaches that were tried but that ultimately contributed to the final product.
+It is not clear whether an OO or a non-OO approach will end up making the most sense for doing spreadsheet type modeling. This uncertainty is made explicit in the notebook and students are led on a bit of a journey of discovery as we explore different software designs for this modeling problem. I purposefully designed the notebooks in this way to show students that the path to a solution is not necessarily linear and that giving yourself the freedom to explore alternatives, many of which will be dead ends, can lead to a rich learning experience. It is also more realistic in the sense that this is how most real problems are solved. It is analogous to the idea that mathematical proofs usually do not reflect the myriad of failed approaches that were tried but that ultimately contributed to the final product.
 
-In preparation for building an object oriented version of the model, basic object concepts are reviewed. Since most students have done some Excel VBA programming in a previous course, I refer back to a few properties and methods of the Excel \code{Worksheet} object. In Python, everything is an object. Using Python lists as an example, we explore some of its attributes such as methods for appending items to a list and reversing the order of its elements. The \code{dir} function is used to see all of an object's attributes and we see that even things like integers are objects in Python. With this basic object refresher, we are ready to do some actual object oriented programming and create our own objects - well, actually classes.
+In preparation for building an object oriented version of the model, basic object concepts are reviewed. Since most students have done some Excel VBA programming in a previous course, I refer back to a few properties and methods of the Excel \code{Worksheet} object. In Python, everything is an object. Using Python lists as an example, we explore some of its attributes such as methods for appending items to a list and reversing the order of its elements. The \code{dir} function is used to see all of an object's attributes and we see that even things like integers are objects in Python. With this basic object refresher, we are ready to do some actual object oriented programming and create our own classes.
 
 \subsubsection{Creating an object oriented model}
 
 For our initial design of a \code{BookstoreModel} class we make all of the base inputs class attributes (properties) and then add method attributes to compute outputs such as costs, revenues and profits. Students can easily see the mapping between things in the initial procedural model and this new object oriented version of the model. I highlight several important concepts and syntactical details of doing OO programming Python. Again, the goal is to weave in these more advanced Python programming concepts within the context of a very familiar modeling problem. This section of the notebook ends with us using our \code{BookstoreModel} class to create a model object with all of its base inputs instantiated with values. Before moving on students are presented with a few challenges involving enhancements to the \code{BookstoreModel} class. Interspersing short coding challenges throughout the notebook gives students a chance to test themselves on their understanding and to get some coding practice.
 
-Then a few design dilemmas are posed and some non-working approaches illustrated as we try to decide on how to implement an n-way data table function for this new object oriented model. These meta reflections are intentionally included to better mimic actual software development and reinforce the idea that software development is much more than simply writing code to implement a perfectly thought out design. We forge ahead with some preliminary ideas and are confronted with an intermediate problem related to generating a list of dictionaries that represent combinations of inputs (i.e. scenarios) to evaluate by our n-way data table function. This provides a great opportunity to remind students of one of the great strengths of the open source software ecosystem - we can leverage work done in other packages and even look at actual source code to see how something was implemented. In this case, the well known scikit-learn package has a \code{ParameterGrid} function that solves our scenario generation problem quite nicely. This example also reminds the students of the value of being able to make sense of API documentation and of object oriented code written by others. Most data science related Python packages are object oriented in nature. 
+Then a few design dilemmas are posed and some non-working approaches illustrated as we try to decide on how to implement an n-way data table function for this new object oriented model. These meta reflections are intentionally included to better mimic actual software development and reinforce the idea that software development is much more than simply writing code to implement a perfectly thought out design. We forge ahead with some preliminary ideas and are confronted with an intermediate problem related to generating a list of dictionaries that represent combinations of inputs (i.e. scenarios) to evaluate by our n-way data table function. This provides a great opportunity to remind students of one of the great strengths of the open source software ecosystem - we can leverage work done in other packages and even look at actual source code to see how something was implemented. In this case, the well known scikit-learn package has a \code{ParameterGrid} function that solves our scenario generation problem quite nicely. This example also reminds the students of the value of being able to make sense of API documentation and of object oriented code written by others -- most data science related Python packages are object oriented in nature. 
 
-Whew! This first notebook draws to a close with the creation of an \code{data_table} function that allows us to do sensitivity analysis with our objected oriented model. Unlike Excel's Data Table tool, our \code{data_table} function can handle an arbitrary number of inputs and outputs. The payoff is the creation of the following faceted plot showing how profit varies for different order quantities and demand levels. We also recap the main things we learned in this notebook and reiterate that we will now move on to adding goal seeking capability to our model.
+This first notebook draws to a close with the creation of an \code{data_table} function that allows us to do sensitivity analysis with the objected oriented model. Unlike Excel's Data Table tool, this \code{data_table} function can handle an arbitrary number of inputs and outputs. The payoff is the creation of the following faceted plot showing how profit varies for different order quantities and demand levels. We recap the main things learned in this notebook and prepare to add goal seeking capability to our model.
 
-INSERT PLOT HERE
+\begin{figure}[!ht]
+	\centering
+	\begin{minipage}{.80\textwidth}
+		\includegraphics[width=1.0\textwidth]{images/two_way_dt.png}
+	\end{minipage}
+	\caption{Plot based on 2-way data table}
+	\label{fig:2way_dt}
+\end{figure}
 
 
 \subsection{Notebook 2: Goal seek}
