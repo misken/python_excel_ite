@@ -1,0 +1,19 @@
+\documentclass{article}              % for review, blinded
+
+\usepackage[most]{tcolorbox}
+\usepackage{minted}
+\tcbuselibrary{minted} % tcolorbox minted library, required to use the "minted" tcb listing engine (this library is not loaded by the option [most])
+%\usepackage{minted} % Allows input of raw code, such as Python code
+
+\begin{document}
+	\begin{tcolorbox}
+	\begin{minted}[gobble=1]{python}
+	print("hello, world")
+	\end{minted}
+\end{tcolorbox}
+
+
+\begin{tcolorbox}[left=1mm]
+	this is code
+\end{tcolorbox}
+\end{document}

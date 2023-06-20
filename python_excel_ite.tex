@@ -8,267 +8,13 @@
 %\documentclass[ited,blindrev,copyedit]{informs3}    % spaced for copyediting
 \documentclass[ited,blindrev]{informs3}              % for review, blinded
 
-\usepackage{hyperref}
-\usepackage{listings}
-\usepackage{xcolor}
-
-% User added usepackage commands from Jupyter notebook preamble
-\usepackage{tcolorbox}
-%\usepackage{graphicx}
-%\usepackage{float}
-%\usepackage{xcolor} % Allow colors to be defined
-\usepackage{enumerate} % Needed for markdown enumerations to work
-\usepackage{geometry} % Used to adjust the document margins
-%\usepackage{amsmath} % Equations
-%\usepackage{amssymb} % Equations
-\usepackage{textcomp} % defines textquotesingle
-% Hack from http://tex.stackexchange.com/a/47451/13684:
-\AtBeginDocument{%
-	\def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
-}
-\usepackage{upquote} % Upright quotes for verbatim code
-\usepackage{eurosym} % defines \euro
-
-\usepackage{fancyvrb} % verbatim replacement that allows latex
-
-% Private macros for Jupyter notebook styling
-
-% Colors for the hyperref package
-\definecolor{urlcolor}{rgb}{0,.145,.698}
-\definecolor{linkcolor}{rgb}{.71,0.21,0.01}
-\definecolor{citecolor}{rgb}{.12,.54,.11}
-
-% ANSI colors
-\definecolor{ansi-black}{HTML}{3E424D}
-\definecolor{ansi-black-intense}{HTML}{282C36}
-\definecolor{ansi-red}{HTML}{E75C58}
-\definecolor{ansi-red-intense}{HTML}{B22B31}
-\definecolor{ansi-green}{HTML}{00A250}
-\definecolor{ansi-green-intense}{HTML}{007427}
-\definecolor{ansi-yellow}{HTML}{DDB62B}
-\definecolor{ansi-yellow-intense}{HTML}{B27D12}
-\definecolor{ansi-blue}{HTML}{208FFB}
-\definecolor{ansi-blue-intense}{HTML}{0065CA}
-\definecolor{ansi-magenta}{HTML}{D160C4}
-\definecolor{ansi-magenta-intense}{HTML}{A03196}
-\definecolor{ansi-cyan}{HTML}{60C6C8}
-\definecolor{ansi-cyan-intense}{HTML}{258F8F}
-\definecolor{ansi-white}{HTML}{C5C1B4}
-\definecolor{ansi-white-intense}{HTML}{A1A6B2}
-\definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
-\definecolor{ansi-default-inverse-bg}{HTML}{000000}
-
-% Pygments definitions
-\makeatletter
-\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
-	\let\PY@ul=\relax \let\PY@tc=\relax%
-	\let\PY@bc=\relax \let\PY@ff=\relax}
-\def\PY@tok#1{\csname PY@tok@#1\endcsname}
-\def\PY@toks#1+{\ifx\relax#1\empty\else%
-	\PY@tok{#1}\expandafter\PY@toks\fi}
-\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
-				\PY@it{\PY@bf{\PY@ff{#1}}}}}}}
-\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
-
-\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
-\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
-\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
-\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
-\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
-\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
-\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
-\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
-\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
-\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
-\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
-\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
-\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
-\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
-\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
-\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
-\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
-\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
-\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
-\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
-\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
-\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
-\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
-\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
-\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
-\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
-\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
-\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
-\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
-\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
-\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
-\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
-\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
-\@namedef{PY@tok@ge}{\let\PY@it=\textit}
-\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
-\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
-\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
-\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
-\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
-\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
-\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
-\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
-\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
-\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
-\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
-\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
-\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
-\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
-\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
-\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
-\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
-\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
-\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
-\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
-\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
-\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
-\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
-\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
-\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
-\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
-\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
-\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
-\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
-\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
-\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
-\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
-\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
-
-\def\PYZbs{\char`\\}
-\def\PYZus{\char`\_}
-\def\PYZob{\char`\{}
-\def\PYZcb{\char`\}}
-\def\PYZca{\char`\^}
-\def\PYZam{\char`\&}
-\def\PYZlt{\char`\<}
-\def\PYZgt{\char`\>}
-\def\PYZsh{\char`\#}
-\def\PYZpc{\char`\%}
-\def\PYZdl{\char`\$}
-\def\PYZhy{\char`\-}
-\def\PYZsq{\char`\'}
-\def\PYZdq{\char`\"}
-\def\PYZti{\char`\~}
-% for compatibility with earlier versions
-\def\PYZat{@}
-\def\PYZlb{[}
-\def\PYZrb{]}
-\makeatother
-
-    % Define a nice break command that doesn't care if a line doesn't already
-% exist.
-\def\br{\hspace*{\fill} \\* }
-
-% For linebreaks inside Verbatim environment from package fancyvrb.
-\makeatletter
-\newbox\Wrappedcontinuationbox
-\newbox\Wrappedvisiblespacebox
-\newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
-\newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
-\newcommand*\Wrappedcontinuationindent {3ex }
-\newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
-% Take advantage of the already applied Pygments mark-up to insert
-% potential linebreaks for TeX processing.
-%        {, <, #, %, $, ' and ": go to next line.
-%        _, }, ^, &, >, - and ~: stay at end of broken line.
-% Use of \textquotesingle for straight quote.
-\newcommand*\Wrappedbreaksatspecials {%
-	\def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
-	\def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
-	\def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
-	\def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
-	\def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
-	\def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
-	\def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
-	\def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
-	\def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
-	\def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
-	\def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
-	\def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
-	\def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
-	\def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
-}
-% Some characters . , ; ? ! / are not pygmentized.
-% This macro makes them "active" and they will insert potential linebreaks
-\newcommand*\Wrappedbreaksatpunct {%
-	\lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
-	\lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
-	\lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
-	\lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
-	\lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
-	\lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
-	\lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
-	\catcode`\.\active
-	\catcode`\,\active
-	\catcode`\;\active
-	\catcode`\:\active
-	\catcode`\?\active
-	\catcode`\!\active
-	\catcode`\/\active
-	\lccode`\~`\~
-}
-\makeatother
-
-\let\OriginalVerbatim=\Verbatim
-\makeatletter
-\renewcommand{\Verbatim}[1][1]{%
-	%\parskip\z@skip
-	\sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
-	\sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
-	\def\FancyVerbFormatLine ##1{\hsize\linewidth
-		\vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
-			\doublehyphendemerits\z@\finalhyphendemerits\z@
-			\strut ##1\strut}%
-	}%
-	% If the linebreak is at a space, the latter will be displayed as visible
-	% space at end of first line, and a continuation symbol starts next line.
-	% Stretch/shrink are however usually zero for typewriter font.
-	\def\FV@Space {%
-		\nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
-		\discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
-		{\kern\fontdimen2\font}%
-	}%
-	
-	% Allow breaks at special characters using \PYG... macros.
-	\Wrappedbreaksatspecials
-	% Breaks at punctuation characters . , ; ? ! and / need catcode=\active
-	\OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
-}
-\makeatother
-
-% Exact colors from NB
-\definecolor{incolor}{HTML}{303F9F}
-\definecolor{outcolor}{HTML}{D84315}
-\definecolor{cellborder}{HTML}{CFCFCF}
-\definecolor{cellbackground}{HTML}{F7F7F7}
-
-% prompt
-\makeatletter
-\newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
-\makeatother
-\newcommand{\prompt}[4]{
-	{\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
-}
+\usepackage[most]{tcolorbox}
+\usepackage{minted}
+\tcbuselibrary{minted} % tcolorbox minted library, required to use the "minted" tcb listing engine (this library is not loaded by the option [most])
+%\usepackage{minted} % Allows input of raw code, such as Python code
+\usepackage[colorlinks]{hyperref} % ALWAYS load this package LAST
 
 
-
-% Prevent overflowing lines due to hard-to-break entities
-\sloppy
-% Setup hyperref package
-\hypersetup{
-	breaklinks=true,  % so long urls are correctly broken across lines
-	colorlinks=true,
-	urlcolor=urlcolor,
-	linkcolor=linkcolor,
-	citecolor=citecolor,
-}
-% Slightly bigger margins than the latex defaults
-
-\geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
 
 % If hyperref is used, dvi-to-ps driver of choice must be declared as
 %   an additional option to the \documentstyle. For example
@@ -277,32 +23,6 @@
 
 % Private macros here (check that there is no clash with the style)
 \newcommand{\code}[1]{\texttt{#1}}
-
-\definecolor{LightGray}{gray}{0.9}
-\definecolor{codegreen}{rgb}{0,0.6,0}
-\definecolor{codegray}{rgb}{0.5,0.5,0.5}
-\definecolor{codepurple}{rgb}{0.58,0,0.82}
-\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
-\lstdefinestyle{mystyle}{
-	backgroundcolor=\color{LightGray},   
-    commentstyle=\color{codegreen},
-	keywordstyle=\color{magenta},
-	numberstyle=\tiny\color{codegreen},
-	stringstyle=\color{codepurple},
-	basicstyle=\footnotesize\ttfamily,
-	breakatwhitespace=false,         
-	breaklines=true,                 
-	captionpos=b,                    
-	keepspaces=true,                 
-	numbers=left,                    
-	numbersep=5pt,                  
-	showspaces=false,                
-	showstringspaces=false,
-	showtabs=false,                  
-	tabsize=2
-}
-
-\lstset{style=mystyle}
 
 % Natbib setup for author-year style
 \usepackage{natbib}
@@ -407,7 +127,21 @@ TODO: Text of your abstract % Enter your abstract
 
 % The opening part of the what-if notebook has some language for the motivation behind this module.
 % TODO - opening should really grab reader
+Spreadsheet based modeling has transformed the teaching of management science in business schools. The late 1990's saw the first editions of game changing textbooks \cite{ } focused on the use of spreadsheets in teaching modeling and management science.  A series of conferences focused on teaching management science (TMS) with spreadsheets started at Dartmouth in 1998 and several presentations from that conference made up the bulk of papers in the first two issues of the INFORMS Transactions on Education journal \cite{bibid}. I attended TMS III at Indiana University and left with numerous ideas that influenced my own spreadsheet based modeling course. The next few decades saw numerous textbooks and teaching papers that prominently featured spreadsheet based modeling.
+
+Despite numerous calls for and predictions of the eradication of spreadsheets from the business world, 
+
+
 Spreadsheet based modeling wave of the early 2000s. TMS conferences. Ground breaking textbooks such as Ragsdale and W\&A.
+The first two issues of ITE are paper based on TMS 1 at Dartmouth in 1998. I attended TMS 3 in Bloomington in 2000.
+
+First edition of Ragsdale was 1995 PMS was 1997.
+
+While spreadsheets have certainly changed and expanded in their capabilities (PowerPivot, um...) since the 90's...
+
+Irony of Mgt Sci crisis of 1990's where course was dropped by AACSB and ignored by other business disciplines to an era where analytics has captured the day and now AI threatens even that.
+
+Powell's 2001 paper on the importance of modeling is no less relevant now than it was when published. I still many of his ideas in my spreadsheet based modeling course.
 
 Advent of programmatic analytics using tools like R and Python have changed the teaching landscape. Motivated by reproducibility, open source, free, and ease of integration with web and cloud databases.
 
@@ -416,7 +150,6 @@ Created PCDA course in response. Challenges with finding good textbooks. Develop
 
 PCDA course focused mostly on data wrangling, EDA, statistical and machine learning based predictive models though I did include a Python based simulation of the Monte Hall 3-door problem. In teaching EDA using tools like ggplot2, I would challenge students to think about how they would go about trying to do some of the plots we were making in Excel. There is also some limited coverage of using Python to open Excel files and do some sheet manipulation. However, there was no real attempt to do the kind of modeling that was the focus of textbooks like PMS or DADM.
 
-% TODO - how should pandas appear in text
 Python has continued to make inroads to analytical territory that was formerly dominated by Excel. The widely used Python data analysis library, Pandas, was created by Wes McKinney while working as a quantitative financial analyst. However, Python was mainly used for data wrangling, visualization and predictive modeling using various flavors of regression and tree based models. The blog \href{https://pbpython.com/}{Practical Business Python} written primarily by Chris Moffitt contributed greatly to making Python more accessible to business analytics practitioners through high quality posts that were extremely practical and useful. But, it got me to thinking. What about those things for which Excel is well suited such as building formula based models and doing sensitivity analysis on these models? What would those look like in Python?
 
 Business schools with business analytics programs are the context. Grad and undergrad.
@@ -484,16 +217,18 @@ There are two overarching learning objectives for this first set of Jupyter note
  
 \subsection{Notebook 1: Modeling and data tables}
 
-The stage is set with an overview of a typical spreadsheet based model that most of the students have seen before.
+The stage is set with an overview of a typical spreadsheet based model that most of the students have seen before. See Figure \ref{fig:xl_model} for a screenshot of the Excel model.
 
-\begin{quote}
-	For example, here's a high level screenshot of a model that I assign for homework in my [MIS 4460/5460 Business Analytics class](http://www.sba.oakland.edu/faculty/isken/courses/mis5460/) (a spreadsheet based modeling class).
-	It's a really simple model in which we are selling a single product that we produce. There is a fixed cost to producing the product as well as a variable production cost per unit. We can sell the product for some price and we believe that demand for the product is related to the selling price through a power function. Let's assume for now that we have sufficient capacity to produce to demand and that all inputs are deterministic (we'll deal with simulating uncertainty later in this document).
+\begin{tcolorbox}
+\begin{quotation}
+\textsf{	
+	It's a really simple model in which we are selling a single product that we produce. There is a fixed cost to producing the product as well as a variable production cost per unit. We can sell the product for some price and we believe that demand for the product is related to the selling price through a power function. Let's assume for now that we have sufficient capacity to produce to demand and that all inputs are deterministic (we'll deal with simulating uncertainty later in this document).}
 	
-	The details aren't so important right now as is the overall structure of the model. There's a few key inputs and some pretty straightforward formulas for computing cost, revenue and profit. Notice the 1-way Data Table being used to explore how profit varies for different selling prices. There's a graph driven by the Data Table and some Text Boxes used for annotation and summary interpretative comments. There's a button that launches Goal Seek to find the break even selling price and a 2-way Data Table (not shown) to explore the joint effect of selling price and variable cost. Classic Excel modeling stuff. How might we go about building a similar model using Python?  
+	\textsf{The details aren't so important right now as is the overall structure of the model. There's a few key inputs and some pretty straightforward formulas for computing cost, revenue and profit. Notice the 1-way Data Table being used to explore how profit varies for different selling prices. There's a graph driven by the Data Table and some Text Boxes used for annotation and summary interpretative comments. There's a button that launches Goal Seek to find the break even selling price and a 2-way Data Table (not shown) to explore the joint effect of selling price and variable cost. Classic Excel modeling stuff. How might we go about building a similar model using Python? } 
 	
-	What if we wanted to push it a little further and model some of the key inputs with probability distributions to reflect our uncertainty about their values? In the Excel world, we might use add-ins such as @Risk which allow uncertain quantities to be directly modeled with probability distributions. For example, we might have a key input such as the exponent in the power function that relates selling price to demand that is highly uncertain. By modeling it with a probability distribution and then sampling from that distribution many times (essentially by recalcing the spreadsheet) we can generate a bunch of possible values for key outputs (e.g. profit) and use statistics to summarize these outputs using things like histograms and summary stats. Often this type of simulation model is referred to as a *Monte-Carlo* model to suggest repeated sampling from one or more probability distributions within an otherwise pretty static model. If you want to see such models in action, check out my [Simulation Modeling with Excel page](http://www.sba.oakland.edu/faculty/isken/courses/mis5460/simulation.html) from my Business Analytics course. Again, how might we do this with Python?
-\end{quote}
+	\textsf{What if we wanted to push it a little further and model some of the key inputs with probability distributions to reflect our uncertainty about their values? In the Excel world, we might use add-ins such as @Risk which allow uncertain quantities to be directly modeled with probability distributions. For example, we might have a key input such as the exponent in the power function that relates selling price to demand that is highly uncertain. By modeling it with a probability distribution and then sampling from that distribution many times (essentially by recalcing the spreadsheet) we can generate a bunch of possible values for key outputs (e.g. profit) and use statistics to summarize these outputs using things like histograms and summary stats. Often this type of simulation model is referred to as a Monte-Carlo model to suggest repeated sampling from one or more probability distributions within an otherwise pretty static model. Again, how might we do this with Python?}
+\end{quotation}
+\end{tcolorbox}
 
 \begin{figure}[!ht]
 	\centering
@@ -504,8 +239,7 @@ The stage is set with an overview of a typical spreadsheet based model that most
 	\label{fig:xl_model}
 \end{figure}
 
-
-With this as motivation, we then introduce a similar modeling problem. The example used throughout the rest of the notebook is based on one in the [spreadsheet modeling textbooks I've used in my classes since 2001](https://host.kelley.iu.edu/albrightbooks/). In both books, they introduce the "Walton Bookstore" problem in the chapter on Monte-Carlo simulation. Here is the basic problem (with a few modifications):
+We then introduce a similar modeling problem to use throughout the rest of the notebook. The Walton Bookstore problem appears in the chapter on Monte-Carlo simulation in textbooks that I have used in my spreadsheet modeling course \cite{albrightBusinessAnalyticsData2016,winstonPracticalManagementScience2018}. The (slightly modified) problem is as follows:
 
 \begin{itemize}
 	\item we have to place an order for a perishable product (e.g. a calendar),
@@ -516,11 +250,14 @@ With this as motivation, we then introduce a similar modeling problem. The examp
 	\item we need to select the order quantity for our one order for the year; orders can only be in multiples of 25.
 \end{itemize}
 
+The goal is to build a Python based version of this model that will allow us to do sensitivity analysis, find the break even point for demand and analyze the problem using Monte-Carlo simulation.
+
 \subsubsection{Build first model - procedural approach}
  
-We start with a very simple model that ignores the uncertainty in demand and that is not object oriented. Proceeding much like we would in Excel, we store base input values in variables. 
+We start with a very simple model that ignores the uncertainty in demand and that is not object oriented. Proceeding much like we would in Excel, base input values are stored in variables. 
 
-\begin{lstlisting}[language=Python]
+\begin{tcolorbox}
+\begin{minted}[gobble=0]{python}
 # Base inputs
 unit_cost = 7.50
 selling_price = 10.00
@@ -535,37 +272,38 @@ demand = demand_mean
 
 # Initial value for order quantity - this is the decision variable
 order_quantity = 200
-\end{lstlisting}
-
-\begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-	%\prompt{In}{incolor}{3}{\boxspacing}
-	\begin{Verbatim}[commandchars=\\\{\}]
-	\PY{c+c1}{\PYZsh{} Base inputs}
-	\PY{n}{unit\PYZus{}cost} \PY{o}{=} \PY{l+m+mf}{7.50}
-	\PY{n}{selling\PYZus{}price} \PY{o}{=} \PY{l+m+mf}{10.00}
-	\PY{n}{unit\PYZus{}refund} \PY{o}{=} \PY{l+m+mf}{2.50}
-	\end{Verbatim}
+\end{minted}
 \end{tcolorbox}
+
+
 
 Students are given skeleton code as scaffolding and must finish the expressions for computing key intermediate outputs (\code{order\_cost, sales\_revenue, refund\_revenue}) and the final output, \code{profit}. Answers are provided at the bottom of the notebook so that students can attempt to finish the code but have a resource to correctly complete the code and move on. The screencast associated with the notebook also shows me completing the code in a subsequent code cell. Using skeleton code in this way has worked well both for lab based versions of this type of course as well as for online asynchronous versions.
 
-\begin{lstlisting}[language=Python]
+\begin{tcolorbox}
+\begin{minted}[gobble=0]{python}
 order_cost = unit_cost * order_quantity
 sales_revenue = ??? * selling_price
 refund_revenue = ??? * unit_refund
 profit = sales_revenue + refund_revenue - order_cost
-\end{lstlisting}
+\end{minted}
+\end{tcolorbox}
+
+
 
 At this point we discuss a fundamental difference between the computing model of Excel and that of Jupyter notebooks -- while spreadsheets respond automatically to changes, Jupyter notebooks require rerunning all code cells that include or follow the changed code. This difference in behavior between Jupyter notebooks and spreadsheets might be one of the most important concepts for students to internalize. A well known challenge associated with computational notebooks is the ease of running code cells out of order and introducing inadvertent errors \cite{bibid}. This point along with strategies to avoid it are discussed during the first week of the course which focuses on notebook computing best practices as well as an historical look at the use of computational notebooks \cite{bibid}.
 
 \subsubsection{Sensitivity analysis}
 
-Since order quantity is the key decision variable, we might want to see how profit changes for different order quantities. In Excel, the Data Table tool provides an easy way to do this and is a staple of spreadsheet based management science textbooks. In a Data Table, a range of order quantities can be used as row or column input and one or more output values can be computed. In Python, we can rely on the vectorized behavior of the language \cite{bibid}. A range of order quantities is created as a NumPy array that can be used directly to compute vectors of all of the intermediate and final output variables. Much like Data Tables, vectorized computations avoid having to explicitly iterate, or loop, through a collection of input values.
+Since order quantity is the key decision variable, we might want to see how profit changes for different order quantities. In Excel, the Data Table tool provides an easy way to do this and is a staple of spreadsheet based management science textbooks. In a Data Table, a range of order quantities can be used as row or column input and one or more output values can be computed. In Python, the vectorized behavior of the language \cite{bibid} provides a simple way to accomplish the same thing. A range of order quantities is created as a NumPy array that can be used directly to compute vectors of all of the intermediate and final output variables. Much like Data Tables, vectorized computations avoid having to explicitly iterate, or loop, through a collection of input values.
 
-A natural next step is to do the equivalent of an Excel 2-way Data Table. By creating a profit function that takes all of the base inputs as arguments, we can construct a list comprehension that does what an Excel 2-Way Data Table does. Even better, this actually allows us to do the equivalent of an n-Way Data Table with an arbitrary number of outputs - something Excel does not have. This example provides an effective way to show the power of creating reusable functions and Python's handy list comprehension construct.
+A natural next step is to do the equivalent of an Excel 2-way Data Table. By creating a profit function that takes all of the base inputs as arguments, a list comprehension can then be used to generate the equivalent of a 2-way Data Table. Even better, this actually allows us to do the equivalent of an n-way Data Table with an arbitrary number of outputs -- something Excel does not have. This example provides an effective way to show the power of creating reusable functions and Python's handy list comprehension construct.
 
-\begin{lstlisting}[language=Python]
-	def bookstore_profit(unit_cost, selling_price, unit_refund, order_quantity, demand):
+This code chunk,
+
+\begin{tcolorbox}[left=0mm]
+\begin{minted}[gobble=1]{python}
+	def bookstore_profit(unit_cost, selling_price, 
+	                     unit_refund, order_quantity, demand):
 	'''
 	Compute profit in bookstore model
 	'''
@@ -580,27 +318,46 @@ A natural next step is to do the equivalent of an Excel 2-way Data Table. By cre
 	order_quantity_range = np.arange(50, 301, 25)
 	
 	# Create data table (as a list of tuples)
-	data_table_1 = [(d, oq, bookstore_profit(unit_cost, selling_price, unit_refund, oq, d)) 
+	data_table_1 = [(d, oq, bookstore_profit(
+	                 unit_cost, selling_price, unit_refund, oq, d)) 
 	for d in demand_range for oq in order_quantity_range]
 	
 	# Convert to dataframe
-	dtbl_1_df = pd.DataFrame(data_table_1, columns=['Demand', 'OrderQuantity', 'Profit'])
+	dtbl_1_df = pd.DataFrame(data_table_1, 
+	                         columns=['Demand', 'OrderQuantity', 'Profit'])
 	
-\end{lstlisting}
+\end{minted}
+\end{tcolorbox}
+
+results in the following output:
 
 % TODO - add output listing and plot
 
+\begin{tcolorbox}
+	\begin{verbatim}
+	   Demand  OrderQuantity  Profit
+	      50             50   125.0
+	      50             75   -37.5
+	      50            100  -200.0
+	      50            125  -362.5
+	      50            150  -525.0
+	      ...
+	     300            275   687.5
+	     300            300   750.0
+\end{verbatim}	
+\end{tcolorbox}
+
 \subsubsection{The object nature of Python}
 
-It is not clear whether an object oriented (OO) or a non-OO approach will end up making the most sense for doing spreadsheet type modeling. This uncertainty is made explicit in the notebook and students are led on a bit of a journey of discovery as we explore different software designs for this modeling problem. I purposefully designed the notebooks in this way to show students that the path to a solution is not necessarily linear and that giving yourself the freedom to explore alternatives, many of which will be dead ends, can lead to a rich learning experience. It is also more realistic in the sense that this is how most real problems are solved. It is analogous to the idea that mathematical proofs usually do not reflect the myriad of failed approaches that were tried but that ultimately contributed to the final product.
+It is not clear whether this non-object oriented approach will end up making the most sense for doing spreadsheet type modeling in Python. This uncertainty is made explicit in the notebook and students are led on a bit of a journey of discovery as we explore different software designs for this modeling problem. I purposefully designed the notebooks in this way to show students that the path to a solution is not necessarily linear and that giving yourself the freedom to explore alternatives, many of which will be dead ends, can lead to a rich learning experience. It is also more realistic in the sense that this is how most real problems are solved. It is analogous to the idea that mathematical proofs usually do not reflect the myriad of failed approaches that were tried but that ultimately contributed to the final product.
 
 In preparation for building an object oriented version of the model, basic object concepts are reviewed. Since most students have done some Excel VBA programming in a previous course, I refer back to a few properties and methods of the Excel \code{Worksheet} object. In Python, everything is an object. Using Python lists as an example, we explore some of its attributes such as methods for appending items to a list and reversing the order of its elements. The \code{dir} function is used to see all of an object's attributes and we see that even things like integers are objects in Python. With this basic object refresher, we are ready to do some actual object oriented programming and create our own classes.
 
 \subsubsection{Creating an object oriented model}
 
-For our initial design of a \code{BookstoreModel} class we make all of the base inputs class attributes (properties) and then add method attributes to compute outputs such as costs, revenues and profits. Students can easily see the mapping between things in the initial procedural model and this new object oriented version of the model. I highlight several important concepts and syntactical details of doing object oriented programming Python. Again, the goal is to weave in these more advanced Python programming concepts within the context of a very familiar modeling problem. This section of the notebook ends with us using our \code{BookstoreModel} class to create a model object with all of its base inputs instantiated with values. Before moving on students are presented with a few challenges involving enhancements to the \code{BookstoreModel} class. Interspersing short coding challenges throughout the notebook gives students a chance to test themselves on their understanding and to get some coding practice.
+For our initial design of a \code{BookstoreModel} class we make all of the base inputs class attributes (properties) and then add method attributes to compute outputs such as costs, revenues and profits. Students can easily see the mapping between things in the initial procedural model and this new object oriented version. Several important concepts and syntactical details of doing object oriented programming Python are highlighted. Again, the goal is to weave in these more advanced Python programming concepts within the context of a very familiar modeling problem. This section of the notebook ends with using the \code{BookstoreModel} class to create a new model object instance with all of its base inputs instantiated with values. Before moving, on students are presented with a few challenges involving enhancements to the \code{BookstoreModel} class. Interspersing short coding challenges throughout the notebook gives students a chance to test themselves on their understanding and to get some coding practice.
 
-Then a few design dilemmas are posed and some non-working approaches illustrated as we try to decide on how to implement an n-way data table function for this new object oriented model. These meta reflections are intentionally included to better mimic actual software development and reinforce the idea that software development is much more than simply writing code to implement a perfectly thought out design. We forge ahead with some preliminary ideas and are confronted with an intermediate problem related to generating a list of dictionaries that represent combinations of inputs (i.e.\ scenarios) to evaluate by our n-way data table function. This provides a great opportunity to remind students of one of the great strengths of the open source software ecosystem - we can leverage work done in other packages and even look at actual source code to see how something was implemented. In this case, the well known scikit-learn package \cite{bibid} has a \code{ParameterGrid} function that solves our scenario generation problem quite nicely. This example also reminds the students of the value of being able to make sense of API documentation and of object oriented code written by others as most data science related Python packages are object oriented in nature. 
+Then a few design dilemmas are posed and some non-working approaches illustrated as we try to decide on how to implement an n-way data table function for this new object oriented model. These meta reflections are intentionally included to better mimic actual software development and reinforce the idea that software development is much more than simply writing code to implement a perfectly thought out design. We forge ahead with some preliminary ideas and are confronted with an intermediate problem related to generating a list of dictionaries that represent combinations of inputs (i.e.\ scenarios) to evaluate. This provides a great opportunity to remind students of one of the great strengths of the open source software ecosystem -- we can leverage work done in other packages and even look at actual source code to see how something was implemented. In this case, the well known scikit-learn package \cite{bibid} has a \code{ParameterGrid} function that solves our scenario generation problem quite nicely. This example also reminds the students of the value of being able to make sense of API documentation and of object oriented code written by others. 
 
 This first notebook draws to a close with the creation of a \code{data\_table} function that allows us to do sensitivity analysis with the objected oriented model. Unlike Excel's Data Table tool, this \code{data\_table} function can handle an arbitrary number of inputs and outputs. The payoff is the creation of the following faceted plot showing how profit varies for different order quantities and demand levels. We recap the main things learned in this notebook and prepare to add goal seeking capability to our model.
 
@@ -616,7 +373,7 @@ This first notebook draws to a close with the creation of a \code{data\_table} f
 
 \subsection{Notebook 2: Goal seek}
 
-No self respecting modeling tool would be complete without goal seeking capability to do things such as finding the break even point in the bookstore model. For many students, Excel's Goal Seek tool can seem almost magical when encountered for the first time. Even after they get a sense of what it is doing, understanding the importance of the initial solution guess and how it can lead to Goal Seek reporting different solutions, is not very transparent. With Python, students can gain a much better understanding of how tools like Goal Seek really work. 
+No self respecting modeling tool would be complete without goal seeking capability to do things such as finding the break even demand point in the bookstore model. For many students, Excel's Goal Seek tool can seem almost magical when encountered for the first time. Even after they get a sense of what it is doing, understanding the importance of the initial solution guess and how it can lead to Goal Seek reporting different solutions, is not very transparent. With Python, students can gain a much better understanding of how tools like Goal Seek really work. 
 
 Before trying to build our \code{goal\_seek} function we take a brief detour into basic root finding algorithms through packages like SciPy \cite{bibid} as well as in standalone Python scripts that are widely available in the Python data science ecosystem \cite{bibid}. We compare the output of Excel's Goal Seek with different starting values to the values obtained by different root finding algorithms implemented in Python. The importance of starting values and also the range of different root finding algorithms available is often surprising to business students who have spent most of their analytical life in Excel.
 
@@ -624,7 +381,7 @@ A \code{goal\_seek} function is created that implements a simple bisection searc
 
 \subsection{Notebook 3: Monte-Carlo simulation}
 
-In the Excel modeling world, Monte-Carlo simulation can be done without add-ins, but packages like @Risk \cite{} can make the process much easier. In particular, random variable generation for a wide range of probability distributions is facilitated by add-ins like @Risk. In Python, the NumPy package provide random variate generation for a large number of distributions and similarly, SciPy provides functions for computing distribution related quantities for many probability distributions \cite{}. Much like we did when creating the \code{data\_table} function, we start with adding uncertainty to a single input variable in the bookstore model and rely on Python's vectorized computing capabilities to generate the profit associated with each realization of the random input. Then we can do standard statistical analysis of the simulation output using Python packages such as pandas and SciPy. In spreadsheet based simulation textbooks, the notion of the ``Flaw of Averages'' popularized by Sam Savage \cite{} is illustrated. We do the same with our Python based model, showing how replacing random demand by its mean can result in a wildly optimistic estimate of the mean profit found through analyzing the simulation output. Much like doing simulation in Excel without add-ins, using Python makes transparent the quite simple and brute force nature of Monte-Carlo simulation.
+In the Excel modeling world, Monte-Carlo simulation can be done without add-ins, but packages like @Risk \cite{} can make the process much easier. In particular, random variable generation for a wide range of probability distributions is facilitated by add-ins like @Risk. In Python, the NumPy package provide random variate generation for a large number of distributions and similarly, SciPy provides functions for computing distribution related quantities for many probability distributions \cite{}. Much like we did when creating the \code{data\_table} function, we start with adding uncertainty to a single input variable in the bookstore model and rely on Python's vectorized computing capabilities to generate the profit associated with each realization of the random input. Then we can do standard statistical analysis of the simulation output using Python packages such as pandas and SciPy. In spreadsheet based simulation textbooks, the notion of the ``Flaw of Averages'' popularized by Sam Savage \cite{} is often illustrated. We do the same with our Python based model, showing how replacing random demand by its mean can result in a wildly optimistic estimate of the mean profit found through analyzing the simulation output. Much like doing simulation in Excel without add-ins, using Python makes transparent the quite simple and brute force nature of Monte-Carlo simulation.
 
 Moving on to multiple uncertain inputs raises challenges much like those we faced when moving from a 1-way to an n-way data table function. In addition to modeling multiple uncertain inputs, we want to be able to specify a range of scenarios to run, much like we did for the \code{data\_table} function. The following set of design criteria are presented for a \code{simulate} function.
 
@@ -660,7 +417,7 @@ Moving on to multiple uncertain inputs raises challenges much like those we face
 	simulation output as well standard summary stats and plots.
 \end{itemize}
 
-This is followed by a well commented first attempt at a \code{simulate} function. By this point, students are well equipped to understand the code as it builds on basic Python concepts and more advanced things that we have already covered in this EwP module. The rest of the notebook is spent trying out the \code{simulate} function and ends with creating a grouped boxplot that many of them have likely created before with @Risk along with a faceted plot of histograms of profit created with the popular Seaborn package.
+This is followed by a well commented first attempt at a \code{simulate} function. By this point, students are well equipped to understand the code as it builds on basic Python concepts and more advanced concepts that we have already covered in this EwP module. The rest of the notebook is spent trying out the \code{simulate} function and ends with creating a grouped boxplot that many of them have likely created before with @Risk along with a faceted plot of histograms of profit created with the popular Seaborn package.
 
 \begin{figure}[!ht]
 	\centering
@@ -671,65 +428,36 @@ This is followed by a well commented first attempt at a \code{simulate} function
 	\label{fig:2way_dt}
 \end{figure}
 
-The first submodule and its three notebooks are very much about the type of modeling typically done in a spreadsheet based course. In a spreadsheet based course, students learn numerous Excel functions and techniques in the process of building and exercising such models. Similarly, numerous Python techniques are scattered throughout the three modeling focused notebooks. Now we shift gears and move beyond what might be considered prototyping and into the realm of deployment. 
+The first submodule and its three notebooks are very much about the type of modeling typically done in a spreadsheet based course. In a spreadsheet based course, students learn numerous Excel functions and techniques in the process of building and exercising such models. Similarly, numerous Python techniques are scattered throughout the three modeling focused notebooks. Now we shift gears and move beyond what might be considered prototyping and into the realm of deployment. The notebook ends with these thoughts.
+
+\begin{tcolorbox}
+	\begin{quotation}
+		
+\textsf{We have added a basic `simulate` function to our `data_table` and `goal_seek` functions. Python is proving to be quite nice for doing Excel-style "what if?" analysis.} 
+
+\textsf{In Part 4 of this series, we'll make some improvements and do some clean-up on our classes and functions. We'll move everything into a single \code{whatif.py} module and learn how to create a Python package to make it easy to use and share our new functions. We'll try out our package on a new model and sketch out some ideas for future enhancements to the package. It's important we also start creating some basic documentation and a user guide.}
+\end{quotation}
+\end{tcolorbox}
 
 \section{Submodule 2: The packaging notebooks}
 
-
-
-\begin{quote}
-
-In the first three notebooks, we've developed some Python approaches to
-typical Excel ``what if?'' analyses. Along the way we explored some
-slightly more advanced Python topics (for relative newcomers to Python)
-such as:
-
-\begin{itemize}
-	\item
-	List comprehensions,
-	\item
-	Basic OO programming, creating our own classes and using things like
-	\texttt{setattr} and \texttt{getattr},
-	\item
-	Leveraging scikit-learn's \texttt{ParameterGrid} class,
-	\item
-	Faceted plots using Seaborn and matplotlib,
-	\item
-	Tuple unpacking, zip, and itertools,
-	\item
-	Safely copying objects,
-	\item
-	Root finding with, and without, \texttt{scipy.optimize},
-	\item
-	Using \texttt{numpy.random} to generate random variates from various
-	probability distributions,
-	\item
-	Using \texttt{scipy.stats} to compute probabilities and percentiles,
-	\item
-	Importing our \texttt{data\_table}, \texttt{goal\_seek} and
-	\texttt{simulate} functions from a module.
-\end{itemize}
-
-Now that we've got a critical mass of ``proof of concept'' code, let's figure out how to structure our project and create a deployable package. In addition, let's rethink our OO design and add some much needed documentation to the code.
-\end{quote}
-
-Creating a deployable Python package is a good exercise in designing and creating reusable software artifacts. Thinking about how others will interact with your software usually leads to better designed software. Basic software engineering practices are often overlooked in business analytics programs but are certainly desirable in the professional world. In this submodule we create a Python package that can be imported and used by other modelers. This will require some design changes to our software and will also involve moving code out of Jupyter notebooks and into Python script files. While Jupyter notebooks can be integrated into production environments \cite{netflix}, it is much more common for code to live in Python script files. In addition to creating a deployable package, this submodule also discusses the importance of documentation in its many forms in a Python project.
+Creating a deployable Python package is a good exercise in designing and creating a reusable software artifact. Thinking about how others will interact with your software usually leads to better designed software. Basic software engineering practices are often overlooked in business analytics classes but are certainly desirable in the professional world. In this submodule we create a Python package that can be imported and used by other modelers. This will require some design changes to our software and will also involve moving code out of Jupyter notebooks and into Python script files. While Jupyter notebooks can be integrated into production environments \cite{netflix}, it is much more common for code to live in Python script files. In addition to creating a deployable package, this submodule also discusses the importance of documentation in its many forms in a Python project.
 
 \subsection{Notebook 4: Project packaging}
 
-The first notebook in this submodule starts by explaining what Python packages are and their role in sharing code. We then revisit a concept from earlier in the course - creating a good project folder structure. For this we use what is known as a \code{cookiecutter} that can automatically generate a project folder structure and key files from the answers to a few prompts \cite{cookiecutter}. There are a few different folder layouts used in Python projects and there is a bit of discussion on the folder structure we will use and resources given for exploring this issue further. Students are reminded of the importance of version control and we initialize a git repository for our budding package. The basics of version control were already covered in the first week of the course. My experience is that most students have little exposure to simple software project management concepts such as project folder structures and version control. This can lead to a jumble of files with incoherent names used as a proxy for version control - \code{whatif\_v1.py}, \code{whatif\_v2.py}, \code{whatif\_final.py}, \code{whatif\_finalfinal.py}, and so on.
+The first notebook in this submodule starts by explaining what Python packages are and their role in sharing code. We then revisit a concept from earlier in the course - creating a good project folder structure. For this we use what is known as a \code{cookiecutter} that can automatically generate a project folder structure and key files from the answers to a few prompts \cite{cookiecutter}. There are a few different folder layouts used in Python projects and there is a bit of discussion on the folder structure we will use and resources given for exploring this issue further. Students are reminded of the importance of version control and we initialize a git repository for our budding package. The basics of version control were already covered in the first week of the course. My experience is that most students have little exposure to software project management concepts such as project folder structures and version control. This can lead to a jumble of files with incoherent names used as a proxy for version control - \code{whatif\_v1.py}, \code{whatif\_v2.py}, \code{whatif\_final.py}, \code{whatif\_finalfinal.py}, and so on.
 
-Key software design changes are then made and discussed which will make our code easier on our users. These changes include creating an abstract \code{Model} base class from which different model classes can be created and moving the \code{data\_table}, \code{goal\_seek}, and \code{simulate} functions into the \code{Model} base class. All of the code is moved into a code module named \code{whatif.py}. We are now ready to learn about the basics of turning our code into an installable package. This requires a basic understanding of two key Python files that are ubiquitous in Python pacakges - \code{\_\_init\_\_.py} and \code{setup.py}. Options are presented for installing our package locally so that we can use it for different modeling projects. This includes an explanation of how and where Python searches for packages when \code{import} statements are encountered in code. We defer discussion of uploading our package to a public code sharing platform such as PyPI. All of this can be quite complex and I have made every effort to distill things down to a minimal level of complexity needed to convey the important points. I stress that there is much complexity lurking here and it is something they will need to revisit time and time again.
+Key software design changes are then made which will make our code easier on our users. These changes include creating an abstract \code{Model} base class from which different model classes can be created and moving the \code{data\_table}, \code{goal\_seek}, and \code{simulate} functions into the \code{Model} base class. All of the code is moved into a code module named \code{whatif.py}. Students are now ready to learn about the basics of turning our code into an installable package. This requires a basic understanding of two key Python files that are ubiquitous in Python pacakges - \code{\_\_init\_\_.py} and \code{setup.py}. Options are presented for installing our package locally so that we can use it for different modeling projects. This includes an explanation of how and where Python searches for packages when \code{import} statements are encountered in code. We defer discussion of uploading our package to a public code sharing platform such as PyPI. All of this can be quite complex and I have made every effort to distill things down to a minimal level of complexity needed to convey the important points. I stress that there is much complexity lurking here and it is something they will need to revisit time and time again.
 
-This notebook ends by pointing the students to another notebook in which our newly deployed whatif package is used for a completely different model. The example used is the New Car Simulation that has been a staple of Winston and Albright's textbooks for many years \cite{bibid}.
+This notebook ends by pointing the students to another notebook in which our newly deployed whatif package is used for a completely different model. The example used is the New Car Simulation that has been a staple of Winston and Albright's textbooks for many years \cite{bibid}. This new model differs structurally from the Bookstore Model, but is representative of many financial models, in that cash flows over multiple years need to be computed and summarized. It provides a good test for our new whatif package. 
 
 \subsection{Notebook 5: Documentation}
 
-This deployment focused submodule ends with a short notebook discussing the different types of documentation needed in a typical project. This includes things like code comments, docstrings, readme files and generating documentation by writing restrutured text files and using Sphinx. This is one of those tasks that few people like to do but can be very important for the long term success of a project. Even if you are just creating a tool for yourself, you will forget the details over time and documentation can be very beneficial in refreshing your memory. 
+This deployment focused submodule ends with a short notebook discussing the different types of documentation needed in a typical project. This includes things like code comments, docstrings, readme files and generating documentation by writing restrutured text files and using Sphinx. This is one of those tasks that few people like to do but can be very important for the long term success of a project \cite{bibid}. Even if you are just creating a tool for yourself, you will forget the details over time and documentation can be very beneficial in refreshing your memory. 
 
 \section{Submodule 3: Excel data wrangling with Python}
 
-The EwP module ends with what has become a relatively common use of Python with Excel - automating various Excel data wrangling tasks. Examples include:
+The EwP module ends with what has become a relatively common use of Python with Excel -- automating various Excel data wrangling tasks. Examples include:
 
 \begin{itemize}
 	\item
@@ -749,7 +477,9 @@ The EwP module ends with what has become a relatively common use of Python with 
 	``database'' file.
 \end{itemize}
 
-A single Jupyter notebook is used to give a taste of using Python to automate the process of working with Excel files by tackling each of the four examples above. Each of these examples are based on real problems I encountered either in research or industrial projects. TRANSITION NEEDED Several web based resources are shared with one particularly good one being the Practical Business Python blog written by Chris Moffitt. It includes numerous posts on different aspects of Python and Excel integration. There are a number of Python based tools that either include functionality for working with Excel files or are dedicated to specific Excel related operations. These include:
+A single Jupyter notebook is used to give a taste of using Python to automate the process of working with Excel files by tackling each of the four examples above. Each of these examples are based on a real problems I encountered either in research or industrial projects. Several web based resources are shared including the Practical Business Python blog \cite{bibid} written by Chris Moffitt, a data analytics professional. This blog, which focuses on helping Excel centric analytics professionals transition some of their work to Python, includes numerous posts on different aspects of Python and Excel integration.  
+
+There are a number of Python based tools that either include functionality for working with Excel files or are dedicated to specific Excel related operations. These include:
 
 \begin{itemize}
 	\item
@@ -768,6 +498,7 @@ A single Jupyter notebook is used to give a taste of using Python to automate th
 	\href{https://www.xlwings.org/}{xlwings} - provides ``glue'' between
 	Python and Excel
 \end{itemize}
+
 
 \subsection{Example 1: Concatenating many csv files}
 
@@ -821,9 +552,9 @@ The examples above barely scratch the surface of the use cases for Python integr
 
 \section{Classroom experience and the future}
 
-This module has been included in my Advanced Analytics with Python course for the past three years. The course is offered in a seven-week accelerated format during May and June. It is an online and asynchronous course. The EwP module is covered over the course of two weeks and is the subject of one of the major homework assignments for the semester. The first part of the assignment involves creating a basic model, similar in complexity to the Bookstore Model, and doing sensitivity analysis, goal seeking and simulation with the model. It requires the students to import and use the \code{whatif.py} package we created as part of the EwP module. The second part of the assignment is based on the last submodule and requires the students to complete a task involving creation of a multi-sheet Excel workbook from a set of csv files using Python. Then, using the openpyxl library, they have to create and add formulas to the workbook and format them properly. The ranges used in the formulas vary by sheet and require the students to determine the number of rows in each sheet of data and use that information to construct the appropriate formula. An example assignment is available from \href{}{here}. The module has been well received and several of the working students have reported back to me that they have found use cases for these techniques in their day to day analytical activities.
+This module has been included in my Advanced Analytics with Python course for the past three years. The course is offered in a seven-week accelerated format during May and June. It is an online and asynchronous course. The EwP module is covered over the course of two weeks and is the subject of one of the major homework assignments for the semester. The first part of the assignment involves creating a basic model, similar in complexity to the Bookstore Model, and doing sensitivity analysis, goal seeking and simulation with the model. It requires the students to import and use the \code{whatif.py} package we created as part of the module. The second part of the assignment is based on the last submodule and requires  students to complete a task involving creation of a multi-sheet Excel workbook from a set of csv files using Python. Then, using the openpyxl library, they have to create and add formulas to the workbook and format them properly. The ranges used in the formulas vary by sheet and require determination of the number of rows in each sheet of data and use that information to construct the appropriate formula. An example assignment is available from \href{}{here}. The module has been well received and several of the working students have reported back to me that they have found use cases for these techniques in their day to day analytical activities.
 
-Rumours have swirled for a number of years that Microsoft was considering adding Python as a first class language alternative to VBA with their MS Office suite of packages \cite{bibid}. While this has not yet materialized, there continues to be significant interest in using Python to manipulate not only Excel workbooks but other office documents such as Powerpoint presentations \cite{bibid}. Given that business students are very familiar with both Excel and Powerpoint, inclusion of this material in a business school Python based analytics course seems quite appropriate. Students can learn more advanced and extremely useful Python concepts and techniques within a context with which they are intimately familiar. Manipulation of MS Office directly relevant to the job content of many of the students. This teaching module is a natural follow up to the commonly taught spreadsheet based analytics courses found in many business schools and provides an interesting way to teach and learn Python for analytics.
+Rumors have swirled for a number of years that Microsoft was considering adding Python as a first class language alternative to VBA with their MS Office suite of packages \cite{bibid}. While this has not yet materialized, there continues to be significant interest in using Python to manipulate not only Excel workbooks but other office documents such as Powerpoint presentations \cite{bibid}. Given that business students are very familiar with both Excel and Powerpoint, inclusion of this material in a business school Python based analytics course seems quite appropriate. Students can learn more advanced and extremely useful Python concepts and techniques within a context with which they are intimately familiar. Manipulation of MS Office directly relevant to the job content of many of the students. This teaching module is a natural follow up to the commonly taught spreadsheet based analytics courses found in many business schools and provides an interesting way to teach and learn Python for analytics.
 
 \section{Random notes}
 Learning good Python programming practices via learning to model in similar way that students learn good spreadsheet practices through building spreadsheet models using the W\&A textbook.

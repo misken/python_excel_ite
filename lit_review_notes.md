@@ -98,6 +98,19 @@ Easy-to-Use Cloud Computing for Teaching Data Science
 Binder + GitHub based approach
 
 
+The first two issues of ITE are paper based on TMS 1 at Dartmouth in 1998. I attended TMS 3 in Bloomington in 2000.
+
+Teaching Management Science With Spreadsheets: From Decision Models to Decision Support
+========================================================================================
+
+Ragsdale 2001. Intro includes good info on SMB movement's early days. Paper is about spreadsheet based DSS class - i.e. bringing in VBA to the party.
+
+Teaching Modeling in Management Science
+=======================================
+
+Powell, 2001. A call for return to roots.
+
+
 
 
 
