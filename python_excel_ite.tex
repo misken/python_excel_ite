@@ -126,22 +126,18 @@ TODO: Text of your abstract % Enter your abstract
 
 Spreadsheet based modeling has transformed the teaching of management science in business schools over the past three decades. The late 1990's saw first editions of game changing textbooks \cite{winstonPracticalManagementScience2018,ragsdaleSpreadsheetModelingDecision2017} focused on the use of spreadsheets in teaching modeling and management science.  A series of conferences focused on teaching management science (TMS) with spreadsheets started at Dartmouth in 1998 and several presentations from that conference made up the bulk of papers in the first two issues of the INFORMS Transactions on Education journal \cite{bibid}. The next few decades saw numerous textbooks \cite{BusinessAnalyticsArt, BusinessAnalytics4th} and teaching papers \cite{INFORMSTransactionsEducation2014} that prominently featured spreadsheet based modeling.
 
-Despite numerous calls for and predictions of the eradication of spreadsheets from the business world, Google "spreadsheets are evil"
+Despite numerous calls for and predictions of the eradication of spreadsheets from the business world, Excel and other spreadsheets are alive and well. Yes, spreadsheets have well known limitations. Spreadsheets are not databases and probably should not be used as one, especially for relational data models. There are better data visualization and exploration tools. There are better dashboarding tools that are more easily maintained in a production environment. Spreadsheet errors are a huge problem. Version control and documentation present challenges. There are data size limitations and external data links present their own set of challenges. But, spreadsheets are still very well suited to ``what if?'' type modeling due to their flexibility, numerous built in functions, and their integrated sensitivity analysis, goal seeking and visualization capabilities. And of course, they are ubiquitous and familiar to hordes of analysts and modelers.
 
-Excel not a database and shouldn't be used as one. There are better data visualizaiton and exploration tools. There are better dashboarding tools. Spreadsheet errors are a huge problem. Version control and documentation issues. Data size limitations. External link problems. But, spreadsheets are still very well suited to what if type modeling due to their flexibility, numerous built in functions, integrated visualization capabilities and ubiquity
+But, the analytics world has been changing. The advent of programmatic analytics using tools like R and Python have changed the practice of analytics as well as the teaching landscape \cite{bibid}. Limitations of spreadsheets with respect to reproducibility and automation have certainly played a role.  Additionally, both R and Python are free, open source, and have a rich set of analytics related libraries that have contributed to their growing popularity. Python, being a general purpose programming language, also offers advantages when moving models and analytical analysis pipelines from the prototype stage into production. Enormous data science ecosystems have emerged around both R and Python providing a wealth of learning resources for both new and experienced analytics students and professionals.
 
-While spreadsheets have certainly changed and expanded in their capabilities (PowerPivot, um...) since the 90's...
+Numerous R and Python based data science courses have been developed and offered at universities and online learning platforms such as Coursera, EdX, Udemy and others. Some of these courses have made a large amount of their course content freely available for self-learners and for other educators. At our institution, we created a course called Practical Computing for Data Analytics (PCDA) in 2015 that introduced both R and Python (along with a little Linux) for use in data analytics work. The course is taught using combination of R Markdown documents \cite{bibid} and Jupyter notebooks \cite{bibid}. All of the course content is freely available from a publicly accessible course web site \url{URL}.
 
-Irony of Mgt Sci crisis of 1990's where course was dropped by AACSB and ignored by other business disciplines to an era where analytics has captured the day and now AI threatens even that.
+The PCDA course focuses mostly on data wrangling, exploratory data analysis (EDA), and statistical/machine learning based predictive models. It does include a Python based simulation of the Monte Hall 3-door problem. In teaching EDA using tools like ggplot2, I would challenge students to think about how they would go about trying to do some of the plots we were making in Excel. There is also some limited coverage of using Python to open Excel files and do some sheet manipulation. However, there was no real attempt to do the kind of modeling that was the focus of spreadsheet based modeling textbooks.
 
-Powell's 2001 paper on the importance of modeling is no less relevant now than it was when published. I still many of his ideas in my spreadsheet based modeling course.
-
-Advent of programmatic analytics using tools like R and Python have changed the teaching landscape. Motivated by reproducibility, open source, free, and ease of integration with web and cloud databases.
-
-Created PCDA course in response. Challenges with finding good textbooks. Developed much of my own curricular materials. Taught using combo of R Markdown documents and Jupyter notebooks. Literate computing \cite{Jupyter_proposal}. Educational narratives that support iterative exploration and development. The ability to weave standard language with formal programming languages is critical to creating the desired educational artifact. Jupyter used by many universities as a key component of their educational technology stack.
+Literate computing \cite{Jupyter_proposal}. Educational narratives that support iterative exploration and development. The ability to weave standard language with formal programming languages is critical to creating the desired educational artifact. Jupyter used by many universities as a key component of their educational technology stack.
 
 
-PCDA course focused mostly on data wrangling, EDA, statistical and machine learning based predictive models though I did include a Python based simulation of the Monte Hall 3-door problem. In teaching EDA using tools like ggplot2, I would challenge students to think about how they would go about trying to do some of the plots we were making in Excel. There is also some limited coverage of using Python to open Excel files and do some sheet manipulation. However, there was no real attempt to do the kind of modeling that was the focus of textbooks like PMS or DADM.
+
 
 Python has continued to make inroads to analytical territory that was formerly dominated by Excel. The widely used Python data analysis library, Pandas, was created by Wes McKinney while working as a quantitative financial analyst \cite{bibid}. However, Python was mainly used for data wrangling, visualization and predictive modeling using various flavors of regression and tree based models. The blog \href{https://pbpython.com/}{Practical Business Python} written primarily by Chris Moffitt contributed greatly to making Python more accessible to business analytics practitioners through high quality posts that were extremely practical and useful. But, it got me to thinking. What about those things for which Excel is well suited such as building formula based models and doing sensitivity analysis on these models? What would those look like in Python?
 
@@ -160,7 +156,7 @@ to explore the impact of various model inputs on key outputs. Built in
 	Seek} are well known to power spreadsheet modelers. How might we do
 similar modeling and analysis using Python?
 
-Limitations of spreadsheets such as reproducibility and automation.
+
 
 
 While Python has been gaining momentum in the business analytics world, it is often used for data wrangling, analysis and visualization of tablular data using tools like pandas and matplotlib or Seaborn. You can find some great examples at [Chris Moffit's Practical Business Python blog](https://pbpython.com/). I use Python all the time for such tasks and teach a course called [Practical Computing for Data Analytics](http://www.sba.oakland.edu/faculty/isken/courses/mis5470/) that is Python (and R) based. But, it got me to thinking. What about those things for which Excel is well suited such as building formula based models and doing sensitivity analysis on these models? What would those look like in Python?
@@ -173,6 +169,12 @@ Model a learning journey
 Teach students to think and act like a software developer, not just an analyst
 
 Created the ``Excel with Python'' (EwP) module as part
+
+While spreadsheets have certainly changed and expanded in their capabilities (PowerPivot, um...) since the 90's...
+
+Irony of Mgt Sci crisis of 1990's where course was dropped by AACSB and ignored by other business disciplines to an era where analytics has captured the day and now AI threatens even that.
+
+Powell's 2001 paper on the importance of modeling is no less relevant now than it was when published. I still many of his ideas in my spreadsheet based modeling course.
 
 %TODO: Integrated or separate lit review section?
 
