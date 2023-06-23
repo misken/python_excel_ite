@@ -141,34 +141,14 @@ The PCDA course focuses mostly on data wrangling, exploratory data analysis (EDA
 
 Python has continued to make inroads to analytical territory that was formerly dominated by Excel. The widely used Python data analysis library, pandas, was created by Wes McKinney while working as a quantitative financial analyst \cite{bibid}. 
 
-Python is widely used for data wrangling, visualization and predictive modeling using various flavors of regression and tree based models. The blog \href{https://pbpython.com/}{Practical Business Python} written primarily by Chris Moffitt contributed greatly to making Python more accessible to business analytics practitioners through high quality posts that were extremely practical and useful. But, it got me to thinking. What about those things for which Excel is well suited such as building formula based models and doing sensitivity analysis on these models? What would those look like in Python?
-
-
-
-
-
-
-Business schools with business analytics programs are the context. Grad and undergrad.
-
-Why I created 
-
-- more topics I wanted to cover than were possible in PCDA course
-- weave in more SE type material which is often overlooked in BA programs
-
-Excel is widely used for building and using models of business problems
-to explore the impact of various model inputs on key outputs. Built in
-``what if analysis'' tools such as \href{https://support.microsoft.com/en-us/office/calculate-multiple-results-by-using-a-data-table-e95e2487-6ca6-4413-ad12-77542a5ea50b}{Data
-	Tables} and
-\href{https://support.microsoft.com/en-us/office/use-goal-seek-to-find-the-result-you-want-by-adjusting-an-input-value-320cb99e-f4a4-417f-b1c3-4f369d6e66c7}{Goal
-	Seek} are well known to power spreadsheet modelers. How might we do
-similar modeling and analysis using Python?
-
-
-
-
-While Python has been gaining momentum in the business analytics world, it is often used for data wrangling, analysis and visualization of tablular data using tools like pandas and matplotlib or Seaborn. You can find some great examples at [Chris Moffit's Practical Business Python blog](https://pbpython.com/). I use Python all the time for such tasks and teach a course called [Practical Computing for Data Analytics](http://www.sba.oakland.edu/faculty/isken/courses/mis5470/) that is Python (and R) based. But, it got me to thinking. What about those things for which Excel is well suited such as building formula based models and doing sensitivity analysis on these models? What would those look like in Python?
+Python is widely used for data wrangling, visualization and predictive modeling using various flavors of regression and tree based models. The blog \href{https://pbpython.com/}{Practical Business Python} written primarily by Chris Moffitt contributed greatly to making Python more accessible to business analytics practitioners through high quality posts that were extremely practical and useful. But, it got me to thinking. What about those things for which Excel is well suited such as building formula based models and doing sensitivity analysis on these models? What would those look like in Python? Powell's 2001 paper on the importance of modeling is no less relevant now than it was when published. I still many of his ideas in my spreadsheet based modeling course. 
 
 Quant Econ example
+
+
+
+
+
 
 Teach relevant Python to business students using familiar and relevant modeling examples.
 Give sense of software development process and design decisions
@@ -181,16 +161,23 @@ While spreadsheets have certainly changed and expanded in their capabilities (Po
 
 Irony of Mgt Sci crisis of 1990's where course was dropped by AACSB and ignored by other business disciplines to an era where analytics has captured the day and now AI threatens even that.
 
-Powell's 2001 paper on the importance of modeling is no less relevant now than it was when published. I still many of his ideas in my spreadsheet based modeling course.
 
-Literate computing \cite{Jupyter_proposal}. Educational narratives that support iterative exploration and development. The ability to weave standard language with formal programming languages is critical to creating the desired educational artifact. Jupyter used by many universities as a key component of their educational technology stack.
+
+
 
 %TODO: Integrated or separate lit review section?
 
 \section{Module positioning and structure}
 
 
-At our institution, The EwP module is part of a business course entitled ``Advanced Analytics with Python'' (\href{http://www.sba.oakland.edu/faculty/isken/courses/mis6900}{AAP}). The students taking this course have already taken my ``Practical Computing for Business Analytics'' (\href{http://www.sba.oakland.edu/faculty/isken/courses/mis5470}{PCDA}) course in which they spend about half the semester learning R and the other half learning Python, both in the context of business analytics. Basic Linux skills are also part of the PCDA course. The PCDA course ends with intro to the sklearn library for doing predictive modeling in Python and the AAP course begins where the PCDA course ends.  The EwP module could certainly be used as part of a semester long Python based analytics course. The students have also already taken "Business Analytics" (\href{http://www.sba.oakland.edu/faculty/isken/courses/mis5460}{BA}) which is a spreadsheet based introduction to business analytics. The BA and PCDA courses have historically been offered in face to face mode in a computer teaching lab. Since 2020, these two courses have been also offered as online, asynchronous courses. The newer AAP course has been offered since 2021 in an online asynchronous mode. All three courses have extensive course websites that are publicly accessible, including access to all of the video content and files needed. We will describe the AAP course web in more detail below in the context of the EwP module.
+At our institution, The EwP module is part of a business course entitled ``Advanced Analytics with Python'' (\href{http://www.sba.oakland.edu/faculty/isken/courses/mis6900}{AAP}). The students taking this course have already taken the PCDA course within which they learned fundamental Python programming within the context of data analytics. The PCDA course ends with intro to the sklearn library for doing predictive modeling in Python and the AAP course begins where the PCDA course ends. The AAP course was created
+
+Why I created 
+
+- more topics I wanted to cover than were possible in PCDA course
+- weave in more SE type material which is often overlooked in BA programs
+
+The EwP module could certainly be used as part of a semester long Python based analytics course. The students have also already taken "Business Analytics" (\href{http://www.sba.oakland.edu/faculty/isken/courses/mis5460}{BA}) which is a spreadsheet based introduction to business analytics. The BA and PCDA courses have historically been offered in face to face mode in a computer teaching lab. Since 2020, these two courses have been also offered as online, asynchronous courses. The newer AAP course has been offered since 2021 in an online asynchronous mode. All three courses have extensive course websites that are publicly accessible, including access to all of the video content and files needed. We will describe the AAP course web in more detail below in the context of the EwP module.
 
 What kind of Python background do students need to have in order to be ready for the EwP module? A basic familiarity with Python fundamentals for data analysis is needed, including:
 
@@ -205,11 +192,11 @@ What kind of Python background do students need to have in order to be ready for
 	\item basic plotting with matplotlib.
 \end{itemize}
 
-The EwP module is made of three submodules. The first of these focuses on building and using a typical spreadsheet model using Python. Then the functionality developed for doing this type of modeling in Python is deployed as a reusable package. We end with an introduction to using Python to manipulate Excel files, an extremely common use case.
+The EwP module is made up of three submodules. The first of these focuses on building and using a typical spreadsheet model using Python. Then the functionality developed for doing this type of modeling in Python is deployed as a reusable package. We end with an introduction to using Python to manipulate Excel files, an extremely common use case.
 
 All of the Python modules in the PCDA course as well as the entire AAP course are taught using a combination of Jupyter notebooks, Python scripts, and videos walking through the notebooks, all publicly accessible from extensive course web pages. GIVE URL. Some background on Jupyter notebooks for analytics - see downloaded papers. Questions and coding challenges sprinkled throughout the notebooks - answers at bottom. While AAP is online asynch, this same approach has been used very successfully in a computer teaching lab for the PCDA course. The screencasts are highly valued by the students as they can rewatch things as needed. Many are working professionals and a 2.5 hour evening class in a warm computer lab can be taxing.
 
-Jupyter notebooks for teaching data science are an established delivery mechanism. Computational notebook allowing mixing of explanatory text, written in Markdown with executable code (and its output) in Python or a number of other languages. Literate programming. Can also include equations, visualizations, other multi-media. It's free, open source, runs on all platforms, huge ecosystem, used in industry, used widely in education.
+Jupyter notebooks for teaching data science are an established delivery mechanism. Computational notebook allowing mixing of explanatory text, written in Markdown with executable code (and its output) in Python or a number of other languages. Literate programming. Can also include equations, visualizations, other multi-media. It's free, open source, runs on all platforms, huge ecosystem, used in industry, used widely in education. Literate computing \cite{Jupyter_proposal}. Educational narratives that support iterative exploration and development. The ability to weave standard language with formal programming languages is critical to creating the desired educational artifact. Jupyter used by many universities as a key component of their educational technology stack.
 
 \section{Submodule 1: What-if analysis with Python}
 
