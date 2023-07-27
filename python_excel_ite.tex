@@ -76,12 +76,12 @@
 % Title or shortened title suitable for running heads. Sample:
 % \RUNTITLE{Bundling Information Goods of Decreasing Value}
 % Enter the (shortened) title:
-\RUNTITLE{Spreadsheet modeling with Python}
+\RUNTITLE{Spreadsheet-ish modeling with Python}
 
 % Full title. Sample:
 % \TITLE{Bundling Information Goods of Decreasing Value}
 % Enter the full title:
-\TITLE{Spreadsheet modeling with Python}
+\TITLE{Spreadsheet-ish modeling with Python}
 
 % Block of authors and their affiliations starts here:
 % NOTE: Authors with same affiliation, if the order of authors allows, 
@@ -155,7 +155,7 @@ We will begin with a brief discussion of the overall positioning and structure o
 
 \section{Module positioning and structure}
 
-At our institution, The EwP module is part of a business course entitled  \href{http://www.sba.oakland.edu/faculty/isken/courses/mis6900}{Advanced Analytics with Python} (AAP). The students taking this course have already taken the PCDA course within which they learned fundamental Python programming within the context of data analytics over seven weeks. The PCDA course ends with intro to the \href{https://scikit-learn.org/stable/index.html}{scikit-learn library} for doing predictive modeling in Python and the AAP course begins where the PCDA course ends. The EwP module could also be used as part of a semester long Python based analytics course. Most AAP students have also already taken   \href{http://www.sba.oakland.edu/faculty/isken/courses/mis5460}{Business Analytics} (BA) which is a spreadsheet based introduction to business analytics. We do not strictly require the spreadsheet based course be taken before the PCDA or AAP courses as that course draws students from outside of our business programs who are strictly interested in programmatic tools such as Python. The BA and PCDA courses have historically been offered in face to face mode in a computer teaching lab. Since 2020, these two courses have been also offered as online, asynchronous courses. The newer AAP course has been offered since 2021 in an online asynchronous mode. All three courses have \href{http://www.sba.oakland.edu/Faculty/isken/teaching.html}{extensive course websites} that are publicly accessible, including access to all of the video content and supporting files. 
+At our institution, The EwP module is part of a business course entitled  \href{http://www.sba.oakland.edu/faculty/isken/courses/mis6900}{Advanced Analytics with Python} (AAP). The students taking this course have already taken the PCDA course within which they learned fundamental Python programming within the context of data analytics over seven weeks. The PCDA course ends with intro to the \href{https://scikit-learn.org/stable/index.html}{scikit-learn library} for doing predictive modeling in Python and the AAP course begins where the PCDA course ends. The EwP module could also be used as part of a semester long Python based analytics course. Most AAP students have also already taken   \href{http://www.sba.oakland.edu/faculty/isken/courses/mis5460}{Business Analytics} (BA) which is a spreadsheet based introduction to business analytics. We do not strictly require the spreadsheet based course be taken before the PCDA or AAP courses as that course draws students from outside of our business programs who are strictly interested in programmatic tools such as Python. The BA and PCDA courses have historically been offered in face to face mode in a computer teaching lab. Since 2020, these two courses have been also offered as online, asynchronous courses. The newer AAP course has been offered since 2021 in an online asynchronous mode. All three courses have extensive course websites that are publicly accessible, including access to all of the video content and supporting files. 
 
 What kind of Python background do students need to have in order to be ready for the EwP module? A basic familiarity with Python fundamentals for data analysis is required, including:
 
@@ -200,9 +200,9 @@ The ability to weave standard explanatory language with formal programming langu
 There are two overarching learning objectives for this \href{http://www.sba.oakland.edu/faculty/isken/courses/mis6900/mod3a_whatif.html}{first EwP submodule}. Students learn how Python might be used to do something they are quite familiar with doing in a spreadsheet -- model building and sensitivity analysis. At the same time, students encounter, as needed, more advanced Python programming concepts and techniques. In this way, the computational problem to be solved drives the introduction of more advanced Python concepts and techniques instead of such things being presented in a vacuum. I make it a point to show that there are often multiple possible approaches to a computational problem by being willing to abandon one approach and trying another. Emphasis is given to the lessons learned from each path explored. Every notebook is accompanied by screencasts that walk the students through the material and act as a guided tour with challenges to overcome along the way. 
  
  
-\subsection{Notebook 1: Modeling and data tables}
+\subsection{Notebook 1: Modeling and data tables (\href{http://www.sba.oakland.edu/faculty/isken/excel_with_python/what_if_1_model_datatable.html}{html version})}
 
-The stage is set with an overview of a typical spreadsheet based model that most of the students have seen before -- see Figure \ref{fig:stage}. The notebook also includes a screenshot (Figure \ref{fig:xl_model}) of a typical Excel model.
+The stage is set with an overview of a typical spreadsheet based model that most of the students have seen before. 
 
 \begin{tcolorbox}[boxrule=1pt,sharp corners]
 \begin{quotation}
@@ -215,12 +215,10 @@ The stage is set with an overview of a typical spreadsheet based model that most
 \end{quotation}
 \end{tcolorbox}
 
+The notebook also includes a screenshot (Figure \ref{fig:xl_model}) of a typical Excel model.
 
-\begin{figure}[!ht]
-	\centering
-	\begin{minipage}{.80\textwidth}
-		\includegraphics[width=1.0\textwidth]{images/output_2_0.png}
-	\end{minipage}
+\begin{figure}[!htbp]
+	\includegraphics[width=1.0\textwidth]{images/output_2_0.png}
 	\caption{Typical spreadsheet model}
 	\label{fig:xl_model}
 \end{figure}
@@ -243,12 +241,12 @@ The overall goal is to build a Python based version of this model that will allo
 We start with a very simple model that ignores the uncertainty in demand and that is not object oriented. Proceeding much like we would in Excel, base input values are stored in variables. Students are given skeleton code as scaffolding and must finish the expressions for computing key intermediate outputs (\code{order\_cost, sales\_revenue, refund\_revenue}) and the final output, \code{profit} -- see Figure \ref{fig:model_inputs}
 
 
-\begin{figure*}[!htbp]
+\begin{figure}[!htbp]
 	\centering
-	\caption{Instantiating model inputs}
 	\includegraphics[scale=0.5]{images/model_inputs.png}
+	\caption{Instantiating model inputs}
 	\label{fig:model_inputs}
-\end{figure*}
+\end{figure}
 
 Answers are provided at the bottom of the notebook so that students can attempt to finish the code but have a resource to correctly complete the code and move on. The screencast associated with the notebook also shows the code being completed in a subsequent code cell. Using skeleton code in this way has worked well both for lab based versions of this type of course as well as for online asynchronous versions. For a lab based course, students actively work on completing the code during class and the instructor can move around the lab acting as a guide and consultant.
 
@@ -261,20 +259,20 @@ Since order quantity is the key decision variable, we might want to see how prof
 A natural next step is to do the equivalent of an Excel 2-way Data Table. By creating a profit function that takes all of the base inputs as arguments, a list comprehension can then be used to generate the equivalent of a 2-way Data Table. Even better, this actually allows us to do the equivalent of an n-way Data Table with an arbitrary number of outputs -- something Excel does not have. This example provides an effective way to show the power of creating reusable functions and Python's handy list comprehension construct. As shown in Figure \ref{fig:function_datatable}, a few code and markdown cells are used to create the code, provide some explanation and show the output. This is the same output one would get with an Excel 2-way Data Table, just laid out differently. Then in Figure \ref{fig:datatable_scatter} we show how the output can be turned into a scatter plot with profit mapped to a color hue.
 
 
-\begin{figure*}[!htbp]
+\begin{figure}[!htbp]
 	\centering
-	\caption{A 2-way data table}
 	\includegraphics[scale=0.5]{images/function_datatable.png}
+	\caption{A 2-way data table}
 	\label{fig:function_datatable}
-\end{figure*}
+\end{figure}
 
 
-\begin{figure*}[!htbp]
+\begin{figure}[!htbp]
 	\centering
-	\caption{Scatter plot based on 2-way data table}
 	\includegraphics[scale=0.5]{images/datatable_scatter.png}
+	\caption{Scatter plot based on 2-way data table}
 	\label{fig:datatable_scatter}
-\end{figure*}
+\end{figure}
 
 
 
@@ -292,17 +290,15 @@ A few design dilemmas are posed and some non-working approaches illustrated as w
 
 This first notebook draws to a close with the creation of a \code{data\_table} function that allows us to do sensitivity analysis with the objected oriented model. The payoff is the creation of the following faceted plot showing how profit varies for different order quantities and demand levels. We recap the main things learned in this notebook and prepare to add goal seeking capability to our model.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 	\centering
-	\begin{minipage}{.80\textwidth}
-		\includegraphics[width=1.0\textwidth]{images/two_way_dt.png}
-	\end{minipage}
+	\includegraphics[width=1.0\textwidth]{images/two_way_dt.png}
 	\caption{Faceted plot based on 2-way data table}
 	\label{fig:2way_dt}
 \end{figure}
 
 
-\subsection{Notebook 2: Goal seek}
+\subsection{Notebook 2: Goal seek (\href{http://www.sba.oakland.edu/faculty/isken/excel_with_python/what_if_2_goalseek.html}{html version})}
 
 No self respecting modeling tool would be complete without goal seeking capability to do things such as finding the break even demand point in the bookstore model. For many students, Excel's Goal Seek tool can seem almost magical when encountered for the first time. Even after they get a sense of what it is doing, understanding the importance of the initial solution guess and how it can lead to Goal Seek reporting different solutions, is not very transparent. With Python, students can gain a much better understanding of how tools like Goal Seek really work. 
 
@@ -310,39 +306,37 @@ Before trying to build our \code{goal\_seek} function we take a brief detour int
 
 A \code{goal\_seek} function is created that implements a simple bisection search and we use it to find the break even demand point in our bookstore model. With \code{data\_table} and \code{goal\_seek} functions implemented, we are ready to move on to doing Monte-Carlo simulation.
 
-\subsection{Notebook 3: Monte-Carlo simulation}
+\subsection{Notebook 3: Monte-Carlo simulation (\href{http://www.sba.oakland.edu/faculty/isken/excel_with_python/what_if_3_simulation.html}{html version})}
 
 In the Excel modeling world, Monte-Carlo simulation can be done without add-ins, but packages like \href{https://lumivero.com/products/at-risk/}{@Risk} can make the process much easier. In particular, random variable generation for a wide range of probability distributions is facilitated by add-ins like @Risk. In Python, the \href{https://numpy.org/doc/stable/reference/random/generator.html}{NumPy package provide random variate generation} for a large number of distributions and similarly, \href{https://docs.scipy.org/doc/scipy/reference/stats.html}{SciPy provides functions for computing distribution related quantities} for many probability distributions. Much like we did when creating the \code{data\_table} function, we start with adding uncertainty to a single input variable in the bookstore model and rely on NumPy's vectorized computing capabilities to generate the profit associated with each realization of the random input. Then we can do standard statistical analysis of the simulation output using Python packages such as pandas and SciPy. In spreadsheet based simulation textbooks, the notion of the ``Flaw of Averages'' popularized by Sam Savage \cite{savageFlawAveragesWhy2012} is often illustrated. We do the same with our Python based model, showing how replacing random demand by its mean can result in a wildly optimistic estimate of the mean profit found through analyzing the simulation output. Much like doing simulation in Excel without add-ins, using Python makes transparent the quite simple and brute force nature of Monte-Carlo simulation.
 
 Moving on to multiple uncertain inputs raises challenges much like those we faced when moving from a 1-way to an n-way data table function. In addition to modeling multiple uncertain inputs, we want to be able to specify a range of scenarios to run, much like we did for the \code{data\_table} function. The following set of design criteria are presented for a \code{simulate} function.
 
-\begin{figure*}[!htbp]
+\begin{figure}[!htbp]
 	\centering
-	\caption{Design specification for \code{simulate()} function}
 	\includegraphics[scale=0.5]{images/oo_sim_design_specs.png}
+	\caption{Design specification for \code{simulate()} function}
 	\label{fig:oo_sim_design_specs}
-\end{figure*}
+\end{figure}
 
 
 This is followed by a well commented first attempt at a \code{simulate} function. By this point, students are well equipped to understand the code as it builds on basic Python concepts and more advanced concepts that we have already covered in the EwP module. The rest of the notebook is spent trying out the \code{simulate()} function and ends with creating a grouped boxplot, see Figure \ref{fig:boxplot} that many of them have likely created before with @Risk along with a faceted plot of histograms of profit created with the popular \href{https://seaborn.pydata.org/}{Seaborn} package.
 
-\begin{figure}[!ht]
+\begin{figure}[!htbp]
 	\centering
-	\begin{minipage}{.80\textwidth}
-		\includegraphics[width=1.0\textwidth]{images/boxplots.png}
-	\end{minipage}
+	\includegraphics[width=1.0\textwidth]{images/boxplots.png}
 	\caption{Profit boxplots by order quantity}
 	\label{fig:boxplot}
 \end{figure}
 
 The first submodule and its three notebooks are very much about the type of modeling typically done in a spreadsheet based course. In a spreadsheet based course, students learn numerous Excel functions and techniques in the process of building and exercising such models. Similarly, numerous Python techniques are scattered throughout the three modeling focused notebooks. Now we shift gears and move beyond what might be considered prototyping and into the realm of deployment. Figure \ref{fig:sim_wrapup} shows how the notebook ends and gives students a preview of the next submodule.
 
-\begin{figure*}[!htbp]
+\begin{figure}[!htbp]
 	\centering
-	\caption{Closing thoughts in simulation notebook}
 	\includegraphics[scale=0.5]{images/sim_wrapup.png}
+	\caption{Closing thoughts in simulation notebook}
 	\label{fig:sim_wrapup}
-\end{figure*}
+\end{figure}
 
 \section{Submodule 2: The packaging and documentation notebooks}
 
@@ -350,7 +344,7 @@ Now that we have created some useful modeling functionality, our goal is to make
 
 Creating a deployable Python package is a good exercise in designing and creating a reusable software artifact. Thinking about how others will interact with your software usually leads to better designed software.  In \href{http://www.sba.oakland.edu/faculty/isken/courses/mis6900/mod3b_whatif_packaging.html}{this submodule} we create a Python package that can be imported and used by other modelers. This will require some design changes to our software and will also involve moving code out of Jupyter notebooks and into Python script files. While Jupyter notebooks can be integrated into production environments \cite{uffordInteractiveNotebookInnovation2019}, it is much more common for code to live in Python script files. In addition to creating a deployable package, this submodule also discusses the importance of documentation in its many forms in a Python project.
 
-\subsection{Notebook 4: Project packaging}
+\subsection{Notebook 4: Project packaging (\href{http://www.sba.oakland.edu/faculty/isken/excel_with_python/what_if_4_project_packaging.html}{html version})}
 
 The first notebook in this submodule starts by explaining what Python packages are and their role in sharing code. We then revisit a concept from earlier in the course -- creating a good project folder structure. For this we use what is known as a \href{https://cookiecutter.readthedocs.io/en/stable/}{cookiecutter} that can automatically generate a project folder structure and key files from the answers to a few prompts \cite{audreyroyandcookiecuttercommunityCookiecutterBetterProject2012}. There are a few different folder layouts used in Python projects and there is a bit of discussion on the folder structure we will use and resources given for exploring this issue further. Students are reminded of the importance of version control and we initialize a git repository for our budding package. The basics of version control were already covered in the first week of the course. My experience is that most students have little exposure to software project management concepts such as project folder structures and version control. This can lead to a jumble of files with incoherent names used as a proxy for version control -- \code{whatif\_v1.py}, \code{whatif\_v2.py}, \code{whatif\_final.py}, \code{whatif\_finalfinal.py}, and so on.
 
@@ -358,7 +352,7 @@ Key software design changes are then made which will make our code easier on our
 
 This notebook ends by pointing the students to another notebook in which our newly deployed whatif package is used for a completely different model -- the New Car Simulation that has been a staple of Winston and Albright's textbooks for many years \cite{winstonPracticalManagementScience2018,albrightBusinessAnalyticsData2016}. This new model differs structurally from the Bookstore Model, but is representative of many financial models in that cash flows over multiple years need to be computed and summarized. This helps cement the idea that there is value in creating reusable code.
 
-\subsection{Notebook 5: Documentation}
+\subsection{Notebook 5: Documentation (\href{http://www.sba.oakland.edu/faculty/isken/excel_with_python/what_if_5_documentation.html}{html version})}
 
 This deployment focused submodule ends with a short notebook discussing the different types of documentation needed in a typical project. This includes code comments, \href{https://peps.python.org/pep-0257/}{docstrings}, \code{readme} files and generating documentation by creating \href{https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html}{reStructuredText} files (similar to but more powerful than markdown) and using \href{https://www.sphinx-doc.org/en/master/index.html}{Sphinx}, the Python documentation generation tool. This is one of those tasks that few people like to do but can be very important for the long term success of a project. Even if you are just creating a tool for yourself, you will forget the details over time and documentation can be very beneficial in refreshing your memory. 
 
