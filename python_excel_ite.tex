@@ -316,39 +316,15 @@ In the Excel modeling world, Monte-Carlo simulation can be done without add-ins,
 
 Moving on to multiple uncertain inputs raises challenges much like those we faced when moving from a 1-way to an n-way data table function. In addition to modeling multiple uncertain inputs, we want to be able to specify a range of scenarios to run, much like we did for the \code{data\_table} function. The following set of design criteria are presented for a \code{simulate} function.
 
-\begin{itemize}
-	\item
-	The first argument will be a model object (i.e.~something like the
-	\code{BookstoreModel} model) that contains an \code{update}
-	method. Soon, we should add an abstract \code{Model} class from
-	which specific models such as the \texttt{BookstoreModel} class can be
-	created. The abstract class will contain the \code{update} method.
-	\item
-	The random inputs will be passed in as a dictionary whose keys are the
-	input variables being modeled as random and whose values are an
-	iterable representing the draws from some probability distribution.
-	Structurally, this is similar to how inputs are specified in the
-	\code{data\_table} function.
-	\item
-	We can optionally pass in a dictionary of scenario inputs. This is
-	exactly like the \code{data\_table} variable input.
-	
-	\begin{itemize}
-		\item
-		If no scenario input dictionary is passed in, a single simulation
-		scenario is run using the current input values in the model object,
-		\item
-		If a scenario input dictionary is passed in, then a simulation
-		scenario is run for every combination of parameters in the
-		dictionary. Again, this is just like we do in the
-		\code{data\_table} function.
-	\end{itemize}
-	\item
-	The output will be a set of dictionaries containing dataframes of
-	simulation output as well standard summary stats and plots.
-\end{itemize}
+\begin{figure*}[!htbp]
+	\centering
+	\caption{Design specification for \code{simulate()} function}
+	\includegraphics[scale=0.5]{images/oo_sim_design_specs.png}
+	\label{fig:oo_sim_design_specs}
+\end{figure*}
 
-This is followed by a well commented first attempt at a \code{simulate} function. By this point, students are well equipped to understand the code as it builds on basic Python concepts and more advanced concepts that we have already covered in the EwP module. The rest of the notebook is spent trying out the \code{simulate} function and ends with creating a grouped boxplot, see Figure \ref{fig:boxplot} that many of them have likely created before with @Risk along with a faceted plot of histograms of profit created with the popular \href{https://seaborn.pydata.org/}{Seaborn} package.
+
+This is followed by a well commented first attempt at a \code{simulate} function. By this point, students are well equipped to understand the code as it builds on basic Python concepts and more advanced concepts that we have already covered in the EwP module. The rest of the notebook is spent trying out the \code{simulate()} function and ends with creating a grouped boxplot, see Figure \ref{fig:boxplot} that many of them have likely created before with @Risk along with a faceted plot of histograms of profit created with the popular \href{https://seaborn.pydata.org/}{Seaborn} package.
 
 \begin{figure}[!ht]
 	\centering
@@ -359,16 +335,14 @@ This is followed by a well commented first attempt at a \code{simulate} function
 	\label{fig:boxplot}
 \end{figure}
 
-The first submodule and its three notebooks are very much about the type of modeling typically done in a spreadsheet based course. In a spreadsheet based course, students learn numerous Excel functions and techniques in the process of building and exercising such models. Similarly, numerous Python techniques are scattered throughout the three modeling focused notebooks. Now we shift gears and move beyond what might be considered prototyping and into the realm of deployment. The notebook ends with these thoughts.
+The first submodule and its three notebooks are very much about the type of modeling typically done in a spreadsheet based course. In a spreadsheet based course, students learn numerous Excel functions and techniques in the process of building and exercising such models. Similarly, numerous Python techniques are scattered throughout the three modeling focused notebooks. Now we shift gears and move beyond what might be considered prototyping and into the realm of deployment. Figure \ref{fig:sim_wrapup} shows how the notebook ends and gives students a preview of the next submodule.
 
-\begin{tcolorbox}
-	\begin{quotation}
-		
-\textsf{We have added a basic \code{simulate} function to our \code{data\_table} and \code{goal\_seek} functions. Python is proving to be quite nice for doing Excel-style "what if?" analysis.} 
-
-\textsf{In Part 4 of this series, we'll make some improvements and do some clean-up on our classes and functions. We'll move everything into a single \code{whatif.py} module and learn how to create a Python package to make it easy to use and share our new functions. We'll try out our package on a new model and sketch out some ideas for future enhancements to the package. It's important we also start creating some basic documentation and a user guide.}
-\end{quotation}
-\end{tcolorbox}
+\begin{figure*}[!htbp]
+	\centering
+	\caption{Closing thoughts in simulation notebook}
+	\includegraphics[scale=0.5]{images/sim_wrapup.png}
+	\label{fig:sim_wrapup}
+\end{figure*}
 
 \section{Submodule 2: The packaging and documentation notebooks}
 
@@ -380,13 +354,13 @@ Creating a deployable Python package is a good exercise in designing and creatin
 
 The first notebook in this submodule starts by explaining what Python packages are and their role in sharing code. We then revisit a concept from earlier in the course -- creating a good project folder structure. For this we use what is known as a \href{https://cookiecutter.readthedocs.io/en/stable/}{cookiecutter} that can automatically generate a project folder structure and key files from the answers to a few prompts \cite{audreyroyandcookiecuttercommunityCookiecutterBetterProject2012}. There are a few different folder layouts used in Python projects and there is a bit of discussion on the folder structure we will use and resources given for exploring this issue further. Students are reminded of the importance of version control and we initialize a git repository for our budding package. The basics of version control were already covered in the first week of the course. My experience is that most students have little exposure to software project management concepts such as project folder structures and version control. This can lead to a jumble of files with incoherent names used as a proxy for version control -- \code{whatif\_v1.py}, \code{whatif\_v2.py}, \code{whatif\_final.py}, \code{whatif\_finalfinal.py}, and so on.
 
-Key software design changes are then made which will make our code easier on our users. These changes include creating an abstract \code{Model} base class from which different model classes can be created and moving the \code{data\_table}, \code{goal\_seek}, and \code{simulate} functions into the \code{Model} base class as methods. All of the code is moved into a code module named \code{whatif.py}. Students are now ready to learn about the basics of turning our code into an installable package. This requires a basic understanding of two key Python files that are ubiquitous in Python pacakges - \code{\_\_init\_\_.py} and \code{setup.py}. Options are presented for installing our package locally so that we can use it for different modeling projects. This includes an explanation of how and where Python searches for packages when \code{import} statements are encountered in code. We defer discussion of uploading our package to a public code sharing platform such as PyPI. All of this can be quite complex and I have made every effort to distill things down to a minimal level of complexity needed to convey the important points. I stress that there is much complexity lurking here and it is something they will need to revisit time and time again.
+Key software design changes are then made which will make our code easier on our users. These changes include creating an abstract \code{Model} base class from which different model classes can be created and moving the \code{data\_table}, \code{goal\_seek}, and \code{simulate} functions into the \code{Model} base class as methods. All of the code is moved into a code module named \code{whatif.py}. Students are now ready to learn about the basics of turning our code into an installable package. This requires a basic understanding of two key Python files that are ubiquitous in Python pacakges - \code{\_\_init\_\_.py} and \code{setup.py}. Options are presented for installing our package locally so that we can use it for different modeling projects. This includes an explanation of how and where Python searches for packages when \code{import} statements are encountered in code. There is much complexity lurking here and students are reminded that they will need to revisit this topic frequently. I have made every effort to distill things down to a minimal level of complexity needed to convey the important points.
 
-This notebook ends by pointing the students to another notebook in which our newly deployed whatif package is used for a completely different model -- the New Car Simulation that has been a staple of Winston and Albright's textbooks for many years \cite{winstonPracticalManagementScience2018,albrightBusinessAnalyticsData2016}. This new model differs structurally from the Bookstore Model, but is representative of many financial models in that cash flows over multiple years need to be computed and summarized. 
+This notebook ends by pointing the students to another notebook in which our newly deployed whatif package is used for a completely different model -- the New Car Simulation that has been a staple of Winston and Albright's textbooks for many years \cite{winstonPracticalManagementScience2018,albrightBusinessAnalyticsData2016}. This new model differs structurally from the Bookstore Model, but is representative of many financial models in that cash flows over multiple years need to be computed and summarized. This helps cement the idea that there is value in creating reusable code.
 
 \subsection{Notebook 5: Documentation}
 
-This deployment focused submodule ends with a short notebook discussing the different types of documentation needed in a typical project. This includes code comments, docstrings, \code{readme} files and generating documentation by writing \href{https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html}{reStructuredText} files (similar but more powerful than markdown) and using \href{https://www.sphinx-doc.org/en/master/index.html}{Sphinx}, the Python documentation generation tool. This is one of those tasks that few people like to do but can be very important for the long term success of a project. Even if you are just creating a tool for yourself, you will forget the details over time and documentation can be very beneficial in refreshing your memory. 
+This deployment focused submodule ends with a short notebook discussing the different types of documentation needed in a typical project. This includes code comments, \href{https://peps.python.org/pep-0257/}{docstrings}, \code{readme} files and generating documentation by creating \href{https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html}{reStructuredText} files (similar to but more powerful than markdown) and using \href{https://www.sphinx-doc.org/en/master/index.html}{Sphinx}, the Python documentation generation tool. This is one of those tasks that few people like to do but can be very important for the long term success of a project. Even if you are just creating a tool for yourself, you will forget the details over time and documentation can be very beneficial in refreshing your memory. 
 
 \section{Submodule 3: Excel data wrangling with Python}
 
@@ -401,11 +375,11 @@ The \href{http://www.sba.oakland.edu/faculty/isken/courses/mis6900/mod3c_python_
 	You have an Excel file with multiple sheets of similarly structured
 	data and you want to consolidate them into a single sheet.
 	\item
-	You have an Excel file with data in ``wide'' format and you need to
+	You have an Excel file with data in wide format and you need to
 	convert it to long format, and then perhaps export out individual
 	files (one per the key column(s) in the long formatted data).
 	\item
-	You have an Excel file acting as a simple flatfile database.
+	You have an Excel file acting as a simple flat file database.
 	Periodically, you get new Excel files that need to get appended to the
 	``database'' file.
 \end{itemize}
@@ -419,16 +393,15 @@ There are a number of Python based tools that either include functionality for w
 	pandas -
 	\href{https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html}{read\_excel},
 	\href{https://pandas.pydata.org/docs/reference/api/pandas.ExcelWriter.html}{ExcelWriter},
-	\href{https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_excel.html}{to\_excel}
+	\href{https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_excel.html}{to\_excel} -- reading and writing Excel files,
 	\item
 	\href{https://openpyxl.readthedocs.io/en/stable/}{openpyxl} - can
-	read, write, and modify Excel files
+	read, write, and modify Excel files,
 	\item
-	\href{https://xlsxwriter.readthedocs.io/}{XlsxWriter} - powerful but
-	cannot edit existing Excel files
+	\href{https://xlsxwriter.readthedocs.io/}{XlsxWriter} - create new Excel files but
+	cannot edit existing Excel files,
 	\item
-	\href{https://www.xlwings.org/}{xlwings} - provides ``glue'' between
-	Python and Excel
+	\href{https://www.xlwings.org/}{xlwings} - manipulate the Excel application from Python.
 \end{itemize}
 
 
@@ -438,7 +411,7 @@ While this first example is not necessarily Excel related, using Excel to consol
 
 \subsection{Example 2: Consolidating data from multiple sheets in a Excel file using pandas}
 
-Two different approaches are shown to consolidate data from multiple sheets into a single sheet. One approach uses pandas while the other relies on a library specifically created for working with Excel files from Python, \href{https://openpyxl.readthedocs.io/en/stable/}{openpyxl}. One advantage to using Python rather than Visual Basic for Applications for this task is that Python is well suited for working with data in many different formats including csv, json, xml and a myriad of database formats. The Excel file may be just one data source out of a collection of data sources that are used to create some sort of combined database. The generality of Python is a strength in such scenarios.
+Two different approaches are shown to consolidate data from multiple sheets into a single sheet. One approach uses pandas while the other relies on a library specifically created for working with Excel files from Python, \href{https://openpyxl.readthedocs.io/en/stable/}{openpyxl}. One advantage to using Python rather than Visual Basic for Applications for this task is that Python is well suited for working with data in many different formats including csv, JSON, XML and a myriad of database formats. The Excel file may be just one data source out of a collection of data sources that are used to create some sort of combined database. The generality of Python is a strength in such scenarios.
 
 \subsection{Example 3: Dealing with wide data and a multi-row header}
 
