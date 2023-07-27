@@ -197,7 +197,7 @@ The ability to weave standard explanatory language with formal programming langu
 
 \section{Submodule 1: What-if analysis with Python}
 
-There are two overarching learning objectives for this \href{http://www.sba.oakland.edu/faculty/isken/courses/mis6900/mod3a_whatif.html}{first EwP submodule}. Students learn how Python might be used to do something they are quite familiar with doing in a spreadsheet -- model building and sensitivity analysis. At the same time, students encounter, as needed, more advanced Python programming concepts and techniques. In this way, the computational problem to be solved drives the introduction of more advanced Python concepts and techniques instead of such things being presented in a vacuum. I make it a point to show that there are often multiple possible approaches to a computational problem by being willing to abandon one approach and trying another. Emphasis is given to the lessons learned from each path explored. Every notebook is accompanied by screencasts that walk the students through the material and act as a guided tour with challenges to overcome along the way. 
+There are two overarching learning objectives for this \href{http://www.sba.oakland.edu/faculty/isken/courses/mis6900/mod3a_whatif.html}{first EwP submodule}. Students learn how Python might be used to do something they are quite familiar with doing in a spreadsheet -- model building and sensitivity analysis. At the same time, students encounter, as needed, more advanced Python programming concepts and techniques. In this way, the computational problem to be solved drives the introduction of more advanced Python concepts and techniques instead of such things being presented in a vacuum. I make it a point to show that there are often multiple possible approaches to a computational problem by being willing to abandon one approach and trying another. Emphasis is given to the lessons learned from each path explored. Every notebook is accompanied by screencasts that walk the students through the material and act as a guided tour with challenges to overcome along the way. While all of the notebooks are publicly available (see Section \ref{sec:software}), links to an html version of each of the notebooks are provided throughout the document.
  
  
 \subsection{Notebook 1: Modeling and data tables (\href{http://www.sba.oakland.edu/faculty/isken/excel_with_python/what_if_1_model_datatable.html}{html version})}
@@ -450,6 +450,7 @@ The examples above barely scratch the surface of the use cases for Python integr
 % todo Check the hyperlinks above
 
 \section{Software availability}
+\label{software}
 
 Each of the submodules described above has its own dedicated course web page. Links to each submodule page can be found on \href{http://www.sba.oakland.edu/faculty/isken/courses/mis6900/mod3_excel_with_python.html}{this EwP landing page} within the AAP course website. Each page contains learning objectives, a link to a compressed file containing the Jupyter notebooks and other supporting files, a set of activities with accompanying screen casts, and links to additional web based materials to explore.
 
@@ -457,6 +458,7 @@ There is also a \href{https://github.com/misken/whatif}{whatif Github repository
 
 
 \section{Classroom experience and the future}
+\label{sec:classroom}
 
 This module has been included in my Advanced Analytics with Python course for the past three years. The course is offered in a seven-week accelerated format during the summer in an online and asynchronous mode. The EwP module is covered over the course of two weeks and is the subject of one of the major homework assignments for the semester. The first part of the assignment involves creating a basic model, similar in complexity to the Bookstore Model, and doing sensitivity analysis, goal seeking and simulation with the model. It requires the students to import and use the \code{whatif.py} package we created as part of the module. The second part of the assignment is based on the last submodule and requires  students to complete a task involving creation of a multi-sheet Excel workbook from a set of csv files using Python. Then, using the openpyxl library, they have to create and add formulas to the workbook and format them properly. The ranges used in the formulas vary by sheet and require determination of the number of rows in each sheet of data and use that information to construct the appropriate formula. An example assignment is available from \href{https://drive.google.com/file/d/1prf8acZXZ4RoYBgQ8e9-eijA65uV7T-V/view?usp=sharing}{here}. The module has been well received and several of the working students have reported back to me that they have found use cases for these techniques in their day to day analytical activities.
 
