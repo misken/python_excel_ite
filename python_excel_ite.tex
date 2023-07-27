@@ -240,37 +240,8 @@ The overall goal is to build a Python based version of this model that will allo
 
 \subsubsection{Build first model - procedural approach}
  
-We start with a very simple model that ignores the uncertainty in demand and that is not object oriented. Proceeding much like we would in Excel, base input values are stored in variables. 
+We start with a very simple model that ignores the uncertainty in demand and that is not object oriented. Proceeding much like we would in Excel, base input values are stored in variables. Students are given skeleton code as scaffolding and must finish the expressions for computing key intermediate outputs (\code{order\_cost, sales\_revenue, refund\_revenue}) and the final output, \code{profit} -- see Figure \ref{fig:model_inputs}
 
-\begin{tcolorbox}
-\begin{minted}[gobble=0]{python}
-# Base inputs
-unit_cost = 7.50
-selling_price = 10.00
-unit_refund = 2.50
-
-# Demand parameters
-demand_mean = 193
-demand_sd = 40
-
-# Deterministic model
-demand = demand_mean
-
-# Initial value for order quantity - this is the decision variable
-order_quantity = 200
-\end{minted}
-\end{tcolorbox}
-
-Students are given skeleton code as scaffolding and must finish the expressions for computing key intermediate outputs (\code{order\_cost, sales\_revenue, refund\_revenue}) and the final output, \code{profit}. 
-
-\begin{tcolorbox}
-\begin{minted}[gobble=0]{python}
-order_cost = unit_cost * order_quantity
-sales_revenue = ??? * selling_price
-refund_revenue = ??? * unit_refund
-profit = sales_revenue + refund_revenue - order_cost
-\end{minted}
-\end{tcolorbox}
 
 \begin{figure*}[!htbp]
 	\centering
@@ -281,74 +252,43 @@ profit = sales_revenue + refund_revenue - order_cost
 
 Answers are provided at the bottom of the notebook so that students can attempt to finish the code but have a resource to correctly complete the code and move on. The screencast associated with the notebook also shows the code being completed in a subsequent code cell. Using skeleton code in this way has worked well both for lab based versions of this type of course as well as for online asynchronous versions. For a lab based course, students actively work on completing the code during class and the instructor can move around the lab acting as a guide and consultant.
 
-At this point we discuss a fundamental difference between the computing model of Excel and that of Jupyter notebooks -- while spreadsheets respond automatically to changes, Jupyter notebooks require rerunning all code cells that include or follow the changed code. This difference in behavior between Jupyter notebooks and spreadsheets might be one of the most important concepts for students to internalize. A well known challenge, often referred to as the \textit{hidden state problem}, associated with computational notebooks is the ease of running code cells out of order and introducing inadvertent errors \cite{\cite{johnson2020benefits},grusDonNotebooks2018}. This point along with strategies to avoid it are discussed during the first week of the course which focuses on \href{http://www.sba.oakland.edu/faculty/isken/courses/mis6900/jupyter_notebooks.html}{notebook computing best practices as well as a historical look} at computational notebooks.
+At this point we discuss a fundamental difference between the computing model of Excel and that of Jupyter notebooks -- while spreadsheets respond automatically to changes, Jupyter notebooks require rerunning all code cells that include or follow the changed code. This difference in behavior between Jupyter notebooks and spreadsheets might be one of the most important concepts for students to internalize. A well known challenge, often referred to as the \textit{hidden state problem}, associated with computational notebooks is the ease of running code cells out of order and introducing inadvertent errors \cite{johnson2020benefits,grusDonNotebooks2018}. This point along with strategies to avoid it are discussed during the first week of the course which focuses on \href{http://www.sba.oakland.edu/faculty/isken/courses/mis6900/jupyter_notebooks.html}{notebook computing best practices as well as a historical look} at computational notebooks.
 
 \subsubsection{Sensitivity analysis}
 
 Since order quantity is the key decision variable, we might want to see how profit changes for different order quantities. In Excel, the Data Table tool provides an easy way to do this and is a staple of spreadsheet based management science textbooks. In a Data Table, a range of order quantities can be used as row or column input and one or more output values can be computed. In Python, the vectorized nature of the \href{https://numpy.org/}{NumPy} library \cite{harris2020array} provides a simple way to accomplish the same thing. A range of order quantities is created as a NumPy array that can be used directly to compute vectors of all of the intermediate and final output variables. Much like Data Tables, vectorized computations avoid having to explicitly iterate, or loop, through a collection of input values.
 
-A natural next step is to do the equivalent of an Excel 2-way Data Table. By creating a profit function that takes all of the base inputs as arguments, a list comprehension can then be used to generate the equivalent of a 2-way Data Table. Even better, this actually allows us to do the equivalent of an n-way Data Table with an arbitrary number of outputs -- something Excel does not have. This example provides an effective way to show the power of creating reusable functions and Python's handy list comprehension construct.
+A natural next step is to do the equivalent of an Excel 2-way Data Table. By creating a profit function that takes all of the base inputs as arguments, a list comprehension can then be used to generate the equivalent of a 2-way Data Table. Even better, this actually allows us to do the equivalent of an n-way Data Table with an arbitrary number of outputs -- something Excel does not have. This example provides an effective way to show the power of creating reusable functions and Python's handy list comprehension construct. As shown in Figure \ref{fig:function_datatable}, a few code and markdown cells are used to create the code, provide some explanation and show the output. This is the same output one would get with an Excel 2-way Data Table, just laid out differently. Then in Figure \ref{fig:datatable_scatter} we show how the output can be turned into a scatter plot with profit mapped to a color hue.
 
-This code chunk,
 
-\begin{tcolorbox}[left=0mm]
-\begin{minted}[gobble=1]{python}
-	def bookstore_profit(unit_cost, selling_price, 
-	                     unit_refund, order_quantity, demand):
-	'''
-	Compute profit in bookstore model
-	'''
-		order_cost = unit_cost * order_quantity
-		sales_revenue = np.minimum(order_quantity, demand) * selling_price
-		refund_revenue = np.maximum(0, order_quantity - demand)
-		profit = sales_revenue + refund_revenue - order_cost
-		return profit
-	
-	# Set up input vector ranges	
-	demand_range = np.arange(50, 301, 5)
-	order_quantity_range = np.arange(50, 301, 25)
-	
-	# Create data table (as a list of tuples)
-	data_table_1 = [(d, oq, bookstore_profit(
-	                 unit_cost, selling_price, unit_refund, oq, d)) 
-	for d in demand_range for oq in order_quantity_range]
-	
-	# Convert to dataframe
-	dtbl_1_df = pd.DataFrame(data_table_1, 
-	                         columns=['Demand', 'OrderQuantity', 'Profit'])
-	
-\end{minted}
-\end{tcolorbox}
+\begin{figure*}[!htbp]
+	\centering
+	\caption{A 2-way data table}
+	\includegraphics[scale=0.5]{images/function_datatable.png}
+	\label{fig:function_datatable}
+\end{figure*}
 
-results in the following output:
 
-\begin{tcolorbox}
-	\begin{verbatim}
-	   Demand  OrderQuantity  Profit
-	      50             50   125.0
-	      50             75   -37.5
-	      50            100  -200.0
-	      50            125  -362.5
-	      50            150  -525.0
-	      ...
-	     300            275   687.5
-	     300            300   750.0
-\end{verbatim}
-\end{tcolorbox}
+\begin{figure*}[!htbp]
+	\centering
+	\caption{Scatter plot based on 2-way data table}
+	\includegraphics[scale=0.5]{images/datatable_scatter.png}
+	\label{fig:datatable_scatter}
+\end{figure*}
 
-While laid out differently, this is the same output produced by a 2-way Data Table in Excel. At this point, we pause to consider a higher level design question.
+
 
 \subsubsection{The object nature of Python}
 
-It is not clear whether this non-object oriented approach will end up making the most sense for doing spreadsheet type modeling in Python. This uncertainty is made explicit in the notebook and students are led on a bit of a journey of discovery as we explore different software designs for this modeling problem. I purposefully designed the notebooks in this way to show students that the path to a solution is not necessarily linear and that giving yourself the freedom to explore alternatives, many of which will be dead ends, can lead to a rich learning experience. It is also more realistic in the sense that this is how most real problems are solved. It is analogous to the idea that mathematical proofs usually do not reflect the myriad of failed approaches that were tried but that ultimately contributed to the final product.
+It is not clear whether this non-object oriented procedural approach will end up making the most sense for doing spreadsheet type modeling in Python. This uncertainty is made explicit in the notebook and students are led on a bit of a journey of discovery as we explore different software designs for this modeling problem. I purposefully designed the notebooks in this way to show students that the path to a solution is not necessarily linear and that giving yourself the freedom to explore alternatives, many of which will be dead ends, can lead to a rich learning experience. It is also more realistic in the sense that this is how most real problems are solved. It is analogous to the idea that mathematical proofs usually do not reflect the myriad of failed approaches that were tried but that ultimately contributed to the final product.
 
 In preparation for building an object oriented version of the model, basic object concepts are reviewed. Since most students have done some Excel VBA programming in a previous course, I refer back to a few properties and methods of the Excel \code{Worksheet} object. In Python, everything is an object. Using Python lists as an example, we explore some of its attributes such as methods for appending items to a list and reversing the order of its elements. The \code{dir} function is used to see all of an object's attributes and we see that even things like integers are objects in Python. With this basic object refresher, we are ready to do some actual object oriented programming and create our own classes.
 
 \subsubsection{Creating an object oriented model}
 
-For our initial design of a \code{BookstoreModel} class we make all of the base inputs class attributes (properties) and then add method attributes to compute outputs such as costs, revenues and profits. Students can easily see the mapping between elements in the initial procedural model and this new object oriented version. Several important concepts and syntactical details of doing object oriented programming Python are highlighted. Again, the goal is to weave in these more advanced Python programming concepts within the context of a very familiar modeling problem. This section of the notebook ends with using the \code{BookstoreModel} class to create a new model object instance with all of its base inputs instantiated with values. Before moving, on students are presented with a few challenges involving enhancements to the \code{BookstoreModel} class. Interspersing short coding challenges throughout the notebook gives students a chance to test themselves on their understanding and to get some coding practice.
+For our initial design of a \code{BookstoreModel} class we make all of the base inputs class attributes (properties) and then add method attributes to compute outputs such as costs, revenues and profits. Students can easily see the mapping between elements in the initial procedural model and this new object oriented version. Several important concepts and syntactical details of doing object oriented programming Python are highlighted. Again, the goal is to weave in these more advanced Python programming concepts within the context of a very familiar modeling problem. This section of the notebook ends with using the \code{BookstoreModel} class to create a new model object instance with all of its base inputs instantiated with values. Before moving on, students are presented with a challenges involving enhancements to the \code{BookstoreModel} class. Interspersing short coding challenges throughout the notebook gives students a chance to test themselves on their understanding and to get some coding practice.
 
-A few design dilemmas are posed and some non-working approaches illustrated as we try to decide on how to implement an n-way data table function for this new object oriented model. These meta reflections are intentionally included to better mimic actual software development and reinforce the idea that software development is much more than simply writing code to implement a perfectly thought out design. We forge ahead with some preliminary ideas and are confronted with an intermediate problem related to generating a list of dictionaries that represent combinations of inputs, or \textit{scenarios}, to evaluate. This provides a great opportunity to remind students of one of the great strengths of the open source software ecosystem -- we can leverage work done in other packages and even look at actual source code to see how something was implemented. In this case, the well known \href{https://scikit-learn.org/stable/}{scikit-learn} package \cite{scikit-learn} has a \code{ParameterGrid} function that solves our scenario generation problem quite nicely. This example also reminds the students of the value of being able to make sense of API documentation and of object oriented code written by others. 
+A few design dilemmas are posed and some non-working approaches illustrated as we try to decide on how to implement an n-way data table function for this new object oriented model. These meta reflections are intentionally included to better mimic actual software development and reinforce the idea that software development is much more than simply writing code to implement a perfectly thought out design. We forge ahead with some preliminary ideas and are confronted with an intermediate problem related to generating a list of dictionaries that represent combinations of inputs, or \textit{scenarios}, to evaluate. This provides a great opportunity to remind students of one of the great strengths of the open source software ecosystem -- we can leverage work done in other packages and even look at actual source code to see how something was implemented. In this case, the well known \href{https://scikit-learn.org/stable/}{scikit-learn} package \cite{scikit-learn} has a \code{ParameterGrid} function that solves our scenario generation problem quite nicely. This example also reminds the students of the value of being able to make sense of API documentation and to understand object oriented code written by others. 
 
 This first notebook draws to a close with the creation of a \code{data\_table} function that allows us to do sensitivity analysis with the objected oriented model. The payoff is the creation of the following faceted plot showing how profit varies for different order quantities and demand levels. We recap the main things learned in this notebook and prepare to add goal seeking capability to our model.
 
@@ -357,7 +297,7 @@ This first notebook draws to a close with the creation of a \code{data\_table} f
 	\begin{minipage}{.80\textwidth}
 		\includegraphics[width=1.0\textwidth]{images/two_way_dt.png}
 	\end{minipage}
-	\caption{Plot based on 2-way data table}
+	\caption{Faceted plot based on 2-way data table}
 	\label{fig:2way_dt}
 \end{figure}
 
@@ -372,7 +312,7 @@ A \code{goal\_seek} function is created that implements a simple bisection searc
 
 \subsection{Notebook 3: Monte-Carlo simulation}
 
-In the Excel modeling world, Monte-Carlo simulation can be done without add-ins, but packages like @Risk \cite{palisadeRISKRiskAnalysis} can make the process much easier. In particular, random variable generation for a wide range of probability distributions is facilitated by add-ins like @Risk. In Python, the NumPy package provide random variate generation for a large number of distributions and similarly, SciPy provides functions for computing distribution related quantities for many probability distributions. Much like we did when creating the \code{data\_table} function, we start with adding uncertainty to a single input variable in the bookstore model and rely on NumPy's vectorized computing capabilities to generate the profit associated with each realization of the random input. Then we can do standard statistical analysis of the simulation output using Python packages such as pandas and SciPy. In spreadsheet based simulation textbooks, the notion of the ``Flaw of Averages'' popularized by Sam Savage \cite{savageFlawAveragesWhy2012} is often illustrated. We do the same with our Python based model, showing how replacing random demand by its mean can result in a wildly optimistic estimate of the mean profit found through analyzing the simulation output. Much like doing simulation in Excel without add-ins, using Python makes transparent the quite simple and brute force nature of Monte-Carlo simulation.
+In the Excel modeling world, Monte-Carlo simulation can be done without add-ins, but packages like \href{https://lumivero.com/products/at-risk/}{@Risk} can make the process much easier. In particular, random variable generation for a wide range of probability distributions is facilitated by add-ins like @Risk. In Python, the \href{https://numpy.org/doc/stable/reference/random/generator.html}{NumPy package provide random variate generation} for a large number of distributions and similarly, \href{https://docs.scipy.org/doc/scipy/reference/stats.html}{SciPy provides functions for computing distribution related quantities} for many probability distributions. Much like we did when creating the \code{data\_table} function, we start with adding uncertainty to a single input variable in the bookstore model and rely on NumPy's vectorized computing capabilities to generate the profit associated with each realization of the random input. Then we can do standard statistical analysis of the simulation output using Python packages such as pandas and SciPy. In spreadsheet based simulation textbooks, the notion of the ``Flaw of Averages'' popularized by Sam Savage \cite{savageFlawAveragesWhy2012} is often illustrated. We do the same with our Python based model, showing how replacing random demand by its mean can result in a wildly optimistic estimate of the mean profit found through analyzing the simulation output. Much like doing simulation in Excel without add-ins, using Python makes transparent the quite simple and brute force nature of Monte-Carlo simulation.
 
 Moving on to multiple uncertain inputs raises challenges much like those we faced when moving from a 1-way to an n-way data table function. In addition to modeling multiple uncertain inputs, we want to be able to specify a range of scenarios to run, much like we did for the \code{data\_table} function. The following set of design criteria are presented for a \code{simulate} function.
 
