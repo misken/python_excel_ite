@@ -9,8 +9,9 @@
 \documentclass[ited,blindrev]{informs3}              % for review, blinded
 
 \usepackage[most]{tcolorbox}
-\usepackage{minted}
-\tcbuselibrary{minted} % tcolorbox minted library, required to use the "minted" tcb listing engine (this library is not loaded by the option [most])
+\usepackage{graphicx}
+%\usepackage{minted}
+%\tcbuselibrary{minted} % tcolorbox minted library, required to use the "minted" tcb listing engine (this library is not loaded by the option [most])
 \usepackage[colorlinks]{hyperref} % ALWAYS load this package LAST
 
 
@@ -76,12 +77,12 @@
 % Title or shortened title suitable for running heads. Sample:
 % \RUNTITLE{Bundling Information Goods of Decreasing Value}
 % Enter the (shortened) title:
-\RUNTITLE{Spreadsheet-ish modeling with Python}
+\RUNTITLE{Spreadsheet modeling and wrangling with Python}
 
 % Full title. Sample:
 % \TITLE{Bundling Information Goods of Decreasing Value}
 % Enter the full title:
-\TITLE{Spreadsheet-ish modeling with Python}
+\TITLE{Spreadsheet modeling and wrangling with Python}
 
 % Block of authors and their affiliations starts here:
 % NOTE: Authors with same affiliation, if the order of authors allows, 
@@ -181,17 +182,17 @@ The ability to weave standard explanatory language with formal programming langu
 
 
 \begin{figure*}[!htbp]
-	\centering
-	\includegraphics[scale=0.5]{images/cells_edit_mode.png}
-	\caption{Notebook cells in edit model}
-	\label{fig:cells_edit_mode}
+\centering
+\includegraphics[scale=0.5]{cells_edit_mode}
+\caption{Notebook cells in edit model}
+\label{fig:cells_edit_mode}
 \end{figure*}
 
 \begin{figure*}[!htbp]
-	\centering
-	\includegraphics[scale=0.5]{images/cells_after_running.png}
-	\caption{Notebook cells after execution}
-	\label{fig:cells_after_running}
+\centering
+\includegraphics[scale=0.5]{cells_after_running}
+\caption{Notebook cells after execution}
+\label{fig:cells_after_running}
 \end{figure*}
 
 
@@ -218,9 +219,9 @@ The stage is set with an overview of a typical spreadsheet based model that most
 
 
 \begin{figure}[!htbp]
-	\includegraphics[width=1.0\textwidth]{images/output_2_0.png}
-	\caption{Typical spreadsheet model}
-	\label{fig:xl_model}
+\includegraphics[width=1.0\textwidth]{output_2_0}
+\caption{Typical spreadsheet model}
+\label{fig:xl_model}
 \end{figure}
 
 We then introduce a similar modeling problem that will be the focus of the rest of the notebook. The Walton Bookstore problem appears in the chapter on Monte-Carlo simulation in textbooks that I have used in my spreadsheet modeling course \cite{albrightBusinessAnalyticsData2016,winstonPracticalManagementScience2018}. The (slightly modified) problem is as follows:
@@ -242,10 +243,10 @@ We start with a very simple model that ignores the uncertainty in demand and doe
 
 
 \begin{figure}[!htbp]
-	\centering
-	\includegraphics[scale=0.5]{images/model_inputs.png}
-	\caption{Instantiating model inputs and creating output formulas}
-	\label{fig:model_inputs}
+\centering
+\includegraphics[scale=0.5]{model_inputs}
+\caption{Instantiating model inputs and creating output formulas}
+\label{fig:model_inputs}
 \end{figure}
 
 Answers are provided at the bottom of the notebook so that students can attempt to finish the code but have a resource to correctly complete the code and move on. The screencast associated with the notebook also shows the code being completed in a subsequent code cell. Using skeleton code in this way has worked well both for lab based versions of this type of course as well as for online asynchronous versions. For a lab based course, students actively work on completing the code during class and the instructor can move around the lab acting as a guide and consultant.
@@ -260,18 +261,18 @@ A natural next step is to do the equivalent of an Excel 2-way Data Table. By cre
 
 
 \begin{figure}[!htbp]
-	\centering
-	\includegraphics[scale=0.5]{images/function_datatable.png}
-	\caption{A 2-way data table}
-	\label{fig:function_datatable}
+\centering
+\includegraphics[scale=0.5]{function_datatable}
+\caption{A 2-way data table}
+\label{fig:function_datatable}
 \end{figure}
 
 
 \begin{figure}[!htbp]
-	\centering
-	\includegraphics[scale=0.5]{images/datatable_scatter.png}
-	\caption{Scatter plot based on 2-way data table}
-	\label{fig:datatable_scatter}
+\centering
+\includegraphics[scale=0.5]{datatable_scatter}
+\caption{Scatter plot based on 2-way data table}
+\label{fig:datatable_scatter}
 \end{figure}
 
 
@@ -291,10 +292,10 @@ A few design dilemmas are posed and some non-working approaches illustrated as w
 This first notebook draws to a close with the creation of a \code{data\_table} function that allows us to do sensitivity analysis with the objected oriented model. The payoff is the creation of the following faceted plot showing how profit varies for different order quantities and demand levels. We recap the main things learned in this notebook and prepare to add goal seeking capability to our model.
 
 \begin{figure}[!htbp]
-	\centering
-	\includegraphics[width=1.0\textwidth]{images/two_way_dt.png}
-	\caption{Faceted plot based on 2-way data table}
-	\label{fig:2way_dt}
+\centering
+\includegraphics[width=1.0\textwidth]{two_way_dt}
+\caption{Faceted plot based on 2-way data table}
+\label{fig:2way_dt}
 \end{figure}
 
 
@@ -313,29 +314,29 @@ In the Excel modeling world, Monte-Carlo simulation can be done without add-ins,
 Moving on to multiple uncertain inputs raises challenges similar to those we faced when moving from a 1-way to an n-way data table function. In addition to modeling multiple uncertain inputs, we want to be able to specify a range of scenarios to run, just as we did for the \code{data\_table} function. Figure \ref{fig:oo_sim_design_specs} shows the design specifications for our \code{simulate} function.
 
 \begin{figure}[!htbp]
-	\centering
-	\includegraphics[scale=0.5]{images/oo_sim_design_specs.png}
-	\caption{Design specification for \code{simulate()} function}
-	\label{fig:oo_sim_design_specs}
+\centering
+\includegraphics[scale=0.5]{oo_sim_design_specs}
+\caption{Design specification for \code{simulate()} function}
+\label{fig:oo_sim_design_specs}
 \end{figure}
 
 
 This is followed by a well commented first attempt at a \code{simulate} function. By this point, students are well equipped to understand the code as it builds on basic Python concepts and more advanced concepts that we have already covered in the EwP module. The rest of the notebook is spent trying out the \code{simulate()} function and ends with creating a grouped boxplot, see Figure \ref{fig:boxplot}, along with a faceted plot of profit histograms created with the popular \href{https://seaborn.pydata.org/}{Seaborn} package.
 
 \begin{figure}[!htbp]
-	\centering
-	\includegraphics[width=1.0\textwidth]{images/boxplots.png}
-	\caption{Profit boxplots by order quantity}
-	\label{fig:boxplot}
+\centering
+\includegraphics[width=1.0\textwidth]{boxplots}
+\caption{Profit boxplots by order quantity}
+\label{fig:boxplot}
 \end{figure}
 
 The first submodule and its three notebooks are very much about the type of modeling typically done in a spreadsheet based course. In a spreadsheet based course, students learn numerous Excel functions and techniques in the process of building and exercising such models. Similarly, numerous Python techniques are scattered throughout the three modeling focused notebooks. Now we shift gears and move beyond what might be considered prototyping and into the realm of deployment. Figure \ref{fig:sim_wrapup} shows how the notebook ends and gives students a preview of the next submodule.
 
 \begin{figure}[!htbp]
-	\centering
-	\includegraphics[scale=0.5]{images/sim_wrapup.png}
-	\caption{Closing thoughts in simulation notebook}
-	\label{fig:sim_wrapup}
+\centering
+\includegraphics[scale=0.5]{sim_wrapup}
+\caption{Closing thoughts in simulation notebook}
+\label{fig:sim_wrapup}
 \end{figure}
 
 \section{Submodule 2: The packaging and documentation notebooks}
@@ -491,11 +492,177 @@ Rumors have swirled for a number of years that Microsoft was considering adding 
 
 % CASE 1: BiBTeX used to constantly update the references 
 %   (while the paper is being written).
-\bibliographystyle{informs2014} % outcomment this and next line in Case 1
-\bibliography{python_excel.bib} % if more than one, comma separated
+%\bibliographystyle{informs2014} % outcomment this and next line in Case 1
+%\bibliography{python_excel.bib} % if more than one, comma separated
 
 % CASE 2: BiBTeX used to generate mypaper.bbl (to be further fine tuned)
 %\input{mypaper.bbl} % outcomment this line in Case 2
+\begin{thebibliography}{29}
+	\providecommand{\natexlab}[1]{#1}
+	\providecommand{\url}[1]{\texttt{#1}}
+	\providecommand{\urlprefix}{URL }
+	
+	\bibitem[{Albright \protect\BIBand{}
+		Winston(2016)}]{albrightBusinessAnalyticsData2016}
+	Albright SC, Winston WL (2016) \emph{Business {{Analytics}}: {{Data Analysis}}
+		\& {{Decision Making}} - {{Standalone}} Book} ({Boston, MA}: {Cengage
+		Learning}), 6th edition edition, ISBN 978-1-305-94754-2.
+	
+	\bibitem[{{Audrey Roy and Cookiecutter
+			community}(2012)}]{audreyroyandcookiecuttercommunityCookiecutterBetterProject2012}
+	{Audrey Roy and Cookiecutter community} (2012) \emph{Cookiecutter: {{Better}}
+		Project Templates}.
+	
+	\bibitem[{Barba et~al.(2019)Barba, Barker, Blank, Brown, Downey, George, Heagy,
+		Mandli, Moore, Lippert et~al.}]{barba2019teaching}
+	Barba LA, Barker LJ, Blank DS, Brown J, Downey AB, George T, Heagy LJ, Mandli
+	KT, Moore JK, Lippert D, et~al. (2019) Teaching and learning with
+	{{Jupyter}}. \emph{Recuperado: https://jupyter4edu. github.
+		io/jupyter-edu-book} .
+	
+	\bibitem[{Buezen \protect\BIBand{}
+		Timbers(2022)}]{buezenWelcomePythonPackages2022}
+	Buezen T, Timbers T (2022) Welcome to {{Python Packages}}! \textemdash{}
+	{{Python Packages}}. https://py-pkgs.org/.
+	
+	\bibitem[{Camm et~al.(2020)Camm, Cochran, Fry, \protect\BIBand{}
+		Ohlmann}]{camm2020business}
+	Camm JD, Cochran JJ, Fry MJ, Ohlmann JW (2020) \emph{Business Analytics}
+	({Cengage Learning}).
+	
+	\bibitem[{Canny(2013)}]{cannyPythonpptx2013}
+	Canny S (2013) Python-pptx. https://python-pptx.readthedocs.io/en/latest/.
+	
+	\bibitem[{Cimpanu(2017)}]{cimpanuMicrosoftConsidersAdding2017}
+	Cimpanu C (2017) Microsoft {{Considers Adding Python}} as an {{Official
+			Scripting Language}} to {{Excel}}.
+	https://www.bleepingcomputer.com/news/microsoft/microsoft-considers-adding-python-as-an-official-scripting-language-to-excel/.
+	
+	\bibitem[{Grus(2018)}]{grusDonNotebooks2018}
+	Grus J (2018) I don't like notebooks ({JupyterCon 2018 (New York)}).
+	
+	\bibitem[{Harris et~al.(2020)Harris, Millman, {van der Walt}, Gommers,
+		Virtanen, Cournapeau, Wieser, Taylor, Berg, Smith, Kern, Picus, Hoyer, {van
+			Kerkwijk}, Brett, Haldane, {del R{\'i}o}, Wiebe, Peterson,
+		{G{\'e}rard-Marchant}, Sheppard, Reddy, Weckesser, Abbasi, Gohlke,
+		\protect\BIBand{} Oliphant}]{harris2020array}
+	Harris CR, Millman KJ, {van der Walt} SJ, Gommers R, Virtanen P, Cournapeau D,
+	Wieser E, Taylor J, Berg S, Smith NJ, Kern R, Picus M, Hoyer S, {van
+		Kerkwijk} MH, Brett M, Haldane A, {del R{\'i}o} JF, Wiebe M, Peterson P,
+	{G{\'e}rard-Marchant} P, Sheppard K, Reddy T, Weckesser W, Abbasi H, Gohlke
+	C, Oliphant TE (2020) Array programming with {{NumPy}}. \emph{Nature}
+	585(7825):357--362,
+	\urlprefix\url{http://dx.doi.org/10.1038/s41586-020-2649-2}.
+	
+	\bibitem[{Johnson(2020)}]{johnson2020benefits}
+	Johnson JW (2020) Benefits and pitfalls of jupyter notebooks in the classroom.
+	\emph{Proceedings of the 21st Annual Conference on Information Technology
+		Education}, 32--37.
+	
+	\bibitem[{{Jupyter Team}(2015)}]{jupyterteamProjectJupyterDocumentation2015}
+	{Jupyter Team} (2015) Project jupyter documentation.
+	https://docs.jupyter.org/en/latest/.
+	
+	\bibitem[{McKinney(2022)}]{mckinney2022python}
+	McKinney W (2022) \emph{Python for Data Analysis} ({O'Reilly}).
+	
+	\bibitem[{Moffitt(2022)}]{moffittPracticalBusinessPython2022}
+	Moffitt C (2022) Practical {{Business Python}}. https://pbpython.com/.
+	
+	\bibitem[{Nelson(2024)}]{nelsonSoftwareEngineeringData2024}
+	Nelson C (2024) \emph{Software {{Engineering}} for {{Data Scientists}}}
+	({O'Reilly}), ISBN 978-1-09-813619-2.
+	
+	\bibitem[{Pedregosa et~al.(2011)Pedregosa, Varoquaux, Gramfort, Michel,
+		Thirion, Grisel, Blondel, Prettenhofer, Weiss, Dubourg, Vanderplas, Passos,
+		Cournapeau, Brucher, Perrot, \protect\BIBand{} Duchesnay}]{scikit-learn}
+	Pedregosa F, Varoquaux G, Gramfort A, Michel V, Thirion B, Grisel O, Blondel M,
+	Prettenhofer P, Weiss R, Dubourg V, Vanderplas J, Passos A, Cournapeau D,
+	Brucher M, Perrot M, Duchesnay E (2011) Scikit-learn: {{Machine}} learning in
+	{{Python}}. \emph{Journal of Machine Learning Research} 12:2825--2830.
+	
+	\bibitem[{Perez \protect\BIBand{} Granger(2015)}]{perez2015project}
+	Perez F, Granger BE (2015) Project {{Jupyter}}: {{Computational}} narratives as
+	the engine of collaborative data science. \emph{Retrieved September}
+	11(207):108.
+	
+	\bibitem[{Perkel(2018)}]{perkel2018jupyter}
+	Perkel JM (2018) Why {{Jupyter}} is data scientists' computational notebook of
+	choice. \emph{Nature} 563(7732):145--147.
+	
+	\bibitem[{Powell(2001)}]{powellTeachingModelingManagement2001}
+	Powell SG (2001) Teaching {{Modeling}} in {{Management Science}}. \emph{INFORMS
+		Transactions on Education} 1(2):62--67, ISSN 1532-0545,
+	\urlprefix\url{http://dx.doi.org/10.1287/ited.1.2.62}.
+	
+	\bibitem[{Powell \protect\BIBand{}
+		Baker(2019)}]{powellBusinessAnalyticsArt2019}
+	Powell SG, Baker KR (2019) \emph{Business {{Analytics}}: {{The Art}} of
+		{{Modeling With Spreadsheets}}, 5th {{Edition}} | {{Wiley}}}.
+	
+	\bibitem[{Ragsdale(2017)}]{ragsdaleSpreadsheetModelingDecision2017}
+	Ragsdale C (2017) \emph{Spreadsheet {{Modeling}} \& {{Decision Analysis}}: {{A
+				Practical Introduction}} to {{Business Analytics}}} ({Australia}: {Cengage
+		Learning}), 8th edition edition, ISBN 978-1-305-94741-2.
+	
+	\bibitem[{Rodrigues(2023)}]{rodriguesBuildingReproducibleAnalytical2023}
+	Rodrigues B (2023) Building reproducible analytical pipelines with {{R}}.
+	https://raps-with-r.dev/.
+	
+	\bibitem[{Rule et~al.(2018)Rule, Birmingham, Zuniga, Altintas, Huang, Knight,
+		Moshiri, Nguyen, Rosenthal, P{\'e}rez et~al.}]{rule2018ten}
+	Rule A, Birmingham A, Zuniga C, Altintas I, Huang SC, Knight R, Moshiri N,
+	Nguyen MH, Rosenthal SB, P{\'e}rez F, et~al. (2018) Ten simple rules for
+	reproducible research in {{Jupyter}} notebooks. \emph{arXiv preprint
+		arXiv:1810.08055} .
+	
+	\bibitem[{Savage(2012)}]{savageFlawAveragesWhy2012}
+	Savage SL (2012) \emph{The {{Flaw}} of {{Averages}}: {{Why We Underestimate
+				Risk}} in the {{Face}} of {{Uncertainty}}} ({Hoboken, New Jersey}: {Wiley}),
+	1st edition edition, ISBN 978-1-118-07375-9.
+	
+	\bibitem[{Treadway(2023)}]{treadwaySoftwareEngineeringData2023}
+	Treadway A (2023) \emph{Software {{Engineering}} for {{Data Scientists}}}
+	({Manning}).
+	
+	\bibitem[{Ufford et~al.(2019)Ufford, {Pacer, M}, {Seal, Matthew},
+		\protect\BIBand{} {Kelley, Kyle}}]{uffordInteractiveNotebookInnovation2019}
+	Ufford M, {Pacer, M}, {Seal, Matthew}, {Kelley, Kyle} (2019) Beyond
+	{{Interactive}}: {{Notebook Innovation}} at {{Netflix}}.
+	https://netflixtechblog.com/notebook-innovation-591ee3221233.
+	
+	\bibitem[{Virtanen et~al.(2020)Virtanen, Gommers, Oliphant, Haberland, Reddy,
+		Cournapeau, Burovski, Peterson, Weckesser, Bright, {van der Walt}, Brett,
+		Wilson, Millman, Mayorov, Nelson, Jones, Kern, Larson, Carey, Polat, Feng,
+		Moore, VanderPlas, Laxalde, Perktold, Cimrman, Henriksen, Quintero, Harris,
+		Archibald, Ribeiro, Pedregosa, {van Mulbregt}, \protect\BIBand{} {SciPy 1.0
+			Contributors}}]{2020SciPy-NMeth}
+	Virtanen P, Gommers R, Oliphant TE, Haberland M, Reddy T, Cournapeau D,
+	Burovski E, Peterson P, Weckesser W, Bright J, {van der Walt} SJ, Brett M,
+	Wilson J, Millman KJ, Mayorov N, Nelson ARJ, Jones E, Kern R, Larson E, Carey
+	CJ, Polat {\.I}, Feng Y, Moore EW, VanderPlas J, Laxalde D, Perktold J,
+	Cimrman R, Henriksen I, Quintero EA, Harris CR, Archibald AM, Ribeiro AH,
+	Pedregosa F, {van Mulbregt} P, {SciPy 10 Contributors} (2020) {{SciPy}} 1.0:
+	{{Fundamental}} algorithms for scientific computing in python. \emph{Nature
+		Methods} 17:261--272,
+	\urlprefix\url{http://dx.doi.org/10.1038/s41592-019-0686-2}.
+	
+	\bibitem[{Walls(2023)}]{wallsMathematicalPython2023}
+	Walls P (2023) Mathematical {{Python}}.
+	https://github.com/patrickwalls/mathematicalpython.
+	
+	\bibitem[{Wickham(2014)}]{wickhamTidyData2014}
+	Wickham H (2014) Tidy {{Data}}. \emph{Journal of Statistical Software}
+	59:1--23, ISSN 1548-7660,
+	\urlprefix\url{http://dx.doi.org/10.18637/jss.v059.i10}.
+	
+	\bibitem[{Winston \protect\BIBand{}
+		Albright(2018)}]{winstonPracticalManagementScience2018}
+	Winston WL, Albright SC (2018) \emph{Practical {{Management Science}}}
+	({Australia ; Boston, MA}: {Cengage Learning}), 6th edition edition, ISBN
+	978-1-337-40665-9.
+	
+\end{thebibliography}
 
 \end{document}
 
