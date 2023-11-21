@@ -1,7 +1,7 @@
 # Response to reviewers of "Spreadsheet modeling and wrangling with Python"
 
 I'd like to thank the reviewer and the editor for their thoughtful comments on this paper. I have
-done by best to address them.
+done by best to address them and to improve the paper.
 
 
 ## Editor comments
@@ -34,9 +34,9 @@ In the opening paragraph I refer to the seminal issues of ITE but didn't referen
 
 The publication by Alderson (2022) is very relevant and I'm not sure how I missed seeing that. I've integrated it into the paper and cited it. Thank you for bringing it to my attention.
 
-"One particularly relevant example are the courses in computation offered by the Naval Postgraduate School and described in Alderson (2022). In their courses, Jupyter notebooks (discussed in more detail in the next section) play a prominent role in providing an interactive development and learning environment for Python within an operations research context."
+> One particularly relevant example are the courses in computation offered by the Naval Postgraduate School and described in Alderson (2022). In their courses, Jupyter notebooks (discussed in more detail in the next section) play a prominent role in providing an interactive development and learning environment for Python within an operations research context.
 
-In the first version I avoid citing my own work in ITE even though it is quite relevant. It now seems appropriate now to add these and I have done
+In the first version I avoid citing my own work in ITE even though it is quite relevant. It now seems appropriate to add these and I have done
 that in the section describing my speadsheet based analytics course.
 
 **Comment 2**
@@ -49,12 +49,12 @@ I understand. I've added more explanation to the relevant paragraph. As opposed 
 
 Here's the reworked paragraph:
 
-"At our institution, The EwP module is part of a business course entitled  [Advanced Analytics with
-Python](http://www.sba.oakland.edu/faculty/isken/courses/aap) (AAP). The students taking this course have already taken the PCDA course within which they learned fundamental Python programming within the context of data analytics over seven weeks. The PCDA course ends with intro to the [scikit-learn library](https://scikit-learn.org/stable/index.html) for doing predictive modeling in Python and the AAP course begins where the PCDA course ends. The EwP module follows immediately after the modules on machine learning and builds on the Python fundamentals which were covered in the PCDA course. The EwP module could also be used as part of a semester long Python based analytics course in which the Python modules covered in the PCDA course are followed by more advanced topics such as EwP or other topics in our AAP course. The only reason the EwP module is not included in the PCDA course is that Python is only covered in half of that course - the other half being an introduction to R and Linux. If you visit the open access [PCDA course
+> At our institution, The EwP module is part of a business course entitled  [Advanced Analytics with
+Python](http://www.sba.oakland.edu/faculty/isken/courses/aap) (AAP). The students taking this course have already taken the PCDA course within where learned fundamental Python programming within the context of data analytics over seven weeks. The PCDA course ends with intro to the [scikit-learn library](https://scikit-learn.org/stable/index.html) for doing predictive modeling in Python and the AAP course begins where the PCDA course ends. The EwP module follows immediately after the modules on machine learning and builds on the Python fundamentals which were covered in the PCDA course. The EwP module could also be used as part of a semester long Python based analytics course in which the Python modules covered in the PCDA course are followed by more advanced topics such as EwP or other topics in our AAP course. The only reason the EwP module is not included in the PCDA course is that Python is only covered in half of that course - the other half being an introduction to R and Linux. If you visit the open access [PCDA course
 website](http://www.sba.oakland.edu/faculty/isken/courses/pcda/)  and [AAP course
-website](http://www.sba.oakland.edu/faculty/isken/courses/aap/), you can see the topic outline for each course and how the EwP module is positioned."
+website](http://www.sba.oakland.edu/faculty/isken/courses/aap/), you can see the topic outline for each course and how the EwP module is positioned.
 
-I'd like to stress that a big part of my paper is that it isn't just a paper. It is backed by a huge amount of public, freely available and Creative Commons licensed course websites and course content. Anyone who is interested in adapting my materials for their course is free to do so. Everything other than all of the homework assignments are publicly accessible from the course websites. That's why throughout this paper I provide hyperlinks to relevant parts of the EwP course website or course content. This allows the reader to have a richer reading experience - instead of just a paper which necessarily is limited by what it can contain, the reader can view the entirety of the Jupyter notebooks, in html format, which make up the modules. ITE is an online journal and I'm trying to take advantage of the capabilities offered by such a platform.
+I'd like to stress that a big part of my paper is that it isn't just a paper. It is backed by a huge amount of public, freely available and Creative Commons licensed course websites and course content. Anyone who is interested in adapting my materials for their course is free to do so. Everything other than the homework assignments and quizzes are publicly accessible from the course websites. That's why throughout this paper I provide hyperlinks to relevant parts of the EwP course website or course content. This allows the reader to have a richer reading experience - instead of just a paper which necessarily is limited by what it can contain, the reader can view the entirety of the Jupyter notebooks, in html format, which make up the modules. ITE is an online journal and I'm trying to take advantage of the capabilities offered by such a platform.
 
 **Comment 3**
 
@@ -62,7 +62,7 @@ Are the students already familiar with the Jupyter notebook environment from the
 
 **Response 3**
 
-Yes, we use Jupyter notebooks as well as a integrated development environment (either Spyder, PyCharm, or VSCode) in the PCDA course. The same tools are used in the AAP course. All of the technical and logistical details of both courses are described in excruciating detail in the public course websites linked to in the paper. 
+Yes, we use Jupyter notebooks as well as a integrated development environment (either Spyder, PyCharm, or VSCode) in the PCDA course. The same tools are used in the AAP course. All of the technical and logistical details of both courses are described in excruciating detail in the public course websites linked to in the paper - see [Software and pcda virtual machine](http://www.sba.oakland.edu/faculty/isken/courses/pcda/pcda_vm.html) for the PCDA course and [Setting up your analytics machine](http://www.sba.oakland.edu/faculty/isken/courses/aap/setup_analytics_machine.html) for the AAP course.
 
 
 **Comment 4**
@@ -73,9 +73,11 @@ The same with source control – it is not clear to me why the program chose to 
 
 I didn't choose that. Version control is covered in the very first module of the AAP course and students use git and GitHub for the ML module that precedes the EwP module. The following sentence is in the original version of the paper:
 
-"Students are reminded of the importance of version control and we initialize a git repository for our budding package. The basics of version control were already covered in the first week of the course."
+> Students are reminded of the importance of version control and we initialize a git repository for our budding package. The basics of version control were already covered in the first week of the course.
 
 Again, the AAP course website main page at [http://www.sba.oakland.edu/faculty/isken/courses/aap/](http://www.sba.oakland.edu/faculty/isken/courses/aap/) contains a detailed topic outline and the reader can see what is covered when.
+
+The reason that we dive deeper into version control and project folder structure at this point is because we are now trying to create a deployable Python package containing the work we did in the previous three notebooks. These things matter in software development and we want to emphasize their importance to the students.
 
 
 **Comment 5**
@@ -121,8 +123,8 @@ have their limitations and the better our students are at assessing when a sprea
 
 My intent is to provide an interesting way for business students to learn more advanced Python concepts through a very familiar lens of spreadsheet modeling. In addition, I want to expose them to the abilities of Python in automating manipulation of spreadsheets. Now with MS announcing the inclusion of Python within Excel, the complementary nature of these two powerhouse tools will become even more important. To that end, I've modified the beginning of that paragraph as follows:
 
-"Despite numerous calls for, and predictions of, the eradication of spreadsheets from the business world, Excel and other spreadsheets are \href{https://benn.substack.com/p/the-next-billion-programmers}{alive and well}. Their flexibility is unparalleled and it is unrealistic to expect them to disappear anytime soon. If anything, the [recent announcement by Microsoft](https://techcommunity.microsoft.com/t5/excel-blog/announcing-python-in-excel-combining-the-power-of-python-and-the/ba-p/3893439)
- that users will be able combine Python scripts with Excel formulas within the same workbook, will likely solidify Excel's place in the analytics space."
+> Despite numerous calls for, and predictions of, the eradication of spreadsheets from the business world, Excel and other spreadsheets are \href{https://benn.substack.com/p/the-next-billion-programmers}{alive and well}. Their flexibility is unparalleled and it is unrealistic to expect them to disappear anytime soon. If anything, the [recent announcement by Microsoft](https://techcommunity.microsoft.com/t5/excel-blog/announcing-python-in-excel-combining-the-power-of-python-and-the/ba-p/3893439)
+ that users will be able combine Python scripts with Excel formulas within the same workbook, will likely solidify Excel's place in the analytics space.
 
 **Comment 2**
 
@@ -135,17 +137,17 @@ I wrestled with this when writing the paper. Instead of including more figures, 
 
 For example:
 
-3.3. Notebook 3: Monte-Carlo simulation (html version)
+> 3.3. Notebook 3: Monte-Carlo simulation ([html version](http://www.sba.oakland.edu/faculty/isken/excel_with_python/what_if_3_simulation.html))
 
 I also added explicit language early in the paper that highlighted these hyperlinks and encouraged readers to use them.
 
-"While all of the notebooks are publicly available (see Section 6), links to html versions of
+> While all of the notebooks are publicly available (see Section 6), links to html versions of
 each of the notebooks are provided throughout the document and readers are encouraged to use
-them while reading to see exactly how each topic is presented."
+them while reading to see exactly how each topic is presented.
 
-My intent is for the reader to open this html version in a browser tab and then they can see the entire notebook. Code snippets taken out of context are not nearly as useful as following the narrative flow of the notebook - this is the real strength of Jupyter notebooks for teaching.
+My intent is for the reader to open the html versions of the notebooks in a browser tab and then they can see the entire notebook. Code snippets taken out of context are not nearly as useful as following the narrative flow of the notebook - this is the real strength of Jupyter notebooks for teaching.
 
-If the reviewers really want me to add more code screenshots, I can, but I'd really prefer readers look at the (html versions of) the actual notebooks. Of course, the actual Jupyter notebooks are also available from the course website.
+If the reviewer and editor want me to add more code screenshots, I can, but I'd really prefer readers look at the (html versions of) the actual notebooks. Of course, the actual Jupyter notebooks are also available from the course website.
 
 
 **Comment 3**
@@ -162,11 +164,11 @@ this development.
 
 **Response 3**
 
-I've added reference to this development in the opening section as I mentioned in Response 1 above. I've also added a bit in the last section:
+I've added reference to this development in the opening section as I mentioned in Response 1 above. I've also made the last section all about the future which opens with this expanded paragraph.
 
-"Rumors have swirled for a number of years that Microsoft was considering adding Python as a first class language alternative to VBA within their MS Office suite of packages \cite{cimpanuMicrosoftConsidersAdding2017}. During the review process for this article, this development [finally
+> Rumors have swirled for a number of years that Microsoft was considering adding Python as a first class language alternative to VBA within their MS Office suite of packages \cite{cimpanuMicrosoftConsidersAdding2017}. During the review process for this article, this development [finally
 materialized](https://techcommunity.microsoft.com/t5/excel-blog/announcing-python-in-excel-combining-the-power-of-python-and-the/ba-p/3893439)
-, albeit in a limited roll out to beta testers. This has potentially enormous implications for the future of both Excel and Python. At this point, it is probably safe to say that this development further underscores the importance of business analytics students adding Python to their set of analytical toolbox."
+, albeit in a limited roll out to beta testers. This has potentially enormous implications for the future of both Excel and Python. At this point, it is probably safe to say that this development further underscores the importance of business analytics students adding Python to their analytical toolbox.
 
 Other than that, I'm not in a position to say a whole lot more right now. The roll out was restricted to those with Beta Channel access (which I do not have). It appears right now that this feature is designed to run in the Azure cloud environment, which is a little concerning. It's also not clear if we'll be able to write full blown code modules in Python instead of Excel VBA. It's just too early to know how this is going to play out.
 If and when this development is widely released, then certainly I will develop a teaching module to add to my AAP class and will likely add a very introductory module to my spreadsheet based analytics course. This will be a rich area for collaboration between the Excel and Python communities. Pretty exciting development but pales a bit in comparison to the chaos around Microsoft and OpenAI right now. :)
