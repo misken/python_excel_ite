@@ -90,7 +90,7 @@ Each submodule of EwP has a number of learning objectives that appear at the top
 submodule course webpage. I've added screenshots of these objectives so that readers can see
 how the objectives are presented to the students.
 
-As for assessment, in the final section of the paper, *Classroom experience and the future*, we described and made available for download an assignment that we have used for assessment of this material. It covers all aspects of the EwP module. 
+As for assessment, in the section of the paper entitled, *Software availability and classroom use*, we describe and make available for download an assignment that we have used for assessment of this material. It covers all aspects of the EwP module. 
 
 **Comment 6**
 
@@ -123,7 +123,7 @@ have their limitations and the better our students are at assessing when a sprea
 
 My intent is to provide an interesting way for business students to learn more advanced Python concepts through a very familiar lens of spreadsheet modeling. In addition, I want to expose them to the abilities of Python in automating manipulation of spreadsheets. Now with MS announcing the inclusion of Python within Excel, the complementary nature of these two powerhouse tools will become even more important. To that end, I've modified the beginning of that paragraph as follows:
 
-> Despite numerous calls for, and predictions of, the eradication of spreadsheets from the business world, Excel and other spreadsheets are \href{https://benn.substack.com/p/the-next-billion-programmers}{alive and well}. Their flexibility is unparalleled and it is unrealistic to expect them to disappear anytime soon. If anything, the [recent announcement by Microsoft](https://techcommunity.microsoft.com/t5/excel-blog/announcing-python-in-excel-combining-the-power-of-python-and-the/ba-p/3893439)
+> Despite numerous calls for, and predictions of, the eradication of spreadsheets from the business world, Excel and other spreadsheets are [alive and well](https://benn.substack.com/p/the-next-billion-programmers). Their flexibility is unparalleled and it is unrealistic to expect them to disappear anytime soon. If anything, the [recent announcement by Microsoft](https://techcommunity.microsoft.com/t5/excel-blog/announcing-python-in-excel-combining-the-power-of-python-and-the/ba-p/3893439)
  that users will be able combine Python scripts with Excel formulas within the same workbook, will likely solidify Excel's place in the analytics space.
 
 **Comment 2**
