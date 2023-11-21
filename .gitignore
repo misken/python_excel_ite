@@ -4,6 +4,8 @@
 *.pdf
 *.bak
 *.out
+*.blg
+*.bbl
 
 template-nb.ipynb
 
