@@ -1,3 +1,3 @@
 # python_excel_ite
 
-Teaching paper in preparation for submission to INFORMS Transactions on Education.
+Teaching paper in preparation under review for INFORMS Transactions on Education.
