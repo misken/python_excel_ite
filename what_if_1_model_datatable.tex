@@ -1,0 +1,2619 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{what\_if\_1\_model\_datatable}
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \hypertarget{excel-what-if-analysis-with-python---part-1-models-and-data-tables}{%
+\subsection{Excel ``What if?'' analysis with Python - Part 1: Models and
+Data
+Tables}\label{excel-what-if-analysis-with-python---part-1-models-and-data-tables}}
+
+    Excel is widely used for building and using models of business problems
+to explore the impact of various model inputs on key outputs. Built in
+``what if?'' tools such as Excel
+\href{https://support.microsoft.com/en-us/office/calculate-multiple-results-by-using-a-data-table-e95e2487-6ca6-4413-ad12-77542a5ea50b}{Data
+Tables} and
+\href{https://support.microsoft.com/en-us/office/use-goal-seek-to-find-the-result-you-want-by-adjusting-an-input-value-320cb99e-f4a4-417f-b1c3-4f369d6e66c7}{Goal
+Seek} are well known to power spreadsheet modelers. How might we do
+similar modeling and analysis using Python?
+
+While Python has been gaining momentum in the business analytics world,
+it is often used for data wrangling, analysis and visualization of
+tablular data using tools like pandas and matplotlib or Seaborn. You can
+find some great examples at \href{https://pbpython.com/}{Chris Moffit's
+Practical Business Python blog}. I use Python all the time for such
+tasks and teach a course called
+\href{http://www.sba.oakland.edu/faculty/isken/courses/mis5470/}{Practical
+Computing for Data Analytics} that is Python (and R) based. But, it got
+me to thinking. What about those things for which Excel is well suited
+such as building formula based models and doing sensitivity analysis on
+these models? What would those look like in Python?
+
+For example, here's a high level screenshot of a model that I assign for
+homework in my
+\href{http://www.sba.oakland.edu/faculty/isken/courses/mis5460/}{MIS
+4460/5460 Business Analytics class} (a spreadsheet based modeling
+class). It's a really simple model in which we are selling a single
+product that we produce. There is a fixed cost to producing the product
+as well as a variable production cost per unit. We can sell the product
+for some price and we believe that demand for the product is related to
+the selling price through a power function. Let's assume for now that we
+have sufficient capacity to produce to demand and that all inputs are
+deterministic (we'll deal with simulating uncertainty later in this
+document).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{IPython}\PY{n+nn}{.}\PY{n+nn}{display} \PY{k+kn}{import} \PY{n}{Image}
+\PY{n}{Image}\PY{p}{(}\PY{n}{filename}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{images/tech\PYZus{}sales\PYZus{}model.png}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    The details aren't so important right now as is the overall structure of
+the model. There's a few key inputs and some pretty straightforward
+formulas for computing cost, revenue and profit. Notice the 1-way Data
+Table being used to explore how profit varies for different selling
+prices. There's a graph driven by the Data Table and some Text Boxes
+used for annotation and summary interpretative comments. There's a
+button that launches Goal Seek to find the break even selling price and
+a 2-way Data Table (not shown) to explore the joint effect of selling
+price and variable cost. Classic Excel modeling stuff. How might we go
+about building a similar model using Python?
+
+    What if we wanted to push it a little further and model some of the key
+inputs with probability distributions to reflect our uncertainty about
+their values? In the Excel world, we might use add-ins such as @Risk
+which allow uncertain quantities to be directly modeled with probability
+distributions. For example, we might have a key input such as the
+exponent in the power function that relates selling price to demand that
+is highly uncertain. By modeling it with a probability distribution and
+then sampling from that distribution many times (essentially by
+recalcing the spreadsheet) we can generate a bunch of possible values
+for key outputs (e.g.~profit) and use statistics to summarize these
+outputs using things like histograms and summary stats. Often this type
+of simulation model is referred to as a \emph{Monte-Carlo} model to
+suggest repeated sampling from one or more probability distributions
+within an otherwise pretty static model. If you want to see such models
+in action, check out my
+\href{http://www.sba.oakland.edu/faculty/isken/courses/mis5460/simulation.html}{Simulation
+Modeling with Excel page} from my Business Analytics course. Again, how
+might we do this with Python?
+
+    In the remainder of this notebook (and subsequent follow on notebooks),
+we'll explore these questions and along the way introduce some basic
+object-oriented (OO) programming concepts and other slightly more
+advanced Python techniques. This is aimed at those who might have a
+strong Excel based background but only a basic familiarity with Python
+programming. We are going to use a slightly different problem example
+than the one I've discussed above (we'll save that one for an ``exercise
+for the motivated reader''). I've structured things as follows:
+
+\textbf{Part 1 - Models and Data Tables: this notebook} * The bookstore
+problem - Non-OO model for the bookstore problem - 1-, 2-, n-way Data
+Tables with the non-OO model * Everything is an object in Python * An OO
+model for the bookstore problem - 1-, 2-, n-way data tables with the OO
+model
+
+\textbf{Part 2 - Goal Seek: second notebook} * Goal Seek - a non-OO
+hornet's nest - the OO approach
+
+\textbf{Part 3 - Simulation: third notebook} * Monte-Carlo simulation
+
+\textbf{Part 4 - Create package: fourth notebook} * share the results
+
+\textbf{Part 5 - Simple GUI w/widgets: fifth notebook}
+
+    \hypertarget{import-some-libraries}{%
+\subsection{Import some libraries}\label{import-some-libraries}}
+
+We'll need several Python libraries for this post.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{copy}
+
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{from} \PY{n+nn}{mpl\PYZus{}toolkits}\PY{n+nn}{.}\PY{n+nn}{mplot3d} \PY{k+kn}{import} \PY{n}{Axes3D}
+\PY{k+kn}{import} \PY{n+nn}{seaborn} \PY{k}{as} \PY{n+nn}{sns}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{bookstore-model}{%
+\subsection{Bookstore model}\label{bookstore-model}}
+
+This example is based on one in the
+\href{https://host.kelley.iu.edu/albrightbooks/}{spreadsheet modeling
+textbook(s) I've used in my classes since 2001}. I started out using
+Practical Management Science by Winston and Albright and switched to
+their Business Analytics: Data Analysis and Decision Making (Albright
+and Winston) around 2013ish. In both books, they introduce the ``Walton
+Bookstore'' problem in the chapter on Monte-Carlo simulation. Here's the
+basic problem (with a few modifications):
+
+\begin{itemize}
+\tightlist
+\item
+  we have to place an order for a perishable product (e.g.~a calendar),
+\item
+  there's a known unit cost for each one ordered,
+\item
+  we have a known selling price,
+\item
+  demand is uncertain but we can model it with some simple probability
+  distribution,
+\item
+  for each unsold item, we can get a partial refund of our unit cost,
+\item
+  we need to select the order quantity for our one order for the year;
+  orders can only be in multiples of 25.
+\end{itemize}
+
+    \hypertarget{base-model---non-oo-approach}{%
+\subsubsection{Base model - non-OO
+approach}\label{base-model---non-oo-approach}}
+
+Starting simple, let's create some initialized variables for the base
+inputs.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Base inputs}
+\PY{n}{unit\PYZus{}cost} \PY{o}{=} \PY{l+m+mf}{7.50}
+\PY{n}{selling\PYZus{}price} \PY{o}{=} \PY{l+m+mf}{10.00}
+\PY{n}{unit\PYZus{}refund} \PY{o}{=} \PY{l+m+mf}{2.50}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Assume we've used historical data to estimate the mean and standard
+deviation of demand. Furthermore, let's pretend that a histogram
+revealed a relatively normal looking distribution. However, we are going
+to start by:
+
+\begin{itemize}
+\tightlist
+\item
+  assuming away the uncertainty,
+\item
+  treat demand as deterministic using the mean,
+\item
+  we'll do some sensitivity analysis to the demand.
+\end{itemize}
+
+Later, we'll use Monte-Carlo simulation with normally distribution
+demand.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Demand parameters}
+\PY{n}{demand\PYZus{}mean} \PY{o}{=} \PY{l+m+mi}{193}
+\PY{n}{demand\PYZus{}sd} \PY{o}{=} \PY{l+m+mi}{40}
+
+\PY{c+c1}{\PYZsh{} Deterministic model}
+\PY{n}{demand} \PY{o}{=} \PY{n}{demand\PYZus{}mean}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Finally, let's set the initial order quantity. This will be the variable
+we'll focus on in the sensitivity analysis (along with demand). Of
+course, if we pretend that we know demand is really equal to 193, then
+we'd only consider ordering 175 or 200 and would pick the one leading to
+higher profit. Let's set it to 200.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{order\PYZus{}quantity} \PY{o}{=} \PY{l+m+mi}{200}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Now we can compute the various cost and revenue components and get to
+the bottom line profit.
+
+\textbf{QUESTION 1:} Complete the lines of code below (answer at bottom
+of notebook)
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{order\PYZus{}cost} \PY{o}{=} \PY{n}{unit\PYZus{}cost} \PY{o}{*} \PY{n}{order\PYZus{}quantity}
+\PY{n}{sales\PYZus{}revenue} \PY{o}{=} \PY{err}{?}\PY{err}{?}\PY{err}{?} \PY{o}{*} \PY{n}{selling\PYZus{}price}
+\PY{n}{refund\PYZus{}revenue} \PY{o}{=} \PY{err}{?}\PY{err}{?}\PY{err}{?} \PY{o}{*} \PY{n}{unit\PYZus{}refund}
+\PY{n}{profit} \PY{o}{=} \PY{n}{sales\PYZus{}revenue} \PY{o}{+} \PY{n}{refund\PYZus{}revenue} \PY{o}{\PYZhy{}} \PY{n}{order\PYZus{}cost}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}, frame=single, framerule=2mm, rulecolor=\color{outerrorbackground}]
+\textcolor{ansi-cyan}{  Cell }\textcolor{ansi-green}{In[6], line 2}
+\textcolor{ansi-red}{    sales\_revenue = ??? * selling\_price}
+                    \^{}
+\textcolor{ansi-red}{SyntaxError}\textcolor{ansi-red}{:} invalid syntax
+
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{profit}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}, frame=single, framerule=2mm, rulecolor=\color{outerrorbackground}]
+\textcolor{ansi-red}{---------------------------------------------------------------------------}
+\textcolor{ansi-red}{NameError}                                 Traceback (most recent call last)
+Cell \textcolor{ansi-green}{In[7], line 1}
+\textcolor{ansi-green}{----> 1} \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,135,0}}{print}(\setlength{\fboxsep}{0pt}\colorbox{ansi-yellow}{profit\strut})
+
+\textcolor{ansi-red}{NameError}: name 'profit' is not defined
+    \end{Verbatim}
+
+    Of course, working in a Jupyter notebook is different than working in an
+Excel workbook. If we modify one of the base input values, the value of
+\texttt{profit} is \textbf{not} going to magically update.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{unit\PYZus{}cost} \PY{o}{=} \PY{l+m+mf}{8.00}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{profit}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    We either need to:
+
+\begin{itemize}
+\tightlist
+\item
+  rerun the code cell up above that computes the cost, revenue and
+  profit,
+\item
+  or make the unit cost change up above when we first initialized and
+  rerun all the cells,
+\item
+  or take a different approach\ldots{}
+\end{itemize}
+
+Since it feels like we are going to want to compute profit for different
+combinations of base input values, it makes sense to create a function
+to compute it. We'll do that eventually, but let's keep going with this
+simplistic approach for a bit longer and learn some things about working
+with vectors.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Reset entire model}
+
+\PY{c+c1}{\PYZsh{} Base inputs}
+\PY{n}{unit\PYZus{}cost} \PY{o}{=} \PY{l+m+mf}{7.50}
+\PY{n}{selling\PYZus{}price} \PY{o}{=} \PY{l+m+mf}{10.00}
+\PY{n}{unit\PYZus{}refund} \PY{o}{=} \PY{l+m+mf}{2.50}
+\PY{n}{demand} \PY{o}{=} \PY{l+m+mi}{193}
+\PY{n}{order\PYZus{}quantity} \PY{o}{=} \PY{l+m+mi}{200}
+
+\PY{c+c1}{\PYZsh{} Intermediate variables}
+\PY{n}{order\PYZus{}cost} \PY{o}{=} \PY{n}{unit\PYZus{}cost} \PY{o}{*} \PY{n}{order\PYZus{}quantity}
+\PY{n}{sales\PYZus{}revenue} \PY{o}{=} \PY{n+nb}{min}\PY{p}{(}\PY{n}{order\PYZus{}quantity}\PY{p}{,} \PY{n}{demand}\PY{p}{)} \PY{o}{*} \PY{n}{selling\PYZus{}price}
+\PY{n}{refund\PYZus{}revenue} \PY{o}{=} \PY{n+nb}{max}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{order\PYZus{}quantity} \PY{o}{\PYZhy{}} \PY{n}{demand}\PY{p}{)} \PY{o}{*} \PY{n}{unit\PYZus{}refund}
+
+\PY{c+c1}{\PYZsh{} Key output variable}
+\PY{n}{profit} \PY{o}{=} \PY{n}{sales\PYZus{}revenue} \PY{o}{+} \PY{n}{refund\PYZus{}revenue} \PY{o}{\PYZhy{}} \PY{n}{order\PYZus{}cost}
+
+\PY{n}{message} \PY{o}{=} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Order Cost}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{:}\PY{l+s+s2}{15}\PY{l+s+si}{\PYZcb{}}\PY{l+s+si}{\PYZob{}}\PY{n}{order\PYZus{}cost}\PY{l+s+si}{:}\PY{l+s+s2}{10.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}} \PYZbs{}
+          \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sales Revenue}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{:}\PY{l+s+s2}{15}\PY{l+s+si}{\PYZcb{}}\PY{l+s+si}{\PYZob{}}\PY{n}{sales\PYZus{}revenue}\PY{l+s+si}{:}\PY{l+s+s2}{10.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}} \PYZbs{}
+          \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Refund}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{:}\PY{l+s+s2}{15}\PY{l+s+si}{\PYZcb{}}\PY{l+s+si}{\PYZob{}}\PY{n}{refund\PYZus{}revenue}\PY{l+s+si}{:}\PY{l+s+s2}{10.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}} \PYZbs{}
+          \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Profit}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{:}\PY{l+s+s2}{15}\PY{l+s+si}{\PYZcb{}}\PY{l+s+si}{\PYZob{}}\PY{n}{profit}\PY{l+s+si}{:}\PY{l+s+s2}{10.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{message}\PY{p}{)} 
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Order Cost        1500.00
+Sales Revenue     1930.00
+Refund              17.50
+Profit             447.50
+    \end{Verbatim}
+
+    Notice we've used Python's newish approach to formatting strings called
+\href{https://realpython.com/python-f-strings/}{f-strings}. See
+https://pyformat.info/ for the basics on the format specification (using
+examples comparing the old \% style formatting versus the newer
+\texttt{str.format()} approach) or the
+\href{https://docs.python.org/3/library/string.html\#format-specification-mini-language}{official
+docs for all the gory details}.
+
+    \hypertarget{sensitivity-analysis-analogous-to-a-1-way-data-table}{%
+\subsubsection{Sensitivity analysis analogous to a 1-way Data
+Table}\label{sensitivity-analysis-analogous-to-a-1-way-data-table}}
+
+To compute \texttt{profit} for several different values of
+\texttt{order\_quantity} in Excel, we could do a 1-way Data Table.
+
+In Python, we could set \texttt{order\_quantity} equal to a vector and
+then recompute profit. Our model should spit out a vector of profit
+values corresponding to the order quantities in our
+\texttt{order\_quantity} vector. The numpy function
+\href{https://numpy.org/doc/stable/reference/generated/numpy.arange.html}{arange}
+can be used to create the vector.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{order\PYZus{}quantity} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n}{start}\PY{o}{=}\PY{l+m+mi}{50}\PY{p}{,} \PY{n}{stop}\PY{o}{=}\PY{l+m+mi}{301}\PY{p}{,} \PY{n}{step}\PY{o}{=}\PY{l+m+mi}{25}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{order\PYZus{}quantity}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[ 50  75 100 125 150 175 200 225 250 275 300]
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{type}\PY{p}{(}\PY{n}{order\PYZus{}quantity}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+numpy.ndarray
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \textbf{QUESTION} Why do we set \texttt{stop=301} instead of 300? Also,
+what's the data type of \texttt{order\_quantity}?
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{order\PYZus{}cost} \PY{o}{=} \PY{n}{unit\PYZus{}cost} \PY{o}{*} \PY{n}{order\PYZus{}quantity}
+\PY{n}{sales\PYZus{}revenue} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{minimum}\PY{p}{(}\PY{n}{order\PYZus{}quantity}\PY{p}{,} \PY{n}{demand}\PY{p}{)} \PY{o}{*} \PY{n}{selling\PYZus{}price}
+\PY{n}{refund\PYZus{}revenue} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{maximum}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{order\PYZus{}quantity} \PY{o}{\PYZhy{}} \PY{n}{demand}\PY{p}{)} \PY{o}{*} \PY{n}{unit\PYZus{}refund}
+\PY{n}{profit} \PY{o}{=} \PY{n}{sales\PYZus{}revenue} \PY{o}{+} \PY{n}{refund\PYZus{}revenue} \PY{o}{\PYZhy{}} \PY{n}{order\PYZus{}cost}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{profit}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[125.  187.5 250.  312.5 375.  437.5 447.5 322.5 197.5  72.5 -52.5]
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{sales\PYZus{}revenue}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([ 500.,  750., 1000., 1250., 1500., 1750., 1930., 1930., 1930.,
+       1930., 1930.])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We can't just use \texttt{min()}( with a scalar (\texttt{demand})
+compared to a vector (\texttt{order\_quantity}). Need to use numpy
+functions since they will do the necessary
+\href{https://numpy.org/doc/stable/user/basics.broadcasting.html}{broadcasting}
+of demand values to fill out a vector the same size as the
+\texttt{order\_quantity} vector. In R, broadcasting is usually referred
+to as \emph{recycling}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{np}\PY{o}{.}\PY{n}{minimum}\PY{p}{(}\PY{n}{order\PYZus{}quantity}\PY{p}{,} \PY{n}{demand}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([ 50,  75, 100, 125, 150, 175, 193, 193, 193, 193, 193])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    This won't work:
+
+\begin{verbatim}
+min(order_quantity, demand)
+
+---------------------------------------------------------------------------
+ValueError                                Traceback (most recent call last)
+<ipython-input-42-675af9b521e5> in <module>
+----> 1 min(order_quantity, demand)
+
+ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()
+\end{verbatim}
+
+    Here's a simple plot to show how profit varies by order quantity.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{order\PYZus{}quantity}\PY{p}{,} \PY{n}{profit}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Profit}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Order Quantity}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Profit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_34_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \textbf{QUESTION} What about a 2-way Data Table? Why can't we just set
+one of the other inputs (e.g.~demand) to a vector and do the same thing
+we did above?
+
+    One approach to creating a 2-way (actually, n-way) is to create a profit
+function that we can call from within a list comprehension.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{bookstore\PYZus{}profit}\PY{p}{(}\PY{n}{unit\PYZus{}cost}\PY{p}{,} \PY{n}{selling\PYZus{}price}\PY{p}{,} \PY{n}{unit\PYZus{}refund}\PY{p}{,} \PY{n}{order\PYZus{}quantity}\PY{p}{,} \PY{n}{demand}\PY{p}{)}\PY{p}{:}
+    \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+\PY{l+s+sd}{    Compute profit in bookstore model}
+\PY{l+s+sd}{    \PYZsq{}\PYZsq{}\PYZsq{}}
+    \PY{n}{order\PYZus{}cost} \PY{o}{=} \PY{n}{unit\PYZus{}cost} \PY{o}{*} \PY{n}{order\PYZus{}quantity}
+    \PY{n}{sales\PYZus{}revenue} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{minimum}\PY{p}{(}\PY{n}{order\PYZus{}quantity}\PY{p}{,} \PY{n}{demand}\PY{p}{)} \PY{o}{*} \PY{n}{selling\PYZus{}price}
+    \PY{n}{refund\PYZus{}revenue} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{maximum}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{order\PYZus{}quantity} \PY{o}{\PYZhy{}} \PY{n}{demand}\PY{p}{)}
+    \PY{n}{profit} \PY{o}{=} \PY{n}{sales\PYZus{}revenue} \PY{o}{+} \PY{n}{refund\PYZus{}revenue} \PY{o}{\PYZhy{}} \PY{n}{order\PYZus{}cost}
+    \PY{k}{return} \PY{n}{profit}
+\end{Verbatim}
+\end{tcolorbox}
+
+    A
+\href{https://www.pythontutorial.net/python-basics/python-list-comprehensions/}{list
+comprehension} can be used to create an n-way Data Table. List
+comprehensions provide a nice syntactical shortcut to creating a list
+based one looping over one or more iterables and computing associated
+values to store in the list. As a simple first example that's related to
+the model we are working on, let's compute the difference between demand
+and order quantity for all the combinations of those variables in the
+following ranges:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{demand\PYZus{}range} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{50}\PY{p}{,} \PY{l+m+mi}{101}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}
+\PY{n}{order\PYZus{}quantity\PYZus{}range} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{50}\PY{p}{,} \PY{l+m+mi}{101}\PY{p}{,} \PY{l+m+mi}{25}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{demand\PYZus{}range}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{order\PYZus{}quantity\PYZus{}range}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[ 50  60  70  80  90 100]
+[ 50  75 100]
+    \end{Verbatim}
+
+    Let's first use a list comprehension to list the combinations (we'll
+store each combo in a tuple). Each combination is a \emph{scenario} for
+which we'd like to compute profit.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{p}{[}\PY{p}{(}\PY{n}{d}\PY{p}{,} \PY{n}{o}\PY{p}{)} \PY{k}{for} \PY{n}{d} \PY{o+ow}{in} \PY{n}{demand\PYZus{}range} \PY{k}{for} \PY{n}{o} \PY{o+ow}{in} \PY{n}{order\PYZus{}quantity\PYZus{}range}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[(50, 50), (50, 75), (50, 100), (60, 50), (60, 75), (60, 100), (70, 50), (70,
+75), (70, 100), (80, 50), (80, 75), (80, 100), (90, 50), (90, 75), (90, 100),
+(100, 50), (100, 75), (100, 100)]
+    \end{Verbatim}
+
+    This time I'll compute a list of differences between demand and order
+quantity.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{p}{[}\PY{n}{d} \PY{o}{\PYZhy{}} \PY{n}{o} \PY{k}{for} \PY{n}{d} \PY{o+ow}{in} \PY{n}{demand\PYZus{}range} \PY{k}{for} \PY{n}{o} \PY{o+ow}{in} \PY{n}{order\PYZus{}quantity\PYZus{}range}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[0, -25, -50, 10, -15, -40, 20, -5, -30, 30, 5, -20, 40, 15, -10, 50, 25, 0]
+    \end{Verbatim}
+
+    Here's a 2-way with demand and order quantity - the other inputs are
+held constant at their current values and the \texttt{bookstore\_profit}
+function is used to compute profit. The list comprehension will generate
+a list of tuples, \texttt{(demand,\ order\ quantity,\ profit)}. To
+facilitate further analysis, we'll create a pandas DataFrame from this
+list.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{demand\PYZus{}range} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{50}\PY{p}{,} \PY{l+m+mi}{301}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{)}
+\PY{n}{order\PYZus{}quantity\PYZus{}range} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{50}\PY{p}{,} \PY{l+m+mi}{301}\PY{p}{,} \PY{l+m+mi}{25}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{20}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Create data table (as a list of tuples)}
+\PY{n}{data\PYZus{}table\PYZus{}1} \PY{o}{=} \PY{p}{[}\PY{p}{(}\PY{n}{d}\PY{p}{,} \PY{n}{oq}\PY{p}{,} \PY{n}{bookstore\PYZus{}profit}\PY{p}{(}\PY{n}{unit\PYZus{}cost}\PY{p}{,} \PY{n}{selling\PYZus{}price}\PY{p}{,} \PY{n}{unit\PYZus{}refund}\PY{p}{,} \PY{n}{oq}\PY{p}{,} \PY{n}{d}\PY{p}{)}\PY{p}{)} 
+                 \PY{k}{for} \PY{n}{d} \PY{o+ow}{in} \PY{n}{demand\PYZus{}range} \PY{k}{for} \PY{n}{oq} \PY{o+ow}{in} \PY{n}{order\PYZus{}quantity\PYZus{}range}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} Convert to dataframe}
+\PY{n}{dtbl\PYZus{}1\PYZus{}df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{data\PYZus{}table\PYZus{}1}\PY{p}{,} \PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Demand}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OrderQuantity}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Profit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{dtbl\PYZus{}1\PYZus{}df}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{25}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{20}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+    Demand  OrderQuantity  Profit
+0       50             50   125.0
+1       50             75   -37.5
+2       50            100  -200.0
+3       50            125  -362.5
+4       50            150  -525.0
+5       50            175  -687.5
+6       50            200  -850.0
+7       50            225 -1012.5
+8       50            250 -1175.0
+9       50            275 -1337.5
+10      50            300 -1500.0
+11      55             50   125.0
+12      55             75     7.5
+13      55            100  -155.0
+14      55            125  -317.5
+15      55            150  -480.0
+16      55            175  -642.5
+17      55            200  -805.0
+18      55            225  -967.5
+19      55            250 -1130.0
+20      55            275 -1292.5
+21      55            300 -1455.0
+22      60             50   125.0
+23      60             75    52.5
+24      60            100  -110.0
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Here's a quick scatter plot showing how profit (mapped to color hue)
+varies jointly by order quantity and demand. No surprises.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{21}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{sns}\PY{o}{.}\PY{n}{set\PYZus{}style}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{darkgrid}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{sns}\PY{o}{.}\PY{n}{scatterplot}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Demand}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OrderQuantity}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{hue}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Profit}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{data}\PY{o}{=}\PY{n}{dtbl\PYZus{}1\PYZus{}df}\PY{p}{,} \PY{n}{palette}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{viridis}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_48_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    For fun, let's try a 3d plot.
+
+https://matplotlib.org/mpl\_toolkits/mplot3d/tutorial.html\#mplot3d-tutorial
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{23}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Make the plot }
+\PY{n}{fig} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{p}{)}
+\PY{n}{ax} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}subplot}\PY{p}{(}\PY{l+m+mi}{111}\PY{p}{,} \PY{n}{projection}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{3d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{dtbl\PYZus{}1\PYZus{}df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OrderQuantity}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{dtbl\PYZus{}1\PYZus{}df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Demand}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{dtbl\PYZus{}1\PYZus{}df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Profit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} 
+                \PY{n}{cmap}\PY{o}{=}\PY{n}{plt}\PY{o}{.}\PY{n}{cm}\PY{o}{.}\PY{n}{viridis}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{n}{dtbl\PYZus{}1\PYZus{}df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Profit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OrderQuantity}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Demand}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}zlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Profit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_50_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{everything-is-an-object-in-python}{%
+\subsection{Everything is an object in
+Python}\label{everything-is-an-object-in-python}}
+
+So far we have used standard procedural Python for creating and using
+our model. However, we want to explore using an object-oriented approach
+to doing the same things we just did. Before doing that, we need to
+review some basics regarding object-oriented programming.
+
+Objects are the ``things'' we create, use, change and share in our
+Python programs. Objects contain both data about the object and
+functions for using and changing the object. If you've programmed in
+Excel VBA, you've already worked with objects and their various
+properties (data) and methods (functions). For example, consider a
+\texttt{Worksheet} object. One of its properties is \texttt{Name} and we
+can reference it with \texttt{Worksheet.Name}. To copy a worksheet, we
+use \texttt{Worksheet.Copy} - \texttt{Copy} is a method.
+
+\hypertarget{list-objects}{%
+\subsubsection{List objects}\label{list-objects}}
+
+In Python, everything is an object and we've already been using objects
+in this notebook. It's probably not surprising that something like an
+array or a list are objects. Let's see what kind of objects they are.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{type}\PY{p}{(}\PY{n}{order\PYZus{}quantity\PYZus{}range}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{type}\PY{p}{(}\PY{n}{data\PYZus{}table\PYZus{}1}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Let's explore some list methods. To start, we will create a list based
+on the \texttt{order\_quantity\_range} and then do a few things with the
+new list.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{oq\PYZus{}list} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n}{order\PYZus{}quantity\PYZus{}range}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{oq\PYZus{}list}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n+nb}{type}\PY{p}{(}\PY{n}{oq\PYZus{}list}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    A Python \texttt{class} is the template from which we create individual
+objects, called \emph{instances} in our programs. The \texttt{list}
+class lets us create list objects. Python has many built in classes with
+numerous predefined methods and properties.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Append a new item to end of list}
+\PY{n}{oq\PYZus{}list}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{l+m+mi}{350}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{oq\PYZus{}list}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Reverse the order of our list}
+\PY{n}{oq\PYZus{}list}\PY{o}{.}\PY{n}{reverse}\PY{p}{(}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{oq\PYZus{}list}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Reverse it back}
+\PY{n}{oq\PYZus{}list}\PY{o}{.}\PY{n}{reverse}\PY{p}{(}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{oq\PYZus{}list}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Notice that when we use the \texttt{append} and \texttt{reverse}
+functions we need to include parentheses just as we do when calling any
+function. In this case, we aren't passing any arguments into the
+function, but often we will.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Use sort() method to do a reverse sort of our list}
+\PY{n}{oq\PYZus{}list}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{n}{reverse}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{oq\PYZus{}list}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    What if we forget the parentheses?
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{oq\PYZus{}list}\PY{o}{.}\PY{n}{reverse}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Python just tells us that \texttt{reverse} is a function. It's also
+telling us that \texttt{reverse}, a function, is also an object. Yes,
+functions are objects, too. That means we can do things like pass them
+to other functions or modify some of their properties. Why would we ever
+want to do this? We'll get to that.
+
+    I'm sure you already know how to get items from a list by their index
+number.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Get the first element from the list}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{oq\PYZus{}list}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    The bracket notation is really just a convenient shorthand for calling
+one of the built in methods of list objects. We can use Python
+\texttt{dir} function to see all of the attributes of any object.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{n+nb}{dir}\PY{p}{(}\PY{n}{oq\PYZus{}list}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Many of the attributes have both leading and trailing double
+underscores, known as ``dunder'' attributes. These are just special
+names reserved by Python for particular uses. In Python, you'll see use
+of both single and double underscores, as both leading and trailing
+characters. To dig deeper, check out
+https://dbader.org/blog/meaning-of-underscores-in-python.
+
+    In our example, using brackets to access a list item is really just a
+different way of calling the \texttt{\_\_getitem\_\_} dunder method.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{oq\PYZus{}list}\PY{o}{.}\PY{n+nf+fm}{\PYZus{}\PYZus{}getitem\PYZus{}\PYZus{}}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Also notice that all of these functions worked \emph{in place} - they
+operated directly on the object \texttt{oq\_list} and even modified it
+for the sort related methods. Some methods will create a new instance of
+the object and if you want to ``save'' it, you'll have to assign the
+result back to your original object or create a new variable. If you've
+used R, you might recall that the dplyr package \textbf{never} modifies
+dataframes in place. The dplyr functions (e.g.~\texttt{select},
+\texttt{mutate}, \texttt{filter}, \ldots{}) always return new objects
+and we have to ``catch the results'' by assigning to a variable if we
+wanted to actually modify our dataframe.
+
+Returning to our list example, we'll make a copy and explore a bit.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{new\PYZus{}list} \PY{o}{=} \PY{n}{oq\PYZus{}list}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}    \PY{c+c1}{\PYZsh{} Make a copy and save to new variable}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{new\PYZus{}list}\PY{p}{)}              \PY{c+c1}{\PYZsh{} Check out the new variable}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{new\PYZus{}list} \PY{o}{==} \PY{n}{oq\PYZus{}list}\PY{p}{)}   \PY{c+c1}{\PYZsh{} Does the new variable have the same value as the old variable?}
+\PY{n+nb}{print}\PY{p}{(}\PY{n+nb}{type}\PY{p}{(}\PY{n}{new\PYZus{}list}\PY{p}{)} \PY{o}{==} \PY{n+nb}{type}\PY{p}{(}\PY{n}{oq\PYZus{}list}\PY{p}{)}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Are the two variables of the same type?}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{new\PYZus{}list} \PY{o+ow}{is} \PY{n}{oq\PYZus{}list}\PY{p}{)}   \PY{c+c1}{\PYZsh{} Is the new variable actually the same object as the old variable?}
+\PY{n+nb}{print}\PY{p}{(}\PY{n+nb}{id}\PY{p}{(}\PY{n}{oq\PYZus{}list}\PY{p}{)}\PY{p}{,} \PY{n+nb}{id}\PY{p}{(}\PY{n}{new\PYZus{}list}\PY{p}{)}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Every object has its own unique id number. Use id() to see it.}
+\end{Verbatim}
+\end{tcolorbox}
+
+    The two lists have the same value and are of the same datatype, but are
+\textbf{not} the same object.
+
+    \textbf{QUESTION} If we reversed one of the two lists, would they still
+be considered to have the same value? In other words, does order matter
+with lists?
+
+    Care must be taken when copying lists.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{oq\PYZus{}list}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Instead of using copy method, just setting new variable value equal to existing list}
+\PY{n}{new\PYZus{}oq\PYZus{}list} \PY{o}{=} \PY{n}{oq\PYZus{}list} 
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{new\PYZus{}oq\PYZus{}list}\PY{p}{)}
+\PY{n}{oq\PYZus{}list}\PY{o}{.}\PY{n}{reverse}\PY{p}{(}\PY{p}{)} \PY{c+c1}{\PYZsh{} I\PYZsq{}m reversing the ORIGINAL list}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{new\PYZus{}oq\PYZus{}list}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n+nb}{id}\PY{p}{(}\PY{n}{oq\PYZus{}list}\PY{p}{)}\PY{p}{,} \PY{n+nb}{id}\PY{p}{(}\PY{n}{new\PYZus{}oq\PYZus{}list}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Yikes! As you can see from the \texttt{id} numbers, both list variables
+point to the same object in memory. Changing one list, changes the other
+- they're the same object. So, how do you safely copy lists? You use the
+\texttt{copy} method like we did above.
+
+    Let's look at the attributes of a \texttt{numpy.array} object and see
+how that compares to a list. They are both data structures that allow us
+to store a bunch of values and get at them via an index number. What
+differences do you think these two data structures might have?
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{dir}\PY{p}{(}\PY{n}{order\PYZus{}quantity\PYZus{}range}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Wow,
+\href{https://jakevdp.github.io/PythonDataScienceHandbook/02.02-the-basics-of-numpy-arrays.html}{numpy
+arrays} have a whole lot more going on under the hood than do lists.
+They play a huge role in doing data science work in Python with many
+packages using numpy to store and work with data. Notice that there are
+various mathematical methods such as \texttt{sum} and \texttt{mean} and
+methods to convert arrays to lists and strings using the obviously named
+methods. We see that there is a \texttt{dtype} property - it tells us
+the data type of the array. Our array stores 64bit integers.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{order\PYZus{}quantity\PYZus{}range}\PY{o}{.}\PY{n}{dtype}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \textbf{QUESTIONS} Why don't we use parens with \texttt{dtype}? Why
+don't list objects have a \texttt{dtype} property?
+
+    \hypertarget{what-about-numbers}{%
+\subsubsection{What about numbers?}\label{what-about-numbers}}
+
+Are things like integers and floating point numbers actually objects?
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{unit\PYZus{}cost}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n+nb}{type}\PY{p}{(}\PY{n}{unit\PYZus{}cost}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n+nb}{dir}\PY{p}{(}\PY{n}{unit\PYZus{}cost}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{unit\PYZus{}cost}\PY{o}{.}\PY{n}{is\PYZus{}integer}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{unit\PYZus{}cost}\PY{o}{.}\PY{n}{hex}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Yep. Try out some of the attributes.
+
+    \hypertarget{writing-our-own-classes}{%
+\subsubsection{Writing our own classes}\label{writing-our-own-classes}}
+
+While Python has many useful built in classes, true
+\href{https://en.wikipedia.org/wiki/Object-oriented_programming}{object-oriented
+programming} (OOP) involves creating our own classes from which we can
+create object instances that are useful for the problem at hand. Python
+is an OOP language but it does \textbf{not} force you to create classes
+if you don't want to. You can write any blend you'd like of
+\href{https://en.wikipedia.org/wiki/Procedural_programming}{procedural},
+object oriented and
+\href{https://en.wikipedia.org/wiki/Functional_programming}{functional
+programming}. We aren't going to get into debates about which
+programming paradigm is the ``best''. There are times when OOP makes a
+lot of sense, and for those times, we'll use it. Other times, simply
+creating useful functions (such as the \texttt{bookstore\_profit}
+function we used earlier) is the appropriate thing to do.
+
+Many business analysts who learn Excel VBA, don't realize that
+\textbf{you can actually create classes in VBA}. Most stick with using
+the built in Excel objects.
+
+    \hypertarget{an-oo-version-of-the-bookstore-model}{%
+\subsection{An OO version of the Bookstore
+Model}\label{an-oo-version-of-the-bookstore-model}}
+
+Let's create an OO version of the Bookstore Model and figure out how to
+do n-way data tables just as we did with the non-OO version of the
+model. Then we'll go on and figure out how to duplicate the
+functionality of Excel's Goal Seek tool in Python. It's not clear
+whether the non-OO or the OO version of our model will ultimately prove
+best for this use case. Regardless, we'll learn a few things along the
+way.
+
+As an aside, there's a very useful site aimed at using Python for
+quantitative economics and finance - https://quantecon.org/. Within
+there are some terrific notebooks on various Python topics. Here are two
+related to OOP:
+
+\begin{itemize}
+\tightlist
+\item
+  https://python-programming.quantecon.org/oop\_intro.html
+\item
+  https://python-programming.quantecon.org/python\_oop.html
+\end{itemize}
+
+    \hypertarget{initial-design-of-the-bookstoremodel-class}{%
+\subsubsection{Initial design of the BookstoreModel
+class}\label{initial-design-of-the-bookstoremodel-class}}
+
+It seems like we would want all of the base inputs such as unit cost,
+selling price, unit refund, order quantity and demand to be attributes
+(properties) of the class. Here's the start of our class definition
+code:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{class} \PY{n+nc}{BookstoreModel}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{k}{def} \PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{unit\PYZus{}cost}\PY{p}{,} \PY{n}{selling\PYZus{}price}\PY{p}{,} \PY{n}{unit\PYZus{}refund}\PY{p}{,} \PY{n}{order\PYZus{}quantity}\PY{p}{,} \PY{n}{demand}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{unit\PYZus{}cost} \PY{o}{=} \PY{n}{unit\PYZus{}cost}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{selling\PYZus{}price} \PY{o}{=} \PY{n}{selling\PYZus{}price}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{unit\PYZus{}refund} \PY{o}{=} \PY{n}{unit\PYZus{}refund}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{order\PYZus{}quantity} \PY{o}{=} \PY{n}{order\PYZus{}quantity}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{demand} \PY{o}{=} \PY{n}{demand}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Some important things of note:
+
+\begin{itemize}
+\tightlist
+\item
+  we use the keyword \texttt{class} followed by the name of our class.
+\item
+  by convention, class names are capitalized (each word if multi-word).
+\item
+  the class declaration looks a little like defining a function but we
+  use \texttt{class} instead of \texttt{def}.
+\item
+  there's nothing in the parentheses following the class name. We'll
+  defer talking about this for now.
+\item
+  there's a single method (function) defined within the class and it is
+  called \texttt{\_\_init\_\_}. From earlier in this document we know
+  that this must be a built in dunder method that has some special
+  purpose. From its name you've probably already guessed that it's the
+  function called when a new object instance is first created. If you've
+  programmed in Java or C++, this is kind of like a constructor.
+\item
+  the first argument to the \texttt{\_\_init\_\_} function is
+  \texttt{self} and represents the object instance being created.
+\item
+  the remaining arguments to the \texttt{\_\_init\_\_} function are
+  values that we want to use in the function. In this case, we simply
+  want to create object properties corresponding to the base inputs for
+  the bookstore model.
+\item
+  the rest of the lines within the \texttt{\_\_init\_\_} function are
+  initializing our object properties to the values passed in.
+\item
+  in order to reference (i.e.~to get the value or set the value) an
+  object property, we always preface the property with the \texttt{self}
+  object, e.g., \texttt{self.unit\_cost}.
+\item
+  if you've programmed in Java you might be used to using ``setters and
+  getters''. In general
+  \href{https://www.python-course.eu/python3_properties.php}{we don't do
+  that in Python} and instead just reference the property directly using
+  dot notation.
+\end{itemize}
+
+    Well, our class isn't super useful yet, but let's try it out. Make sure
+you run the code chunk above that defines the BookstoreModel class.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{25}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Reset the base inputs}
+\PY{n}{unit\PYZus{}cost} \PY{o}{=} \PY{l+m+mf}{7.50}
+\PY{n}{selling\PYZus{}price} \PY{o}{=} \PY{l+m+mf}{10.00}
+\PY{n}{unit\PYZus{}refund} \PY{o}{=} \PY{l+m+mf}{2.50}
+\PY{n}{demand} \PY{o}{=} \PY{l+m+mi}{193}
+\PY{n}{order\PYZus{}quantity} \PY{o}{=} \PY{l+m+mi}{200}
+
+\PY{c+c1}{\PYZsh{} Create a new BookstoreModel object}
+\PY{n}{model\PYZus{}1} \PY{o}{=} \PY{n}{BookstoreModel}\PY{p}{(}\PY{n}{unit\PYZus{}cost}\PY{p}{,} \PY{n}{selling\PYZus{}price}\PY{p}{,} \PY{n}{unit\PYZus{}refund}\PY{p}{,} \PY{n}{order\PYZus{}quantity}\PY{p}{,} \PY{n}{demand}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Let's print out one of the properties.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{26}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{model\PYZus{}1}\PY{o}{.}\PY{n}{unit\PYZus{}cost}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+7.5
+    \end{Verbatim}
+
+    What happens if we try to print the model object itself?
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{27}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{model\PYZus{}1}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+<\_\_main\_\_.BookstoreModel object at 0x7fed59a46290>
+    \end{Verbatim}
+
+    Ok, not the most useful but we do see that we've got an object of the
+right type and that the object lives in the \texttt{\_\_main\_\_}
+\emph{namespace}. Namespaces are important in Python. They're even
+mentioned in the Zen of Python. You can
+\href{https://realpython.com/python-namespaces-scope/}{learn more about
+namespaces here}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{28}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{this}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+The Zen of Python, by Tim Peters
+
+Beautiful is better than ugly.
+Explicit is better than implicit.
+Simple is better than complex.
+Complex is better than complicated.
+Flat is better than nested.
+Sparse is better than dense.
+Readability counts.
+Special cases aren't special enough to break the rules.
+Although practicality beats purity.
+Errors should never pass silently.
+Unless explicitly silenced.
+In the face of ambiguity, refuse the temptation to guess.
+There should be one-- and preferably only one --obvious way to do it.
+Although that way may not be obvious at first unless you're Dutch.
+Now is better than never.
+Although never is often better than *right* now.
+If the implementation is hard to explain, it's a bad idea.
+If the implementation is easy to explain, it may be a good idea.
+Namespaces are one honking great idea -- let's do more of those!
+    \end{Verbatim}
+
+    If you look back at our \texttt{bookstore\_profit} function, you'll see
+that it first computes the various cost and revenue components and then
+computes profit from that. So, it would seem useful to add some methods
+to our BookstoreModel class that computed these things.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{29}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{class} \PY{n+nc}{BookstoreModel}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{k}{def} \PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{unit\PYZus{}cost}\PY{p}{,} \PY{n}{selling\PYZus{}price}\PY{p}{,} \PY{n}{unit\PYZus{}refund}\PY{p}{,} \PY{n}{order\PYZus{}quantity}\PY{p}{,} \PY{n}{demand}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{unit\PYZus{}cost} \PY{o}{=} \PY{n}{unit\PYZus{}cost}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{selling\PYZus{}price} \PY{o}{=} \PY{n}{selling\PYZus{}price}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{unit\PYZus{}refund} \PY{o}{=} \PY{n}{unit\PYZus{}refund}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{order\PYZus{}quantity} \PY{o}{=} \PY{n}{order\PYZus{}quantity}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{demand} \PY{o}{=} \PY{n}{demand}
+        
+    \PY{k}{def} \PY{n+nf}{order\PYZus{}cost}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:}
+        \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Compute total order cost\PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{k}{return} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{unit\PYZus{}cost} \PY{o}{*} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{order\PYZus{}quantity}
+    
+    \PY{k}{def} \PY{n+nf}{sales\PYZus{}revenue}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:}
+        \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Compute sales revenue\PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{minimum}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{order\PYZus{}quantity}\PY{p}{,} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{demand}\PY{p}{)} \PY{o}{*} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{selling\PYZus{}price}
+    
+    \PY{k}{def} \PY{n+nf}{refund\PYZus{}revenue}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:}
+        \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Compute revenue from refunds for unsold items\PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{maximum}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{order\PYZus{}quantity} \PY{o}{\PYZhy{}} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{demand}\PY{p}{)} \PY{o}{*} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{unit\PYZus{}refund}
+    
+    \PY{k}{def} \PY{n+nf}{profit}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:}
+        \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+\PY{l+s+sd}{        Compute profit}
+\PY{l+s+sd}{        \PYZsq{}\PYZsq{}\PYZsq{}}
+        \PY{n}{profit} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{sales\PYZus{}revenue}\PY{p}{(}\PY{p}{)} \PY{o}{+} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{refund\PYZus{}revenue}\PY{p}{(}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{order\PYZus{}cost}\PY{p}{(}\PY{p}{)}
+        \PY{k}{return} \PY{n}{profit}
+\end{Verbatim}
+\end{tcolorbox}
+
+    A few important things to note: * we added four new object functions
+(methods) * each method only takes the \texttt{self} object as an input
+argument. We don't pass in the properties such as \texttt{unit\_cost} or
+\texttt{order\_quantity}. We don't need to since \texttt{self} knows
+about these things via its properties. They are \emph{encapsulated}
+within the object. * within each method we have to use
+\texttt{self.someproperty} in our expressions * the \texttt{profit}
+method calls some of the other methods and when it does, it prefaces the
+method with \texttt{self.} and follows it with empty parens. The
+\texttt{self} object is implicitly passed. * each method returns a value
+* each method has a simple docstring
+
+Before we can test out our enhanced class, we need to run the code cell
+above and we need to create a new object instance based on the updated
+class definition.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{30}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Create a new BookstoreModel object}
+\PY{n}{model\PYZus{}2} \PY{o}{=} \PY{n}{BookstoreModel}\PY{p}{(}\PY{n}{unit\PYZus{}cost}\PY{p}{,} \PY{n}{selling\PYZus{}price}\PY{p}{,} \PY{n}{unit\PYZus{}refund}\PY{p}{,} \PY{n}{order\PYZus{}quantity}\PY{p}{,} \PY{n}{demand}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{31}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{model\PYZus{}2}\PY{o}{.}\PY{n}{sales\PYZus{}revenue}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{model\PYZus{}2}\PY{o}{.}\PY{n}{profit}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+1930.0
+447.5
+    \end{Verbatim}
+
+    It would nice to have a way to print out a succinct summary of a
+BookstoreModel object. Let's start by just listing out the properties.
+We can use the Python \texttt{vars} function to help. This StackOverflow
+post has some good info on getting a dictionary of object properties:
+
+https://stackoverflow.com/questions/61517/python-dictionary-from-an-objects-fields
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{32}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{n+nb}{vars}\PY{p}{(}\PY{n}{model\PYZus{}2}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+\{'unit\_cost': 7.5, 'selling\_price': 10.0, 'unit\_refund': 2.5, 'order\_quantity':
+200, 'demand': 193\}
+    \end{Verbatim}
+
+    The Pythonic way for creating a string representation of an object is to
+implement a \texttt{\_\_str\_\_} dunder function for our object. This
+function needs to return a string. Notice that the \texttt{vars}
+function returns a dictionary. You can learn more about
+\texttt{\_\_str\_\_} and the related \texttt{\_\_repr\_\_} dunder
+functions at https://dbader.org/blog/python-repr-vs-str. In a nutshell,
+we use \texttt{\_\_str\_\_} to create ``pretty'' string representations
+of an object for our user and \texttt{\_\_repr\_\_} for an unambiguous
+string representation that includes the object type.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{33}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{class} \PY{n+nc}{BookstoreModel}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{k}{def} \PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{unit\PYZus{}cost}\PY{p}{,} \PY{n}{selling\PYZus{}price}\PY{p}{,} \PY{n}{unit\PYZus{}refund}\PY{p}{,} \PY{n}{order\PYZus{}quantity}\PY{p}{,} \PY{n}{demand}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{unit\PYZus{}cost} \PY{o}{=} \PY{n}{unit\PYZus{}cost}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{selling\PYZus{}price} \PY{o}{=} \PY{n}{selling\PYZus{}price}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{unit\PYZus{}refund} \PY{o}{=} \PY{n}{unit\PYZus{}refund}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{order\PYZus{}quantity} \PY{o}{=} \PY{n}{order\PYZus{}quantity}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{demand} \PY{o}{=} \PY{n}{demand}
+        
+    \PY{k}{def} \PY{n+nf}{order\PYZus{}cost}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:}
+        \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Compute total order cost\PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{k}{return} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{unit\PYZus{}cost} \PY{o}{*} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{order\PYZus{}quantity}
+    
+    \PY{k}{def} \PY{n+nf}{sales\PYZus{}revenue}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:}
+        \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Compute sales revenue\PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{minimum}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{order\PYZus{}quantity}\PY{p}{,} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{demand}\PY{p}{)} \PY{o}{*} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{selling\PYZus{}price}
+    
+    \PY{k}{def} \PY{n+nf}{refund\PYZus{}revenue}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:}
+        \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Compute revenue from refunds for unsold items\PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{maximum}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{order\PYZus{}quantity} \PY{o}{\PYZhy{}} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{demand}\PY{p}{)} \PY{o}{*} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{unit\PYZus{}refund}
+    
+    \PY{k}{def} \PY{n+nf}{profit}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:}
+        \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+\PY{l+s+sd}{        Compute profit}
+\PY{l+s+sd}{        \PYZsq{}\PYZsq{}\PYZsq{}}
+        \PY{n}{profit} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{sales\PYZus{}revenue}\PY{p}{(}\PY{p}{)} \PY{o}{+} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{refund\PYZus{}revenue}\PY{p}{(}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{order\PYZus{}cost}\PY{p}{(}\PY{p}{)}
+        \PY{k}{return} \PY{n}{profit}
+    
+    \PY{k}{def} \PY{n+nf+fm}{\PYZus{}\PYZus{}str\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:}
+        \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{        String representation of bookstore inputs}
+\PY{l+s+sd}{        \PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{k}{return} \PY{n+nb}{str}\PY{p}{(}\PY{n+nb}{vars}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Notice we wrapped \texttt{vars} with \texttt{str} to convert the
+dictionary to a string.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{34}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Reset the base inputs}
+\PY{n}{unit\PYZus{}cost} \PY{o}{=} \PY{l+m+mf}{7.50}
+\PY{n}{selling\PYZus{}price} \PY{o}{=} \PY{l+m+mf}{10.00}
+\PY{n}{unit\PYZus{}refund} \PY{o}{=} \PY{l+m+mf}{2.50}
+\PY{n}{demand} \PY{o}{=} \PY{l+m+mi}{193}
+\PY{n}{order\PYZus{}quantity} \PY{o}{=} \PY{l+m+mi}{200}
+
+\PY{c+c1}{\PYZsh{} Create a new BookstoreModel object}
+\PY{n}{model\PYZus{}3} \PY{o}{=} \PY{n}{BookstoreModel}\PY{p}{(}\PY{n}{unit\PYZus{}cost}\PY{p}{,} \PY{n}{selling\PYZus{}price}\PY{p}{,} \PY{n}{unit\PYZus{}refund}\PY{p}{,} \PY{n}{order\PYZus{}quantity}\PY{p}{,} \PY{n}{demand}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{35}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{model\PYZus{}3}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+\{'unit\_cost': 7.5, 'selling\_price': 10.0, 'unit\_refund': 2.5, 'order\_quantity':
+200, 'demand': 193\}
+    \end{Verbatim}
+
+    \textbf{CHALLENGE 1} Modify the \texttt{\_\_str\_\_} function so that it
+also shows the computed value of \texttt{order\_cost},
+\texttt{sales\_revenue}, \texttt{refund\_revenue} and \texttt{profit}.
+
+\textbf{CHALLENGE 2} Add a \texttt{lost\_sales} method to the
+\texttt{BookstoreModel} class that returns the number of units that we
+could not sell because we didn't order enough.
+
+    \hypertarget{way-data-table-with-oo-model}{%
+\subsubsection{1-way Data Table with OO
+model}\label{way-data-table-with-oo-model}}
+
+It seems entirely plausible that we could simply set one of the inputs
+to an array of values and then call the \texttt{profit} method.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{36}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Set property equal to an array}
+\PY{n}{model\PYZus{}3}\PY{o}{.}\PY{n}{order\PYZus{}quantity} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{50}\PY{p}{,} \PY{l+m+mi}{301}\PY{p}{,} \PY{l+m+mi}{25}\PY{p}{)}
+\PY{n}{model\PYZus{}3}\PY{o}{.}\PY{n}{order\PYZus{}quantity}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{36}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+array([ 50,  75, 100, 125, 150, 175, 200, 225, 250, 275, 300])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{37}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Can we compute an array of profits? Try it.}
+\end{Verbatim}
+\end{tcolorbox}
+
+    What about a 2-way data table using the OO model? We can't use the same
+direct array passing approach because of \ldots{}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{38}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} This won\PYZsq{}t work unless the two arrays are the same size \PYZhy{} can\PYZsq{}t broadcast.}
+\PY{c+c1}{\PYZsh{} Also, even if same size, doesn\PYZsq{}t do all combinations, just aligned elements.}
+\PY{n}{demand\PYZus{}range} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{70}\PY{p}{,} \PY{l+m+mi}{321}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{)}
+\PY{n}{order\PYZus{}quantity\PYZus{}range} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{70}\PY{p}{,} \PY{l+m+mi}{321}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}    \PY{c+c1}{\PYZsh{} Broadcast error}
+\PY{c+c1}{\PYZsh{} order\PYZus{}quantity\PYZus{}range = np.arange(70, 321, 5)   \PYZsh{} Doesn\PYZsq{}t do all combinations}
+
+\PY{c+c1}{\PYZsh{} Method 1: Set property equal to an array}
+\PY{n}{model\PYZus{}3}\PY{o}{.}\PY{n}{demand} \PY{o}{=} \PY{n}{demand\PYZus{}range}
+\PY{n}{model\PYZus{}3}\PY{o}{.}\PY{n}{order\PYZus{}quantity} \PY{o}{=} \PY{n}{order\PYZus{}quantity\PYZus{}range}
+
+\PY{c+c1}{\PYZsh{} model\PYZus{}3.profit()  \PYZsh{} This line will trigger the broadcast error}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Recall that for the non-OO model, we could easily do an n-way data table
+using a list comprehension that made use of the
+\texttt{bookstore\_profit} function because we could explicitly loop
+over ranges of any subset of the input variables and call the
+\texttt{bookstore\_profit} function with all of the input arguments
+specified. We can't do that with the OO model because the
+\texttt{profit} function is a method of the object and we don't pass it
+any input arguments other than \texttt{self}. So, we need a way to loop
+over all the input ranges and update the bookstore model object's input
+attributes and then call the \texttt{profit} method.
+
+What to do?
+
+    \hypertarget{a-decision-point-in-our-software-design-process}{%
+\subsubsection{A decision point in our software design
+process}\label{a-decision-point-in-our-software-design-process}}
+
+An end user modeler analagous to your basic Excel power user isn't going
+to write OO code to do a Data Table. The list comprehension approach
+based on a global function (i.e.~the non-OO model) is much more likely.
+However, a relatively generic Data Table function could be implemented
+in an OO way and be quite reusable. Also, we still want to implement
+Goal Seek and it's not clear whether the OO or non-OO approach makes the
+most sense.
+
+Well, let's forge ahead and design and create a Python based Data Table
+function that accepts an OO BookstoreModel object as one of its inputs.
+Surely, we'll learn some things along the way.
+
+    \hypertarget{adding-an-update-method}{%
+\paragraph{\texorpdfstring{Adding an \texttt{update}
+method}{Adding an update method}}\label{adding-an-update-method}}
+
+Since were are going to need to repeatedly update some subset of the
+input parameters, let's add an \texttt{update} method to the
+BookstoreModel class that takes a dictionary of property, value pairs.
+The question is, \textbf{how do we update object attributes from a
+dictionary specifying the attribute and the new value?}
+
+This StackoverFlow post was quite helpful:
+
+https://stackoverflow.com/questions/2466191/set-attributes-from-dictionary-in-python
+
+The idea is that we use Python's \texttt{setattr} function. Using
+\href{https://www.w3schools.com/python/ref_func_setattr.asp}{\texttt{setattr}}
+is really easy:
+
+\begin{verbatim}
+setattr(object, attribute name, attribute value)
+\end{verbatim}
+
+As a specific example, it can be used like this.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{39}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{model\PYZus{}4} \PY{o}{=} \PY{n}{BookstoreModel}\PY{p}{(}\PY{n}{unit\PYZus{}cost}\PY{p}{,} \PY{n}{selling\PYZus{}price}\PY{p}{,} \PY{n}{unit\PYZus{}refund}\PY{p}{,} \PY{n}{order\PYZus{}quantity}\PY{p}{,} \PY{n}{demand}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{model\PYZus{}4}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} We want to update a existing model object with these parameter values}
+\PY{n}{new\PYZus{}params} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{unit\PYZus{}cost}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mf}{8.5}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{order\PYZus{}quantity}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{250}\PY{p}{\PYZcb{}}
+
+\PY{c+c1}{\PYZsh{} Iterate over the keys in new\PYZus{}params}
+\PY{k}{for} \PY{n}{key} \PY{o+ow}{in} \PY{n}{new\PYZus{}params}\PY{p}{:}
+            \PY{n+nb}{setattr}\PY{p}{(}\PY{n}{model\PYZus{}4}\PY{p}{,} \PY{n}{key}\PY{p}{,} \PY{n}{new\PYZus{}params}\PY{p}{[}\PY{n}{key}\PY{p}{]}\PY{p}{)}
+        
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{model\PYZus{}4}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+\{'unit\_cost': 7.5, 'selling\_price': 10.0, 'unit\_refund': 2.5, 'order\_quantity':
+200, 'demand': 193\}
+\{'unit\_cost': 8.5, 'selling\_price': 10.0, 'unit\_refund': 2.5, 'order\_quantity':
+250, 'demand': 193\}
+    \end{Verbatim}
+
+    Okay, here's our updated BookstoreModel class. Note that I've changed to
+keyword arguments with default values.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{40}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{class} \PY{n+nc}{BookstoreModel}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{k}{def} \PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{unit\PYZus{}cost}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{selling\PYZus{}price}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{unit\PYZus{}refund}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} 
+                 \PY{n}{order\PYZus{}quantity}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{demand}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{unit\PYZus{}cost} \PY{o}{=} \PY{n}{unit\PYZus{}cost}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{selling\PYZus{}price} \PY{o}{=} \PY{n}{selling\PYZus{}price}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{unit\PYZus{}refund} \PY{o}{=} \PY{n}{unit\PYZus{}refund}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{order\PYZus{}quantity} \PY{o}{=} \PY{n}{order\PYZus{}quantity}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{demand} \PY{o}{=} \PY{n}{demand}
+        
+        
+    \PY{k}{def} \PY{n+nf}{update}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{param\PYZus{}dict}\PY{p}{)}\PY{p}{:}
+        \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{        Update parameter values}
+\PY{l+s+sd}{        \PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{k}{for} \PY{n}{key} \PY{o+ow}{in} \PY{n}{param\PYZus{}dict}\PY{p}{:}
+            \PY{n+nb}{setattr}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{key}\PY{p}{,} \PY{n}{param\PYZus{}dict}\PY{p}{[}\PY{n}{key}\PY{p}{]}\PY{p}{)}
+        
+    \PY{k}{def} \PY{n+nf}{order\PYZus{}cost}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:}
+        \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Compute total order cost\PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{k}{return} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{unit\PYZus{}cost} \PY{o}{*} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{order\PYZus{}quantity}
+    
+    \PY{k}{def} \PY{n+nf}{sales\PYZus{}revenue}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:}
+        \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Compute sales revenue\PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{minimum}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{order\PYZus{}quantity}\PY{p}{,} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{demand}\PY{p}{)} \PY{o}{*} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{selling\PYZus{}price}
+    
+    \PY{k}{def} \PY{n+nf}{refund\PYZus{}revenue}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:}
+        \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Compute revenue from refunds for unsold items\PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{maximum}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{order\PYZus{}quantity} \PY{o}{\PYZhy{}} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{demand}\PY{p}{)} \PY{o}{*} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{unit\PYZus{}refund}
+    
+    \PY{k}{def} \PY{n+nf}{profit}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:}
+        \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+\PY{l+s+sd}{        Compute profit in bookstore model}
+\PY{l+s+sd}{        \PYZsq{}\PYZsq{}\PYZsq{}}
+        \PY{n}{profit} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{sales\PYZus{}revenue}\PY{p}{(}\PY{p}{)} \PY{o}{+} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{refund\PYZus{}revenue}\PY{p}{(}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{order\PYZus{}cost}\PY{p}{(}\PY{p}{)}
+        \PY{k}{return} \PY{n}{profit}
+       
+    \PY{k}{def} \PY{n+nf+fm}{\PYZus{}\PYZus{}str\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:}
+        \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{        Print dictionary of object attributes but don\PYZsq{}t include an underscore as first char}
+\PY{l+s+sd}{        \PYZdq{}\PYZdq{}\PYZdq{}}
+        \PY{k}{return} \PY{n+nb}{str}\PY{p}{(}\PY{n+nb}{vars}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{}return str(\PYZob{}key: val for (key, val) in vars(self).items() if key[0] != \PYZsq{}\PYZus{}\PYZsq{}\PYZcb{})}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Let's try out our \texttt{update} method. Also, since now the
+BookstoreModel class uses keyword arguments with defaults, I'm going to
+create a new model object in a slightly different way:
+
+\begin{itemize}
+\tightlist
+\item
+  create a new model object and just take the zero default values for
+  the input attributes
+\item
+  use the \texttt{update} method to set the input attributes via a
+  dictionary
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{41}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{base\PYZus{}inputs} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{unit\PYZus{}cost}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mf}{7.50}\PY{p}{,}
+              \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{selling\PYZus{}price}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mf}{10.00}\PY{p}{,}
+              \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{unit\PYZus{}refund}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mf}{2.50}\PY{p}{,}
+              \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{order\PYZus{}quantity}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{200}\PY{p}{,}
+              \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{demand}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{193}\PY{p}{\PYZcb{}}
+
+\PY{n}{model\PYZus{}5} \PY{o}{=} \PY{n}{BookstoreModel}\PY{p}{(}\PY{p}{)}
+\PY{n}{model\PYZus{}5}\PY{o}{.}\PY{n}{update}\PY{p}{(}\PY{n}{base\PYZus{}inputs}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{model\PYZus{}5}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+\{'unit\_cost': 7.5, 'selling\_price': 10.0, 'unit\_refund': 2.5, 'order\_quantity':
+200, 'demand': 193\}
+    \end{Verbatim}
+
+    \hypertarget{how-to-generate-and-iterate-over-scenarios-to-create-a-2-way-data-table}{%
+\paragraph{How to generate and iterate over scenarios to create a 2-way
+Data
+Table?}\label{how-to-generate-and-iterate-over-scenarios-to-create-a-2-way-data-table}}
+
+Let's regroup and remind ourselves where we are in the development
+process for our 2-way data table function. We've got two input
+variables, \texttt{demand} and \texttt{order\_quantity} and we'd like to
+specify a range over which each variable should vary. Then, we want to
+consider all combinations of these variable values and compute the
+associated, say, profit (really, any ouput of our model). It would be
+convenient to be be able to specify our input ranges with a dictionary
+whose keys are the input variable names and the values are any valid
+Python iterable (such as a list or the output of some function that
+returns a range of values). For example:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{42}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dt\PYZus{}param\PYZus{}ranges} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{demand}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{70}\PY{p}{,} \PY{l+m+mi}{321}\PY{p}{,} \PY{l+m+mi}{25}\PY{p}{)}\PY{p}{,}
+                   \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{order\PYZus{}quantity}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{70}\PY{p}{,} \PY{l+m+mi}{321}\PY{p}{,} \PY{l+m+mi}{50}\PY{p}{)}\PY{p}{\PYZcb{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Our immediate goal is to convert this dictionary into a list of
+dictionaries - one dictionary per scenario. Like this:
+
+\begin{verbatim}
+[{'demand': 70, 'order_quantity': 70},
+ {'demand': 70, 'order_quantity': 120},
+ {'demand': 70, 'order_quantity': 170},
+ {'demand': 70, 'order_quantity': 220},
+ {'demand': 70, 'order_quantity': 270},
+ {'demand': 70, 'order_quantity': 320},
+ {'demand': 95, 'order_quantity': 70},
+ {'demand': 95, 'order_quantity': 120},
+ ...
+ ...
+ ...
+ {'demand': 320, 'order_quantity': 220},
+ {'demand': 320, 'order_quantity': 270},
+ {'demand': 320, 'order_quantity': 320}]
+ 
+\end{verbatim}
+
+Each of these component dictionaries is something we can use with our
+new model object \texttt{update} method to set the corresponding values
+for each scenario. Hmmm, feels like some clever iterating and zipping
+and more iterating. Before doing that ourselves, can we do this using
+the functionality of some existing Python library? Spoiler alert, yes,
+we can.
+
+    \hypertarget{learning-from-the-ideas-and-code-from-scikit-learn}{%
+\paragraph{Learning from the ideas and code from
+scikit-learn}\label{learning-from-the-ideas-and-code-from-scikit-learn}}
+
+\href{https://scikit-learn.org/stable/index.html}{Scikit-learn} is an
+extremely popular Python package for building, testing and using machine
+learning models. In thinking about the input values for an n-way data
+table, it feels similar to a
+\href{https://scikit-learn.org/stable/modules/grid_search.html}{parameter
+grid for a hyperparameter grid search in scikit learn}. Can we borrow
+some of their patterns or code ideas?
+
+https://scikit-learn.org/stable/modules/generated/sklearn.model\_selection.GridSearchCV.html\#sklearn.model\_selection.GridSearchCV
+
+https://scikit-learn.org/stable/modules/grid\_search.html\#grid-search
+
+Example from User Guide shows passing in two different grids to explore
+as a list of dicts. Notice that each dict is like the setup for an Excel
+Data Table - the key is just the name of some variable and the value is
+some iterable. Don't worry about the details, just look at the structure
+of \texttt{param\_grid}.
+
+\begin{verbatim}
+param_grid = [
+  {'C': [1, 10, 100, 1000], 'kernel': ['linear']},
+  {'C': [1, 10, 100, 1000], 'gamma': [0.001, 0.0001], 'kernel': ['rbf']},
+ ]
+ 
+\end{verbatim}
+
+For example, the \texttt{GridSearchCV} takes an estimator object and a
+parameter grid object. The parameter grid is a dict or list of dicts in
+which the keys are the parameter names. SKLearn implements a
+\texttt{ParameterGrid} class. Looking at its source, the docstring
+contains the following example. Notice that the result of
+\texttt{ParameterGrid(param\_grid)} is a list of dicts in which each
+dict contains a specific combination of the parameter values, i.e., it
+generates all the scenarios to explore.
+
+\begin{verbatim}
+Examples
+--------
+>>> from sklearn.model_selection import ParameterGrid
+>>> param_grid = {'a': [1, 2], 'b': [True, False]}
+>>> list(ParameterGrid(param_grid)) == (
+...    [{'a': 1, 'b': True}, {'a': 1, 'b': False},
+...     {'a': 2, 'b': True}, {'a': 2, 'b': False}])
+True
+\end{verbatim}
+
+Hmm, we could use this class directly.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{43}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection}\PY{n+nn}{.}\PY{n+nn}{\PYZus{}search} \PY{k+kn}{import} \PY{n}{ParameterGrid}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{44}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dt\PYZus{}param\PYZus{}ranges} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{demand}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{70}\PY{p}{,} \PY{l+m+mi}{321}\PY{p}{,} \PY{l+m+mi}{25}\PY{p}{)}\PY{p}{,}
+                   \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{order\PYZus{}quantity}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{70}\PY{p}{,} \PY{l+m+mi}{321}\PY{p}{,} \PY{l+m+mi}{50}\PY{p}{)}\PY{p}{\PYZcb{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{45}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dt\PYZus{}param\PYZus{}grid} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n}{ParameterGrid}\PY{p}{(}\PY{n}{dt\PYZus{}param\PYZus{}ranges}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{dt\PYZus{}param\PYZus{}grid}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[\{'demand': 70, 'order\_quantity': 70\}, \{'demand': 70, 'order\_quantity': 120\},
+\{'demand': 70, 'order\_quantity': 170\}, \{'demand': 70, 'order\_quantity': 220\},
+\{'demand': 70, 'order\_quantity': 270\}, \{'demand': 70, 'order\_quantity': 320\},
+\{'demand': 95, 'order\_quantity': 70\}, \{'demand': 95, 'order\_quantity': 120\},
+\{'demand': 95, 'order\_quantity': 170\}, \{'demand': 95, 'order\_quantity': 220\},
+\{'demand': 95, 'order\_quantity': 270\}, \{'demand': 95, 'order\_quantity': 320\},
+\{'demand': 120, 'order\_quantity': 70\}, \{'demand': 120, 'order\_quantity': 120\},
+\{'demand': 120, 'order\_quantity': 170\}, \{'demand': 120, 'order\_quantity': 220\},
+\{'demand': 120, 'order\_quantity': 270\}, \{'demand': 120, 'order\_quantity': 320\},
+\{'demand': 145, 'order\_quantity': 70\}, \{'demand': 145, 'order\_quantity': 120\},
+\{'demand': 145, 'order\_quantity': 170\}, \{'demand': 145, 'order\_quantity': 220\},
+\{'demand': 145, 'order\_quantity': 270\}, \{'demand': 145, 'order\_quantity': 320\},
+\{'demand': 170, 'order\_quantity': 70\}, \{'demand': 170, 'order\_quantity': 120\},
+\{'demand': 170, 'order\_quantity': 170\}, \{'demand': 170, 'order\_quantity': 220\},
+\{'demand': 170, 'order\_quantity': 270\}, \{'demand': 170, 'order\_quantity': 320\},
+\{'demand': 195, 'order\_quantity': 70\}, \{'demand': 195, 'order\_quantity': 120\},
+\{'demand': 195, 'order\_quantity': 170\}, \{'demand': 195, 'order\_quantity': 220\},
+\{'demand': 195, 'order\_quantity': 270\}, \{'demand': 195, 'order\_quantity': 320\},
+\{'demand': 220, 'order\_quantity': 70\}, \{'demand': 220, 'order\_quantity': 120\},
+\{'demand': 220, 'order\_quantity': 170\}, \{'demand': 220, 'order\_quantity': 220\},
+\{'demand': 220, 'order\_quantity': 270\}, \{'demand': 220, 'order\_quantity': 320\},
+\{'demand': 245, 'order\_quantity': 70\}, \{'demand': 245, 'order\_quantity': 120\},
+\{'demand': 245, 'order\_quantity': 170\}, \{'demand': 245, 'order\_quantity': 220\},
+\{'demand': 245, 'order\_quantity': 270\}, \{'demand': 245, 'order\_quantity': 320\},
+\{'demand': 270, 'order\_quantity': 70\}, \{'demand': 270, 'order\_quantity': 120\},
+\{'demand': 270, 'order\_quantity': 170\}, \{'demand': 270, 'order\_quantity': 220\},
+\{'demand': 270, 'order\_quantity': 270\}, \{'demand': 270, 'order\_quantity': 320\},
+\{'demand': 295, 'order\_quantity': 70\}, \{'demand': 295, 'order\_quantity': 120\},
+\{'demand': 295, 'order\_quantity': 170\}, \{'demand': 295, 'order\_quantity': 220\},
+\{'demand': 295, 'order\_quantity': 270\}, \{'demand': 295, 'order\_quantity': 320\},
+\{'demand': 320, 'order\_quantity': 70\}, \{'demand': 320, 'order\_quantity': 120\},
+\{'demand': 320, 'order\_quantity': 170\}, \{'demand': 320, 'order\_quantity': 220\},
+\{'demand': 320, 'order\_quantity': 270\}, \{'demand': 320, 'order\_quantity': 320\}]
+    \end{Verbatim}
+
+    Perfect! We have a list of dictionaries, each of which contains one of
+the combinations of the \texttt{demand} and \texttt{order\_quantity}
+attributes that we want in our data table. Isn't it nice that we just
+implemented an \texttt{update} method that takes just such a dictionary
+as its input. Almost like we planned it. :)
+
+While there's nothing wrong with leveraging the skikit-learn library for
+this task (after all, reusing objects is one of the whole reasons for
+OOP), we really don't need all the generality provided by its
+\texttt{ParameterGrid} class. We just need to do some careful iteration
+through our dictionary of input ranges to create the same output. It
+will give us a chance to use the very useful
+\href{https://docs.python.org/3/library/itertools.html}{itertools
+library} and see Python's \texttt{zip} function in action.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{46}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{itertools} \PY{k+kn}{import} \PY{n}{product}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{47}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Look at the key, value pairs (tuples) in dt\PYZus{}param\PYZus{}ranges dictionary}
+\PY{n}{dt\PYZus{}param\PYZus{}ranges}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{47}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+dict\_items([('demand', array([ 70,  95, 120, 145, 170, 195, 220, 245, 270, 295,
+320])), ('order\_quantity', array([ 70, 120, 170, 220, 270, 320]))])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Now we can use
+\href{https://docs.python.org/3.6/tutorial/controlflow.html\#unpacking-argument-lists}{unpacking}
+along with the
+\href{https://www.w3schools.com/python/ref_func_zip.asp}{zip function}
+to get two tuples. One tuple will get stored in the variable
+\texttt{keys} and the other in \texttt{values}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{48}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{The original tuples}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{o}{*}\PY{n}{dt\PYZus{}param\PYZus{}ranges}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{The zipped tuples}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{keys}\PY{p}{,} \PY{n}{values} \PY{o}{=} \PY{n+nb}{zip}\PY{p}{(}\PY{o}{*}\PY{n}{dt\PYZus{}param\PYZus{}ranges}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{keys}\PY{p}{,} \PY{n}{values}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+The original tuples
+('demand', array([ 70,  95, 120, 145, 170, 195, 220, 245, 270, 295, 320]))
+('order\_quantity', array([ 70, 120, 170, 220, 270, 320]))
+
+The zipped tuples
+('demand', 'order\_quantity') (array([ 70,  95, 120, 145, 170, 195, 220, 245,
+270, 295, 320]), array([ 70, 120, 170, 220, 270, 320]))
+    \end{Verbatim}
+
+    Now we have a tuple of the keys,
+\texttt{(\textquotesingle{}demand\textquotesingle{},\ \textquotesingle{}order\_quantity\textquotesingle{})}
+and a tuple containing the two arrays of associated values.
+
+What we need next is a way to get all the combinations of the values in
+the two arrays. This is a perfect job for the \texttt{itertools.product}
+function. Here's a simple example of what \texttt{product} does.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{49}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{colors} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{blue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{green}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{intensities} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pale}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bright}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{k}{for} \PY{n}{pair} \PY{o+ow}{in} \PY{n}{product}\PY{p}{(}\PY{n}{intensities}\PY{p}{,} \PY{n}{colors}\PY{p}{)}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{n}{pair}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+('pale', 'red')
+('pale', 'blue')
+('pale', 'green')
+('bright', 'red')
+('bright', 'blue')
+('bright', 'green')
+    \end{Verbatim}
+
+    The \texttt{values} variable is a tuple (that needs unpacking)
+containing the two arrays for which we want the \texttt{product}. I'll
+turn the result into a list so we can see it. Try it without the list to
+see what you get.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{50}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{values}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+(array([ 70,  95, 120, 145, 170, 195, 220, 245, 270, 295, 320]), array([ 70,
+120, 170, 220, 270, 320]))
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{51}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{n+nb}{list}\PY{p}{(}\PY{n}{product}\PY{p}{(}\PY{o}{*}\PY{n}{values}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[(70, 70), (70, 120), (70, 170), (70, 220), (70, 270), (70, 320), (95, 70), (95,
+120), (95, 170), (95, 220), (95, 270), (95, 320), (120, 70), (120, 120), (120,
+170), (120, 220), (120, 270), (120, 320), (145, 70), (145, 120), (145, 170),
+(145, 220), (145, 270), (145, 320), (170, 70), (170, 120), (170, 170), (170,
+220), (170, 270), (170, 320), (195, 70), (195, 120), (195, 170), (195, 220),
+(195, 270), (195, 320), (220, 70), (220, 120), (220, 170), (220, 220), (220,
+270), (220, 320), (245, 70), (245, 120), (245, 170), (245, 220), (245, 270),
+(245, 320), (270, 70), (270, 120), (270, 170), (270, 220), (270, 270), (270,
+320), (295, 70), (295, 120), (295, 170), (295, 220), (295, 270), (295, 320),
+(320, 70), (320, 120), (320, 170), (320, 220), (320, 270), (320, 320)]
+    \end{Verbatim}
+
+    Finally, we need to zip each of these tuples with the \texttt{keys}
+variable and turn the resulting tuple into a dictionary. Let's recall
+what it contains:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{52}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{keys}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{52}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+('demand', 'order\_quantity')
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The \texttt{zip} function works like a zipper and pairs elements in the
+same position in our two tuples.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{53}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{list}\PY{p}{(}\PY{n+nb}{zip}\PY{p}{(}\PY{n}{keys}\PY{p}{,} \PY{p}{(}\PY{l+m+mi}{70}\PY{p}{,} \PY{l+m+mi}{120}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{53}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+[('demand', 70), ('order\_quantity', 120)]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \ldots{} and it's easy to turn this into a dictionary (which is what we
+want).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{54}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{dict}\PY{p}{(}\PY{n+nb}{zip}\PY{p}{(}\PY{n}{keys}\PY{p}{,} \PY{p}{(}\PY{l+m+mi}{70}\PY{p}{,} \PY{l+m+mi}{120}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{54}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\{'demand': 70, 'order\_quantity': 120\}
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Ok, just put all these ideas together.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{55}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{param\PYZus{}grid} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+\PY{n}{keys}\PY{p}{,} \PY{n}{values} \PY{o}{=} \PY{n+nb}{zip}\PY{p}{(}\PY{o}{*}\PY{n}{dt\PYZus{}param\PYZus{}ranges}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+
+\PY{k}{for} \PY{n}{scenario} \PY{o+ow}{in} \PY{n}{product}\PY{p}{(}\PY{o}{*}\PY{n}{values}\PY{p}{)}\PY{p}{:}
+    \PY{n}{params} \PY{o}{=} \PY{n+nb}{dict}\PY{p}{(}\PY{n+nb}{zip}\PY{p}{(}\PY{n}{keys}\PY{p}{,} \PY{n}{scenario}\PY{p}{)}\PY{p}{)}
+    \PY{n}{param\PYZus{}grid}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{params}\PY{p}{)}
+        
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{param\PYZus{}grid}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[\{'demand': 70, 'order\_quantity': 70\}, \{'demand': 70, 'order\_quantity': 120\},
+\{'demand': 70, 'order\_quantity': 170\}, \{'demand': 70, 'order\_quantity': 220\},
+\{'demand': 70, 'order\_quantity': 270\}, \{'demand': 70, 'order\_quantity': 320\},
+\{'demand': 95, 'order\_quantity': 70\}, \{'demand': 95, 'order\_quantity': 120\},
+\{'demand': 95, 'order\_quantity': 170\}, \{'demand': 95, 'order\_quantity': 220\},
+\{'demand': 95, 'order\_quantity': 270\}, \{'demand': 95, 'order\_quantity': 320\},
+\{'demand': 120, 'order\_quantity': 70\}, \{'demand': 120, 'order\_quantity': 120\},
+\{'demand': 120, 'order\_quantity': 170\}, \{'demand': 120, 'order\_quantity': 220\},
+\{'demand': 120, 'order\_quantity': 270\}, \{'demand': 120, 'order\_quantity': 320\},
+\{'demand': 145, 'order\_quantity': 70\}, \{'demand': 145, 'order\_quantity': 120\},
+\{'demand': 145, 'order\_quantity': 170\}, \{'demand': 145, 'order\_quantity': 220\},
+\{'demand': 145, 'order\_quantity': 270\}, \{'demand': 145, 'order\_quantity': 320\},
+\{'demand': 170, 'order\_quantity': 70\}, \{'demand': 170, 'order\_quantity': 120\},
+\{'demand': 170, 'order\_quantity': 170\}, \{'demand': 170, 'order\_quantity': 220\},
+\{'demand': 170, 'order\_quantity': 270\}, \{'demand': 170, 'order\_quantity': 320\},
+\{'demand': 195, 'order\_quantity': 70\}, \{'demand': 195, 'order\_quantity': 120\},
+\{'demand': 195, 'order\_quantity': 170\}, \{'demand': 195, 'order\_quantity': 220\},
+\{'demand': 195, 'order\_quantity': 270\}, \{'demand': 195, 'order\_quantity': 320\},
+\{'demand': 220, 'order\_quantity': 70\}, \{'demand': 220, 'order\_quantity': 120\},
+\{'demand': 220, 'order\_quantity': 170\}, \{'demand': 220, 'order\_quantity': 220\},
+\{'demand': 220, 'order\_quantity': 270\}, \{'demand': 220, 'order\_quantity': 320\},
+\{'demand': 245, 'order\_quantity': 70\}, \{'demand': 245, 'order\_quantity': 120\},
+\{'demand': 245, 'order\_quantity': 170\}, \{'demand': 245, 'order\_quantity': 220\},
+\{'demand': 245, 'order\_quantity': 270\}, \{'demand': 245, 'order\_quantity': 320\},
+\{'demand': 270, 'order\_quantity': 70\}, \{'demand': 270, 'order\_quantity': 120\},
+\{'demand': 270, 'order\_quantity': 170\}, \{'demand': 270, 'order\_quantity': 220\},
+\{'demand': 270, 'order\_quantity': 270\}, \{'demand': 270, 'order\_quantity': 320\},
+\{'demand': 295, 'order\_quantity': 70\}, \{'demand': 295, 'order\_quantity': 120\},
+\{'demand': 295, 'order\_quantity': 170\}, \{'demand': 295, 'order\_quantity': 220\},
+\{'demand': 295, 'order\_quantity': 270\}, \{'demand': 295, 'order\_quantity': 320\},
+\{'demand': 320, 'order\_quantity': 70\}, \{'demand': 320, 'order\_quantity': 120\},
+\{'demand': 320, 'order\_quantity': 170\}, \{'demand': 320, 'order\_quantity': 220\},
+\{'demand': 320, 'order\_quantity': 270\}, \{'demand': 320, 'order\_quantity': 320\}]
+    \end{Verbatim}
+
+    Voila! We've recreated the same output as \texttt{ParameterGrid} gave
+us.
+
+\begin{quote}
+This little exercise underscores the value of knowing the basics of OOP
+if you are going to do analytics work in Python. Almost all of the main
+libraries that you'll encounter (e.g.~pandas, matplotlib, scikit-learn)
+are written in OO fashion. So, in order for you to be able to peek into
+their source code, make sense of things, and maybe even borrow some code
+as we did, you need to understand the basics of OOP in Python.
+\end{quote}
+
+    \hypertarget{creating-the-data_table-function}{%
+\subsubsection{Creating the data\_table
+function}\label{creating-the-data_table-function}}
+
+Our plan is to create a function that takes three inputs:
+
+\begin{itemize}
+\tightlist
+\item
+  a model object such as \texttt{model\_5},
+\item
+  a dictionary containing the input attributes and associated ranges for
+  the data table such as \texttt{dt\_param\_ranges},
+\item
+  a list of outputs which are methods of the the model object; for
+  example \texttt{{[}\textquotesingle{}profit\textquotesingle{}{]}}
+\end{itemize}
+
+Since we don't want the \texttt{data\_table} function to modify our
+passed in model object, we'll create a copy of the model within the
+function. As we saw when copying list objects, we need to be careful
+when copying user defined objects. We'll create what is known as a
+\emph{deep copy} using the \texttt{copy} library. Learn more about
+\href{https://docs.python.org/3/library/copy.html}{shallow and deep
+copying here}.
+
+Then we'll generate our parameter grid. I like to think of each element
+in the parameter grid,
+e.g.~\texttt{\{\textquotesingle{}demand\textquotesingle{}:\ 295,\ \textquotesingle{}order\_quantity\textquotesingle{}:\ 270\}},
+as a \emph{scenario}. We loop over all the scenarios in the grid,
+updating the model copy and computing the requested outputs. For each
+scenario, we'll end up with a dictionary containing both the inputs and
+outputs. For example,
+\texttt{\{\textquotesingle{}demand\textquotesingle{}:\ 295,\ \textquotesingle{}order\_quantity\textquotesingle{}:\ 270,\ \textquotesingle{}profit\textquotesingle{}:405.0\}}.
+Each such dictionary will get stored in a list and then at the very end
+our function will convert this list to a pandas DataFrame and return it.
+
+Here's our first version. Take note of the use of \texttt{getattr} to
+indirectly call methods (e.g.~\texttt{profit}) of the model.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{56}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Demo of getattr for indirect method calling}
+\PY{n+nb}{getattr}\PY{p}{(}\PY{n}{model\PYZus{}5}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{profit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{56}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+447.5
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{57}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{data\PYZus{}table}\PY{p}{(}\PY{n}{model}\PY{p}{,} \PY{n}{scenario\PYZus{}inputs}\PY{p}{,} \PY{n}{outputs}\PY{p}{)}\PY{p}{:}
+    \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}Create n\PYZhy{}inputs by m\PYZhy{}outputs data table. }
+
+\PY{l+s+sd}{    Parameters}
+\PY{l+s+sd}{    \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{l+s+sd}{    model : object}
+\PY{l+s+sd}{        User defined object containing the appropriate methods and properties for computing outputs from inputs}
+\PY{l+s+sd}{    scenario\PYZus{}inputs : dict of str to sequence}
+\PY{l+s+sd}{        Keys are input variable names and values are sequence of values for each scenario for this variable.}
+\PY{l+s+sd}{    outputs : list of str}
+\PY{l+s+sd}{        List of output variable names}
+
+\PY{l+s+sd}{    Returns}
+\PY{l+s+sd}{    \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{l+s+sd}{    results\PYZus{}df : pandas DataFrame}
+\PY{l+s+sd}{        Contains values of all outputs for every combination of scenario inputs}
+\PY{l+s+sd}{    \PYZsq{}\PYZsq{}\PYZsq{}}
+
+    \PY{c+c1}{\PYZsh{} Clone the model using deepcopy}
+    \PY{n}{model\PYZus{}clone} \PY{o}{=} \PY{n}{copy}\PY{o}{.}\PY{n}{deepcopy}\PY{p}{(}\PY{n}{model}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} Create parameter grid}
+    \PY{n}{dt\PYZus{}param\PYZus{}grid} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n}{ParameterGrid}\PY{p}{(}\PY{n}{scenario\PYZus{}inputs}\PY{p}{)}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} Create the table as a list of dictionaries}
+    \PY{n}{results} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+    \PY{c+c1}{\PYZsh{} Loop over the scenarios}
+    \PY{k}{for} \PY{n}{params} \PY{o+ow}{in} \PY{n}{dt\PYZus{}param\PYZus{}grid}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{} Update the model clone with scenario specific values}
+        \PY{n}{model\PYZus{}clone}\PY{o}{.}\PY{n}{update}\PY{p}{(}\PY{n}{params}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} Create a result dictionary based on a copy of the scenario inputs}
+        \PY{n}{result} \PY{o}{=} \PY{n}{copy}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{n}{params}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} Loop over the list of requested outputs}
+        \PY{k}{for} \PY{n}{output} \PY{o+ow}{in} \PY{n}{outputs}\PY{p}{:}
+            \PY{c+c1}{\PYZsh{} Compute the output.}
+            \PY{n}{out\PYZus{}val} \PY{o}{=} \PY{n+nb}{getattr}\PY{p}{(}\PY{n}{model\PYZus{}clone}\PY{p}{,} \PY{n}{output}\PY{p}{)}\PY{p}{(}\PY{p}{)}
+            \PY{c+c1}{\PYZsh{} Add the output to the result dictionary}
+            \PY{n}{result}\PY{p}{[}\PY{n}{output}\PY{p}{]} \PY{o}{=} \PY{n}{out\PYZus{}val}
+        
+        \PY{c+c1}{\PYZsh{} Append the result dictionary to the results list}
+        \PY{n}{results}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{result}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Convert the results list (of dictionaries) to a pandas DataFrame and return it}
+    \PY{n}{results\PYZus{}df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{results}\PY{p}{)}
+    \PY{k}{return} \PY{n}{results\PYZus{}df}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Okay, let's try it out. This time, I'll use \emph{dictionary unpacking}
+to pass in the parameter values to our class.
+
+\begin{itemize}
+\tightlist
+\item
+  Create a dict called \texttt{base\_inputs} with values to use in the
+  model
+\item
+  Then \textbf{base\_inputs} will \emph{unpack} the dictionary to key,
+  value pairs that are used to specificy the keyword input arguments for
+  out \texttt{BookstoreModel}.
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{58}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Create a dictionary of base input values}
+
+\PY{n}{base\PYZus{}inputs} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{unit\PYZus{}cost}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mf}{7.5}\PY{p}{,} 
+               \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{selling\PYZus{}price}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mf}{10.0}\PY{p}{,} 
+               \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{unit\PYZus{}refund}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mf}{2.5}\PY{p}{,} 
+               \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{order\PYZus{}quantity}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{200}\PY{p}{,} 
+               \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{demand}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{193}\PY{p}{\PYZcb{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{59}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Create a new model with inputs specified by base\PYZus{}inputs dict}
+\PY{n}{model\PYZus{}6} \PY{o}{=} \PY{n}{BookstoreModel}\PY{p}{(}\PY{o}{*}\PY{o}{*}\PY{n}{base\PYZus{}inputs}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{model\PYZus{}6}\PY{p}{)}
+\PY{n}{model\PYZus{}6}\PY{o}{.}\PY{n}{profit}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+\{'unit\_cost': 7.5, 'selling\_price': 10.0, 'unit\_refund': 2.5, 'order\_quantity':
+200, 'demand': 193\}
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{59}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+447.5
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{60}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Specify input ranges for scenarios (dictionary)}
+\PY{c+c1}{\PYZsh{} 1\PYZhy{}way table}
+\PY{n}{dt\PYZus{}param\PYZus{}ranges\PYZus{}1} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{demand}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{70}\PY{p}{,} \PY{l+m+mi}{321}\PY{p}{,} \PY{l+m+mi}{25}\PY{p}{)}\PY{p}{\PYZcb{}}
+
+\PY{c+c1}{\PYZsh{} 2\PYZhy{}way table}
+\PY{n}{dt\PYZus{}param\PYZus{}ranges\PYZus{}2} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{demand}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{70}\PY{p}{,} \PY{l+m+mi}{321}\PY{p}{,} \PY{l+m+mi}{25}\PY{p}{)}\PY{p}{,}
+                     \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{order\PYZus{}quantity}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{70}\PY{p}{,} \PY{l+m+mi}{321}\PY{p}{,} \PY{l+m+mi}{50}\PY{p}{)}\PY{p}{\PYZcb{}}
+
+\PY{c+c1}{\PYZsh{} Specify desired outputs (list)}
+\PY{n}{outputs} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{profit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{order\PYZus{}cost}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} Use data\PYZus{}table function to create 1\PYZhy{}way data table}
+\PY{n}{m6\PYZus{}dt1\PYZus{}df} \PY{o}{=} \PY{n}{data\PYZus{}table}\PY{p}{(}\PY{n}{model\PYZus{}6}\PY{p}{,} \PY{n}{dt\PYZus{}param\PYZus{}ranges\PYZus{}1}\PY{p}{,} \PY{n}{outputs}\PY{p}{)}
+\PY{n}{m6\PYZus{}dt1\PYZus{}df}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{60}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+    demand  profit  order\_cost
+0       70  -475.0      1500.0
+1       95  -287.5      1500.0
+2      120  -100.0      1500.0
+3      145    87.5      1500.0
+4      170   275.0      1500.0
+5      195   462.5      1500.0
+6      220   500.0      1500.0
+7      245   500.0      1500.0
+8      270   500.0      1500.0
+9      295   500.0      1500.0
+10     320   500.0      1500.0
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{61}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Use data\PYZus{}table function to create 2\PYZhy{}way data table}
+\PY{n}{m6\PYZus{}dt2\PYZus{}df} \PY{o}{=} \PY{n}{data\PYZus{}table}\PY{p}{(}\PY{n}{model\PYZus{}6}\PY{p}{,} \PY{n}{dt\PYZus{}param\PYZus{}ranges\PYZus{}2}\PY{p}{,} \PY{n}{outputs}\PY{p}{)}
+\PY{n}{m6\PYZus{}dt2\PYZus{}df}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{61}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+    demand  order\_quantity  profit  order\_cost
+0       70              70   175.0       525.0
+1       70             120   -75.0       900.0
+2       70             170  -325.0      1275.0
+3       70             220  -575.0      1650.0
+4       70             270  -825.0      2025.0
+..     {\ldots}             {\ldots}     {\ldots}         {\ldots}
+61     320             120   300.0       900.0
+62     320             170   425.0      1275.0
+63     320             220   550.0      1650.0
+64     320             270   675.0      2025.0
+65     320             320   800.0      2400.0
+
+[66 rows x 4 columns]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Let's plot the 2-way results using Seaborn.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{62}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{profit\PYZus{}dt\PYZus{}g} \PY{o}{=} \PY{n}{sns}\PY{o}{.}\PY{n}{FacetGrid}\PY{p}{(}\PY{n}{m6\PYZus{}dt2\PYZus{}df}\PY{p}{,} \PY{n}{col}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{order\PYZus{}quantity}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{sharey}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{col\PYZus{}wrap}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{profit\PYZus{}dt\PYZus{}g} \PY{o}{=} \PY{n}{profit\PYZus{}dt\PYZus{}g}\PY{o}{.}\PY{n}{map}\PY{p}{(}\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{demand}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{profit}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_164_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{63}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{profit\PYZus{}dt\PYZus{}g}\PY{o}{.}\PY{n}{savefig}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{images/two\PYZus{}way\PYZus{}dt.png}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Perfect! The plots make sense in that the order quantity acts as an
+upper limit on profit since we end up with unmet demand whenever demand
+exceeds our order quantity.
+
+    \hypertarget{concluding-thoughts-and-next-steps}{%
+\subsection{Concluding thoughts and next
+steps}\label{concluding-thoughts-and-next-steps}}
+
+We've created an OO version of a simple spreadsheet type model that
+lends itself pretty well to the type of sensitivity analysis we would do
+with something like Excel's Data Table tool. Our Python
+\texttt{data\_table} function actually allows \emph{n} input variables
+and \emph{m} output variables. In Excel, you can either do a \(1xn\) (a
+one-way Data Table) or \(2x1\) (a two-way Data Table).
+
+Along the way we learned the basics of doing OOP in Python and a bunch
+of more advanced Python functions and techniques. While that might have
+seemed like a bunch of work, now we've got a reusable model object and
+reusable data table function that we can build on.
+
+In the next post, we'll build on this work and take on implementing an
+Excel-style Goal Seek function in Python. We'll explore this using both
+the OO and the non-OO models. Each leads to some interesting challenges.
+Which approach do you think will end up being easier to use within a
+Python \texttt{goal\_seek} function?
+
+Then we'll use these same models for Monte-Carlo simulation. We'll be
+creating our own \texttt{simulate} function to add to the
+\texttt{data\_table} and \texttt{goal\_seek} functions that we created
+in the first and second parts of this series.
+
+In the fourth post in this series, we'll learn to create a Python
+package containing our three ``what-if?'' functions so that we can share
+our work and easily use these functions in different notebooks or Python
+programs.
+
+    \hypertarget{answers}{%
+\subsection{ANSWERS}\label{answers}}
+
+    \textbf{QUESTION 1:} Complete the lines of code below (answer at bottom
+of notebook)
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{order\PYZus{}cost} \PY{o}{=} \PY{n}{unit\PYZus{}cost} \PY{o}{*} \PY{n}{order\PYZus{}quantity}
+\PY{n}{sales\PYZus{}revenue} \PY{o}{=} \PY{n+nb}{min}\PY{p}{(}\PY{n}{order\PYZus{}quantity}\PY{p}{,} \PY{n}{demand}\PY{p}{)} \PY{o}{*} \PY{n}{selling\PYZus{}price}
+\PY{n}{refund\PYZus{}revenue} \PY{o}{=} \PY{n+nb}{max}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{order\PYZus{}quantity} \PY{o}{\PYZhy{}} \PY{n}{demand}\PY{p}{)} \PY{o}{*} \PY{n}{unit\PYZus{}refund}
+\PY{n}{profit} \PY{o}{=} \PY{n}{sales\PYZus{}revenue} \PY{o}{+} \PY{n}{refund\PYZus{}revenue} \PY{o}{\PYZhy{}} \PY{n}{order\PYZus{}cost}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \textbf{CHALLENGE 2} Lost sales method
+
+We could add the following method to our \texttt{BookstoreModel} class.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{lost\PYZus{}sales}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:}
+    \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Compute number of items demanded but no inventory to sell\PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{maximum}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{demand} \PY{o}{\PYZhy{}} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{order\PYZus{}quantity}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+
+\end{Verbatim}
+\end{tcolorbox}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}

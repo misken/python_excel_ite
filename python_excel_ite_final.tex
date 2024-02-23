@@ -1,0 +1,752 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Author style for INFORMS Transactions on Education (ited)
+%% Mirko Janc, Ph.D., INFORMS, pubtech@informs.org
+%% ver. 0.92, June 2009 -- default options: single-spaced, double-blinded
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[ited]{informs3}                      % for a regular run
+%\documentclass[ited,nonblindrev]{informs3}          % for review, not blinded
+%\documentclass[ited,blindrev,copyedit]{informs3}    % spaced for copyediting
+%\documentclass[ited,blindrev]{informs3}              % for review, blinded
+
+\usepackage[most]{tcolorbox}
+\usepackage{graphicx}
+\usepackage{caption}
+\newenvironment{codelisting}{\captionsetup{type=listing}}{}
+
+\usepackage{minted}
+%\tcbuselibrary{minted} % tcolorbox minted library, required to use the "minted" tcb listing engine (this library is not loaded by the option [most])
+
+
+%\usepackage{listings}
+%\usepackage{color}
+%
+%\definecolor{dkgreen}{rgb}{0,0.6,0}
+%\definecolor{gray}{rgb}{0.5,0.5,0.5}
+%\definecolor{mauve}{rgb}{0.58,0,0.82}
+%
+%\lstset{frame=tb,
+%	language=Python,
+%	aboveskip=3mm,
+%	belowskip=3mm,
+%	showstringspaces=false,
+%	columns=flexible,
+%	basicstyle={\small\ttfamily},
+%	numbers=none,
+%	numberstyle=\tiny\color{gray},
+%	keywordstyle=\color{blue},
+%	commentstyle=\color{dkgreen},
+%	stringstyle=\color{mauve},
+%	breaklines=true,
+%	breakatwhitespace=true,
+%	tabsize=3
+%}
+
+\usepackage[colorlinks]{hyperref} % ALWAYS load this package LAST
+
+
+
+% If hyperref is used, dvi-to-ps driver of choice must be declared as
+%   an additional option to the \documentstyle. For example
+%\documentclass[dvips,ited]{informs1}      % if dvips is used 
+%\documentclass[dvipsone,ited]{informs1}   % if dvipsone is used, etc. 
+
+% Private macros here (check that there is no clash with the style)
+\newcommand{\code}[1]{\texttt{#1}}
+
+% Natbib setup for author-year style
+\usepackage{natbib}
+ \bibpunct[, ]{(}{)}{,}{a}{}{,}%
+ \def\bibfont{\small}%
+ \def\bibsep{\smallskipamount}%
+ \def\bibhang{24pt}%
+ \def\newblock{\ }%
+ \def\BIBand{and}%
+
+%% Setup of theorem styles. Outcomment only one. 
+%% Preferred default is the first option.
+\TheoremsNumberedThrough     % Preferred (Theorem 1, Lemma 1, Theorem 2)
+%\TheoremsNumberedByChapter  % (Theorem 1.1, Lema 1.1, Theorem 1.2)
+
+%% Setup of the equation numbering system. Outcomment only one.
+%% Preferred default is the first option.
+\EquationsNumberedThrough    % Default: (1), (2), ...
+%\EquationsNumberedBySection % (1.1), (1.2), ...
+
+% In the reviewing and copyediting stage enter the manuscript number.
+\MANUSCRIPTNO{} % When the article is logged in and DOI assigned to it,
+                 %   this manuscript number is no longer necessary
+
+%%%%%%%%%%%%%%%%
+\begin{document}
+%%%%%%%%%%%%%%%%
+
+% Outcomment only when entries are known. Otherwise leave as is and 
+%   default values will be used.
+%\setcounter{page}{1}
+%\VOLUME{00}%
+%\NO{0}%
+%\MONTH{Xxxxx}% (month or a similar seasonal id)
+%\YEAR{0000}% e.g., 2005
+%\FIRSTPAGE{000}%
+%\LASTPAGE{000}%
+%\SHORTYEAR{00}% shortened year (two-digit)
+%\ISSUE{0000} %
+%\LONGFIRSTPAGE{0001} %
+%\DOI{10.1287/xxxx.0000.0000}%
+
+% Author's names for the running heads
+% Sample depending on the number of authors;
+% \RUNAUTHOR{Jones}
+% \RUNAUTHOR{Jones and Wilson}
+% \RUNAUTHOR{Jones, Miller, and Wilson}
+% \RUNAUTHOR{Jones et al.} % for four or more authors
+% Enter authors following the given pattern:
+\RUNAUTHOR{Isken}
+
+% Title or shortened title suitable for running heads. Sample:
+% \RUNTITLE{Bundling Information Goods of Decreasing Value}
+% Enter the (shortened) title:
+\RUNTITLE{Spreadsheet modeling and wrangling with Python}
+
+% Full title. Sample:
+% \TITLE{Bundling Information Goods of Decreasing Value}
+% Enter the full title:
+\TITLE{Spreadsheet modeling and wrangling with Python}
+
+% Block of authors and their affiliations starts here:
+% NOTE: Authors with same affiliation, if the order of authors allows, 
+%   should be entered in ONE field, separated by a comma. 
+%   \EMAIL field can be repeated if more than one author
+\ARTICLEAUTHORS{%
+\AUTHOR{Mark W. Isken}
+\AFF{Oakland University, \EMAIL{isken@oakland.edu}, \URL{http://www.sba.oakland.edu/faculty/isken/}}
+% Enter all authors
+} % end of the block
+
+\ABSTRACT{%
+A staple of many spreadsheet based management science courses is the use of Excel for activities such as model building, sensitivity analysis, goal seeking and Monte-Carlo simulation. What might those things look like if carried out using Python? We describe a teaching module in which Python is used to do typical Excel based modeling and data wrangling tasks. In addition, students are exposed to basic software engineering principles including project folder structures, version control, object oriented programming and other more advanced Python skills, creating deployable packages and documentation. The module is supported with Jupyter notebooks, Python scripts, course web pages which include numerous screencasts, and a few GitHub repositories. All of the supporting materials are permissively licensed and freely accessible.
+}%
+
+% Sample
+%\KEYWORDS{deterministic inventory theory; infinite linear programming duality; 
+%  existence of optimal policies; semi-Markov decision process; cyclic schedule}
+
+% Fill in data. If unknown, outcomment the field
+\KEYWORDS{python, spreadsheet modeling}
+\HISTORY{}
+
+\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Samples of sectioning (and labeling) in ITED
+% NOTE: (1) \section and \subsection do NOT end with a period
+%       (2) \subsubsection and lower need end punctuation
+%       (3) capitalization is as shown (title style).
+%
+%\section{Introduction.}\label{intro} %%1.
+%\subsection{Duality and the Classical EOQ Problem.}\label{class-EOQ} %% 1.1.
+%\subsection{Outline.}\label{outline1} %% 1.2.
+%\subsubsection{Cyclic Schedules for the General Deterministic SMDP.}
+%  \label{cyclic-schedules} %% 1.2.1
+%\section{Problem Description.}\label{problemdescription} %% 2.
+
+% Text of your paper here
+
+\section{Introduction}
+
+Spreadsheet based modeling has transformed the teaching of management science in business schools over the past twenty plus years. The late 1990s saw first editions of game changing textbooks \citep{winstonPracticalManagementScience2018,ragsdaleSpreadsheetModelingDecision2017} focused on the use of spreadsheets in teaching modeling and management science.  A series of conferences focused on teaching management science with spreadsheets started at Dartmouth in 1998 and several presentations from that conference made up the bulk of papers in the first two issues of the INFORMS Transactions on Education (ITE) journal \citep{baker2000:lp,bell2000:statistics,evans2000:simulation,carraway2000:mba,ragsdale2001:teaching,savage2001:blitzograms}. The next few decades saw numerous textbooks, including {\citet{powellBusinessAnalyticsArt2019, camm2020business}}, and teaching papers in journals such as \href{https://pubsonline.informs.org/journal/ited}{ITE} that prominently featured spreadsheet based modeling.
+
+Despite numerous calls for, and predictions of, the eradication of spreadsheets from the business world, Excel and other spreadsheets are \href{https://benn.substack.com/p/the-next-billion-programmers}{alive and well}. Their flexibility is unparalleled and it is unrealistic to expect them to disappear anytime soon. If anything, the \href{https://techcommunity.microsoft.com/t5/excel-blog/announcing-python-in-excel-combining-the-power-of-python-and-the/ba-p/3893439}{recent announcement by Microsoft} that users will be able combine Python scripts with Excel formulas within the same workbook, will likely solidify Excel's place in the analytics space. Yes, spreadsheets have well known limitations. Spreadsheets are not databases and probably should not be used as one, especially for relational data models. There are better data visualization and exploration tools. There are better dashboarding tools that are more easily maintained in a production environment. Spreadsheet errors can be a \href{https://eusprig.org/research-info/horror-stories/}{huge problem}. Version control is difficult as both data and logic live in the same spreadsheet document. Documentation of multi-step manual data manipulation processes is often lacking -- hindering reproducibility and automation. There are data size limitations and external data links present their \href{https://www.thespreadsheetguru.com/find-remove-external-links/}{own set of challenges}. But, Excel continues to be used for a wide range of quantitative analysis related activities throughout the business world. One particular use is the building and exercising of models of business problems
+to explore the impact of important model inputs on different output metrics. This ``what if?'' type modeling is facilitated by Excel's flexibility, numerous built in functions, integrated sensitivity analysis via \href{https://support.microsoft.com/en-us/office/calculate-multiple-results-by-using-a-data-table-e95e2487-6ca6-4413-ad12-77542a5ea50b}{Data Tables},  \href{https://support.microsoft.com/en-us/office/use-goal-seek-to-find-the-result-you-want-by-adjusting-an-input-value-320cb99e-f4a4-417f-b1c3-4f369d6e66c7}{Goal
+	Seek} for break-even analysis and exploratory data analysis via plots and Pivot Tables. 
+
+At the same time, the analytics world has been changing. The advent of programmatic analytics using tools like \href{https://www.r-project.org/}{R} and \href{https://www.python.org/}{Python} have changed the practice of analytics as well as the teaching landscape. Limitations of spreadsheets with respect to reproducibility and automation have certainly played a role.  Additionally, both R and Python are free, open source, and have a rich set of analytics related libraries that have contributed to their growing popularity. There is a widely used Python distribution, \href{https://www.anaconda.com/download}{Anaconda}, that specifically targets analytics and data science work. Python, being a general purpose programming language, also offers advantages when moving models and analytical analysis pipelines from the prototype stage into production. Enormous data science ecosystems have emerged around both R and Python providing a wealth of learning resources for both new and experienced analytics students and professionals.
+
+Numerous R and Python based data science courses have been developed and offered at universities and through online learning platforms such as \href{https://www.coursera.org/browse/data-science}{Coursera}, \href{https://www.edx.org/learn/data-science}{EdX}, \href{https://www.datacamp.com/}{DataCamp}, \href{https://www.udemy.com/topic/data-analysis/}{Udemy} and many others. One particularly relevant example are the courses in computation offered by the Naval Postgraduate School and described in \citet{alderson2022:interactive_computing}. In their courses, Jupyter notebooks (discussed in more detail in the next section) play a prominent role in providing an interactive development and learning environment for Python within an operations research context. In \citet{pythonprojects:ite}, an analytics project based course is described in which Python plays a significant role. Students use Python for a number of data wrangling, exploratory data analysis and modeling tasks. Through a course like this, students gain valuable experience with a tool that is becoming more of an expectation in the analytics world. Another effective and fun way that students can gain experience with Python is through using it solve puzzles such as Wordle \citep{wordle_2023} or the Advent of Code \citep{AOC}.
+
+
+In 2015, at Oakland University, we created a course called \href{http://www.sba.oakland.edu/faculty/isken/courses/pcda/}{Practical Computing for Data Analytics} (PCDA) that introduced both R and Python (along with a little Linux) for use in data analytics work. This new course was meant as a follow up to the \href{http://www.sba.oakland.edu/faculty/isken/courses/ba/}{spreadsheet based modeling course} we have had in place since 2001. The PCDA course, like many introductory data science courses, focuses mostly on data wrangling, exploratory data analysis (EDA), and statistical/machine learning based predictive models. In teaching EDA using tools like \href{https://ggplot2.tidyverse.org/}{ggplot2}, students are challenged to think about how they would go about trying to use Excel to create some of the plots that are easy to do with R and Python based plotting libraries. There is some limited coverage of using Python to open Excel files and do worksheet manipulation. However, other than a Python based simulation of the Monte Hall 3-door problem, there was no real attempt to do the kind of modeling that is the focus of most spreadsheet based modeling textbooks. 
+
+Python has continued to make inroads to analytical territory that was formerly dominated by spreadsheets. The widely used Python data analysis library, pandas, was created by Wes McKinney while working as a quantitative financial analyst \citep{mckinney2022python}. Python is widely used for data wrangling, visualization and predictive modeling using various flavors of regression, tree based models and neural networks. You can get a very good sense of this by visiting the very popular \href{https://www.reddit.com/r/datascience/}{r/datascience subreddit on Reddit} -- a well known online forum. But, it got me to thinking. What about those things for which Excel is particularly well suited such as building formula based models and doing sensitivity analysis on these models? What would those look like in Python? The importance of modeling, articulated so well by \citet{powellTeachingModelingManagement2001} in the pages of this journal, has not abated. What role does Python have to play in supporting the kind of modeling taught for years in our business schools?
+
+In 2021, I published a \href{https://bitsofanalytics.org/#category=excel}{series of blog posts} that explored this question and formed the basis of the teaching module described in this paper. During the development of these posts, I came across the \href{https://quantecon.org/}{Quant Econ: open source code for economic modeling} project which ``is a nonprofit organization dedicated to development and documentation of open source computational tools for economics, econometrics, and decision making''. This is a mature project, run by renowned economists, with significant support. They have developed and released numerous high quality Jupyter notebooks exploring a range of computational economic and financial modeling topics. Here was an example of the Python for business usage I had been seeking. With this as inspiration, I decided to turn my blog post series into a teaching module called Excel with Python (EwP). 
+
+The EwP module is not as polished nor as advanced as the Quant Econ materials, but does add to the growing body of freely available teaching materials aimed at Python for business modeling. My goals for EwP are also a little different than those of Quant Econ and include:
+
+\begin{itemize}
+	\item teaching relevant and more advanced Python to business students using familiar and simple modeling examples,
+	\item conveying a sense of the software design and development process,
+	\item acting as a tour guide for a learning journey,
+	\item teaching students to think and act like a software developer, not just an analyst.
+\end{itemize}
+
+Recently there has been more recognition of the need for data scientists to learn basic software engineering principes \citep{nelsonSoftwareEngineeringData2024,treadwaySoftwareEngineeringData2023,rodriguesBuildingReproducibleAnalytical2023}.  The image of newly minted data science graduates developing spaghetti coded Jupyter notebooks not nearly ready for being put into production has reached \href{https://www.reddit.com/r/ProgrammerHumor/comments/y2xe3n/like_every_time_ever_when_the_devops_engineer/}{meme worthy status}. I hoped to address some of these issues in the EwP module. Students would be exposed to some simple software engineering concepts during the process of building and analyzing familiar models. This is really no different than the integration of advanced Excel functions and techniques with spreadsheet modeling tutorials. Just as spreadsheet modeling students were able to easily wow their coworkers and managers with INDEX-MATCH and intermediate Pivot Table skills, I hoped that my students ability to properly document a Python function and use git and GitHub would give them a bit more professional credibility.
+
+We will begin with a brief discussion of the overall positioning and structure of the EwP module within our business analytics programs at Oakland University. Then, each of the three main EwP submodules are described in some detail. Finally we conclude with a brief discussion of our experience in delivering this module.
+
+\section{Module positioning and structure}
+
+At our institution, The EwP module is part of a business course entitled  \href{http://www.sba.oakland.edu/faculty/isken/courses/aap}{Advanced Analytics with Python} (AAP). The students taking this course have already taken the PCDA course where they learned fundamental Python programming within the context of data analytics over seven weeks. The PCDA course ends with intro to the \href{https://scikit-learn.org/stable/index.html}{scikit-learn library} for doing predictive modeling in Python and the AAP course begins where the PCDA course ends. The EwP module follows immediately after the modules on machine learning and builds on the Python fundamentals which were covered in the PCDA course. The EwP module could also be used as part of a semester long Python based analytics course in which the Python modules covered in the PCDA course are followed by more advanced topics such as EwP or other topics in our AAP course. The only reason the EwP module is not included in the PCDA course is that Python is only covered in half of that course - the other half being an introduction to R and Linux. If you visit the open access \href{http://www.sba.oakland.edu/faculty/isken/courses/pcda/}{PCDA course website}  and \href{http://www.sba.oakland.edu/faculty/isken/courses/aap/}{AAP course website}, you can see the topic outline for each course and how the EwP module is positioned. 
+
+Most AAP students have also already taken   \href{http://www.sba.oakland.edu/faculty/isken/courses/ba}{Business Analytics} (BA) which is a spreadsheet based introduction to business analytics \citep{isken2003:muddy,isken2014:lab}. The BA and PCDA courses have historically been offered in face to face mode in a computer teaching lab. Since 2020, these two courses have been also offered as online, asynchronous courses. The newer AAP course has been offered since 2021 in an online asynchronous mode. All three courses have extensive course websites that are publicly accessible, including access to all of the video content and supporting files. These courses serve upper level undergraduate and graduate students. Many are from the School of Business Administration but they draw students from many programs across our campus. 
+
+What kind of Python background do students need to have in order to be ready for the EwP module? A basic familiarity with Python fundamentals for data analysis is required, including:
+
+\begin{itemize}
+	\item variables, arithmetic and boolean operators, basic data types,
+	\item data structures such as lists, dictionaries, tuples, NumPy arrays and pandas dataframes,
+	\item flow control such as branching with \texttt{if \ldots else} and iterating with \texttt{for} and \texttt{while}
+	\item module imports,
+	\item using built in functions and accessing methods and properties of objects,
+	\item creating functions,
+	\item basic use of NumPy and pandas for data wrangling and analysis,
+	\item basic plotting with matplotlib,
+	\item familiarity with Jupyter notebooks and an integrated development environment such as \href{https://www.spyder-ide.org/}{Spyder}, \href{https://code.visualstudio.com/}{VSCode} or \href{https://www.jetbrains.com/pycharm/}{PyCharm}.
+\end{itemize}
+
+The EwP module is made up of three submodules. The first of these focuses on building and using a typical spreadsheet model using Python. Then the functionality developed in the first submodule is deployed as a reusable package. The final submodule is an introduction to using Python to manipulate Excel files.
+
+All of the Python modules in the PCDA course as well as the entire AAP course are taught using a combination of Jupyter notebooks, Python scripts, and videos that walk readers through the notebooks. Jupyter notebooks, part of \href{https://jupyter.org/}{Project Jupyter}, are an example of \textit{literate computing} \citep{perez2015project} and allow the creation of rich interactive documents that support iterative exploration and development. 
+
+Central to Jupyter notebooks is a mix of \textit{code cells}, \textit{markdown cells} and \textit{output cells}. Code cells contain executable code while markdown cells contain plain text using \href{URL}{markdown} for styling text. For example, Figure \ref{fig:cells_edit_mode} shows two markdown cells separated by a code cell as they look when in editing mode. After running the cells, they appear as shown in Figure \ref{fig:cells_after_running}. After executing a code cell, the output appears directly below it in an output cell. Mixing code and markdown cells makes it quite easy to create interactive tutorials in which students can not only run pre-written code, but can also add their own code -- all with the aid of supporting explanatory text. All of the blog posts upon which EwP is based were written in Jupyter notebooks. 
+
+The ability to weave standard explanatory language with formal programming languages has made notebook computing a popular tool in the data science education community \citep{perkel2018jupyter}. Jupyter notebooks can also include equations written in \LaTeX, data visualizations, and other multi-media. The technology is free, open source, runs on most computing platforms, and has a huge user community that has created a large number of resources for students, faculty and industry practitioners. There are countless introductory tutorials for Jupyter notebooks, but the official Project Jupyter Documentation \citep{jupyterteamProjectJupyterDocumentation2015} is a very good place to start if you are new to notebook computing. As with all tools, there are pros and cons to their use. See \citet{rule2018ten, barba2019teaching} and \citet{johnson2020benefits} for guidance on Jupyter notebook best practices for both research and teaching.
+
+
+
+\begin{figure*}[!htbp]
+\centering
+\includegraphics[scale=0.5]{images/cells_edit_mode}
+\caption{Notebook cells in edit mode}
+\label{fig:cells_edit_mode}
+\end{figure*}
+
+\begin{figure*}[!htbp]
+\centering
+\includegraphics[scale=0.5]{images/cells_after_running}
+\caption{Notebook cells after execution}
+\label{fig:cells_after_running}
+\end{figure*}
+
+
+\section{Submodule 1: What-if analysis with Python}
+
+There are two overarching learning objectives for this \href{http://www.sba.oakland.edu/faculty/isken/courses/aap/mod3a_whatif.html}{first EwP submodule}. Students learn how Python might be used to do something they are quite familiar with doing in a spreadsheet -- model building and sensitivity analysis. At the same time, they encounter more advanced Python programming concepts and techniques. In this way, the computational problem to be solved drives the introduction of more advanced Python concepts and techniques instead of such things being presented in a vacuum. See Figure \ref{fig:objectives_whatif} for how the objectives are presented to students via the course website.
+
+I make it a point to show that there are often multiple possible approaches to a computational problem by being willing to abandon one approach and trying another. Emphasis is given to the lessons learned from each path explored. Every notebook is accompanied by screencasts that walk the students through the material and act as a guided tour with challenges to overcome along the way. While all of the notebooks are publicly available (see Section \ref{sec:software}), links to html versions of each of the notebooks are provided throughout the document and readers are encouraged to use them while reading to see exactly how each topic is presented. 
+
+\begin{figure}[!htbp]
+	\includegraphics[width=1.0\textwidth]{images/objectives_whatif}
+	\caption{Learning objectives for Submodule 1}
+	\label{fig:objectives_whatif}
+\end{figure}
+ 
+ 
+\subsection{Notebook 1: Modeling and data tables (\href{http://www.sba.oakland.edu/faculty/isken/excel_with_python/what_if_1_model_datatable.html}{html version})}
+
+The stage is set with an overview of a typical spreadsheet based model that most of the students have seen before. The notebook also includes a screenshot (Figure \ref{fig:xl_model}) of this Excel model. 
+
+\begin{tcolorbox}[boxrule=1pt,sharp corners]
+\begin{quotation}
+\textsf{	
+	It's a really simple model in which we are selling a single product that we produce. There is a fixed cost to producing the product as well as a variable production cost per unit. We can sell the product for some price and we believe that demand for the product is related to the selling price through a power function. Let's assume for now that we have sufficient capacity to produce to demand and that all inputs are deterministic (we'll deal with simulating uncertainty later in this document).}
+	
+	\textsf{The details aren't so important right now as is the overall structure of the model. There are a few key inputs and some pretty straightforward formulas for computing cost, revenue and profit. Notice the 1-way Data Table being used to explore how profit varies for different selling prices. There's a graph driven by the Data Table and some Text Boxes used for annotation and summary interpretative comments. There's a button that launches Goal Seek to find the break even selling price and a 2-way Data Table (not shown) to explore the joint effect of selling price and variable cost. Classic Excel modeling stuff. How might we go about building a similar model using Python? } 
+	
+	\textsf{What if we wanted to push it a little further and model some of the key inputs with probability distributions to reflect our uncertainty about their values? In the Excel world, we might use add-ins such as @Risk which allow uncertain quantities to be directly modeled with probability distributions. For example, we might have a key input such as the exponent in the power function that relates selling price to demand that is highly uncertain. By modeling it with a probability distribution and then sampling from that distribution many times (essentially by recalcing the spreadsheet) we can generate a bunch of possible values for key outputs (e.g. profit) and use statistics to summarize these outputs using things like histograms and summary stats. Often this type of simulation model is referred to as a Monte-Carlo model to suggest repeated sampling from one or more probability distributions within an otherwise pretty static model. Again, how might we do this with Python?}
+\end{quotation}
+\end{tcolorbox}
+
+
+
+\begin{figure}[!htbp]
+\includegraphics[width=1.0\textwidth]{images/output_2_0}
+\caption{Typical spreadsheet model}
+\label{fig:xl_model}
+\end{figure}
+
+We then introduce a similar modeling problem that will be the focus of the rest of the notebook. The Walton Bookstore problem appears in the chapter on Monte-Carlo simulation in textbooks that I have used in my spreadsheet modeling course \citep{albrightBusinessAnalyticsData2016,winstonPracticalManagementScience2018}. The (slightly modified) problem is as follows:
+
+\begin{itemize}
+	\item we have to place an order for a perishable product (e.g. a calendar),
+	\item there is a known unit cost for each unit ordered,
+	\item we have a known and fixed selling price,
+	\item demand is uncertain but we can model it with some simple probability distribution,
+	\item for each unsold item, we can get a partial refund of our unit cost,
+	\item we need to select the order quantity for our one order for the year; orders can only be in multiples of 25.
+\end{itemize}
+
+The overall goal is to build a Python based version of this model that will allow us to do sensitivity analysis, find the break even point for demand and analyze the problem using Monte-Carlo simulation.
+
+\subsubsection{Model building using a procedural programming approach}
+ 
+We start with a very simple model that ignores the uncertainty in demand and does not use object oriented programming concepts. Proceeding much like we would in Excel, base input values are stored in variables. Students are given skeleton code as scaffolding and must finish the expressions for computing key intermediate outputs (\code{order\_cost, sales\_revenue, refund\_revenue}) and the final output, \code{profit} -- see Figure \ref{fig:model_inputs}.
+
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.5]{images/model_inputs}
+\caption{Instantiating model inputs and creating output formulas}
+\label{fig:model_inputs}
+\end{figure}
+
+Answers are provided at the bottom of the notebook so that students can attempt to finish the code but have a resource to correctly complete the code and move on. The screencast associated with the notebook also shows the code being completed in a subsequent code cell. Using skeleton code in this way has worked well both for lab based versions of this type of course as well as for online asynchronous versions. For a lab based course, students actively work on completing the code during class and the instructor can move around the lab acting as a guide and consultant.
+
+At this point we discuss a fundamental difference between the computing model of Excel and that of Jupyter notebooks. While spreadsheets respond automatically to changes, Jupyter notebooks require rerunning all code cells that include or follow the changed code. This difference in behavior between Jupyter notebooks and spreadsheets might be one of the most important concepts for students to internalize. A well known challenge, often referred to as the \textit{hidden state problem}, associated with computational notebooks is the ease of running code cells out of order and introducing inadvertent errors -- see \citet{johnson2020benefits,grusDonNotebooks2018}. This point along with strategies to avoid it are discussed during the first week of the course which focuses on \href{http://www.sba.oakland.edu/faculty/isken/courses/aap/jupyter_notebooks.html}{notebook computing best practices as well as a historical look} at computational notebooks.
+
+\subsubsection{Sensitivity analysis}
+
+Since order quantity is the key decision variable, we might want to see how profit changes for different order quantities. In Excel, the Data Table tool provides a familiar and easy way to do this. In a Data Table, a range of order quantities can be used as row or column input and one or more output values can be computed. In Python, the vectorized nature of the \href{https://numpy.org/}{NumPy} library \citep{harris2020array} provides a simple way to accomplish the same thing. A range of order quantities is created as a NumPy array that can be used directly to compute vectors of all of the intermediate and final output variables. Much like Data Tables, vectorized computations avoid having to explicitly iterate, or loop, through a collection of input values.
+
+A natural next step is to do the equivalent of an Excel 2-way Data Table. By creating a profit function that takes all of the base inputs as arguments, a \href{https://realpython.com/list-comprehension-python/}{list comprehension} can then be used to generate the equivalent of a 2-way Data Table. Even better, this actually allows us to do the equivalent of an n-way Data Table with an arbitrary number of outputs -- something Excel does not have. This example provides an effective way to show the power of creating reusable functions and Python's handy list comprehension construct. As shown in Figure \ref{fig:function_datatable}, a few code and markdown cells are used to create the code, provide some explanation and show the output. This is the same output one would get with an Excel 2-way Data Table, just laid out differently. Then in Figure \ref{fig:datatable_scatter} we show how the output can be turned into a scatter plot with profit mapped to a color hue.
+
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.5]{images/function_datatable}
+\caption{A 2-way data table}
+\label{fig:function_datatable}
+\end{figure}
+
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.5]{images/datatable_scatter}
+\caption{Scatter plot based on 2-way data table}
+\label{fig:datatable_scatter}
+\end{figure}
+
+
+
+\subsubsection{The object nature of Python}
+
+It is not clear whether this non-object oriented procedural approach will end up making the most sense for doing spreadsheet type modeling in Python. This uncertainty is made explicit in the notebook and students are led on a bit of a journey of discovery as we explore different software designs for this modeling problem. I purposefully designed the notebooks in this way to show students that the path to a solution is not necessarily linear and that giving yourself the freedom to explore alternatives, many of which will be dead ends, can lead to a rich learning experience. It is also more realistic in the sense that this is how most real problems are solved. It is analogous to the idea that mathematical proofs usually do not reflect the myriad of failed approaches that were tried but that ultimately contributed to the final product.
+
+In preparation for building an object oriented version of the model, basic object concepts are reviewed. Since most students have done some Excel VBA programming in a previous course, I refer back to a few properties and methods of the Excel \code{Worksheet} object. In Python, everything is an object. Using Python lists as an example, we explore some of its attributes such as methods for appending items to a list and reversing the order of its elements. The \code{dir} function is used to see all of an object's attributes and we see that even things like integers are objects in Python. With this basic object refresher, we are ready to do some actual object oriented programming and create our own classes.
+
+\subsubsection{Creating an object oriented model}
+
+For our initial design of a \code{BookstoreModel} class we make all of the base inputs class attributes (properties) and then add method attributes to compute outputs such as costs, revenues and profits - see Figure \ref{fig:oo_model}. Students can easily see the mapping between elements in the initial procedural model and this new object oriented version. Several important concepts and syntactical details of doing object oriented programming Python are highlighted. Again, the goal is to weave in these more advanced Python programming concepts within the context of a very familiar modeling problem. This section of the notebook ends with using the \code{BookstoreModel} class to create a new model object instance with all of its base inputs instantiated with values. Before moving on, students are presented with a challenge involving enhancements to the \code{BookstoreModel} class. Interspersing short coding challenges throughout the notebook gives students a chance to test themselves on their understanding and to get some coding practice.
+
+\begin{figure}[!htbp]
+	\centering
+	\includegraphics[scale=0.5]{images/oo_model}
+	\caption{Object oriented version of the model}
+	\label{fig:oo_model}
+\end{figure}
+
+A few design dilemmas are posed and some non-working approaches illustrated as we try to decide on how to implement an n-way data table function for this new object oriented model. These meta reflections are intentionally included to better mimic actual software development and reinforce the idea that software development is much more than simply writing code to implement a perfectly thought out design. We forge ahead with some preliminary ideas and are confronted with an intermediate problem related to generating a list of dictionaries that represent combinations of inputs, or \textit{scenarios}, to evaluate. This provides a great opportunity to remind students of one of the great strengths of the open source software ecosystem -- we can leverage work done in other packages and even look at actual source code to see how something was implemented. In this case, the well known \href{https://scikit-learn.org/stable/}{scikit-learn} package \citep{scikit-learn} has a \code{ParameterGrid} function that solves our scenario generation problem quite nicely. This example also reminds the students of the value of being able to make sense of API documentation and to understand object oriented code written by others. 
+
+This first notebook draws to a close with the creation of a \code{data\_table} function (Figure \ref{fig:oo_datatable_function}) that allows us to do sensitivity analysis with the objected oriented model. The payoff is the creation of the faceted plot in Figure \ref{fig:2way_dt} showing how profit varies for different order quantities and demand levels. We recap the main things learned in this notebook and prepare to add goal seeking capability to our model.
+
+\begin{figure}[!htbp]
+	\centering
+	\includegraphics[scale=0.5]{images/oo_datatable_function}
+	\caption{An n-way DataTable function}
+	\label{fig:oo_datatable_function}
+\end{figure}
+
+
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=1.0\textwidth]{images/two_way_dt}
+\caption{Faceted plot based on 2-way data table}
+\label{fig:2way_dt}
+\end{figure}
+
+
+\subsection{Notebook 2: Goal seek (\href{http://www.sba.oakland.edu/faculty/isken/excel_with_python/what_if_2_goalseek.html}{html version})}
+
+No self respecting modeling tool would be complete without goal seeking capability to do things such as finding the break even demand point in the bookstore model. For many students, Excel's Goal Seek tool can seem almost magical when encountered for the first time. Even after they get a sense of what it is doing, understanding the importance of the initial solution guess and how it can lead to Goal Seek reporting different solutions, is not very transparent. With Python, students can gain a much better understanding of how tools like Goal Seek really work. 
+
+
+Before trying to build our \code{goal\_seek} function we take a brief detour into basic root finding algorithms through packages like \href{https://docs.scipy.org/doc/scipy/tutorial/optimize.html#root-finding}{SciPy} \citep{2020SciPy-NMeth} as well as in \href{https://github.com/patrickwalls/mathematical-python/}{open source notebooks and scripts} that are widely available in the Python data science ecosystem \citep{wallsMathematicalPython2023}. We compare the output of Excel's Goal Seek with different starting values to the values obtained by different root finding algorithms implemented in Python. The importance of starting values and also the range of different root finding algorithms available is often surprising to business students who have spent most of their analytical life in Excel.
+
+A \code{goal\_seek} function is created that implements a simple bisection search and we use it to find the break even demand point in our bookstore model. See Listing \ref{fig:goal_seek_function}. With \code{data\_table} and \code{goal\_seek} functions implemented, we are ready to move on to doing Monte-Carlo simulation.
+
+\begin{listing}
+\centering
+\begin{minted}[fontsize=\tiny]{python}
+def goal_seek(model, obj_fn, target, by_changing, a, b, N=100, verbose=False):
+    '''Approximate solution of f(x)=0 on interval [a,b] by bisection method.
+
+    Parameters
+    ----------
+    model : object
+        User defined object containing the appropriate methods and properties for doing the desired goal seek
+    obj_fn : function
+        The function for which we are trying to approximate a solution f(x)=target.
+    target : float
+        The goal
+    by_changing : string
+        Name of the input variable in model
+    a,b : numbers
+        The interval in which to search for a solution. The function returns
+        None if (f(a) - target) * (f(b) - target) >= 0 since a solution is not guaranteed.
+    N : (positive) integer
+        The number of iterations to implement.
+    verbose : boolean (default=False)
+        If True, root finding progress is reported
+
+    Returns
+    -------
+    x_N : number
+        The midpoint of the Nth interval computed by the bisection method. 
+        If all signs of values f(a_n), f(b_n) and f(m_n) are the same at any
+        iteration, the bisection method fails and return None.
+    '''  
+    # Clone the model
+    model_clone = copy.deepcopy(model)
+    
+    # The following bisection search is a direct adaptation of
+    # https://www.math.ubc.ca/~pwalls/math-python/roots-optimization/bisection/  
+    setattr(model_clone, by_changing, a)
+    f_a_0 = getattr(model_clone, obj_fn)()
+    setattr(model_clone, by_changing, b)
+    f_b_0 = getattr(model_clone, obj_fn)()
+    
+    if (f_a_0 - target) * (f_b_0 - target) >= 0:
+        # print("Bisection method fails.")
+        return None
+    
+    # Initialize the end points
+    a_n = a
+    b_n = b
+    for n in range(1, N+1):
+        # Compute the midpoint
+        m_n = (a_n + b_n)/2
+        
+        # Function value at midpoint
+        setattr(model_clone, by_changing, m_n)
+        f_m_n = getattr(model_clone, obj_fn)()
+        
+        # Function value at a_n
+        setattr(model_clone, by_changing, a_n)
+        f_a_n = getattr(model_clone, obj_fn)()
+        
+        # Function value at b_n
+        setattr(model_clone, by_changing, b_n)
+        f_b_n = getattr(model_clone, obj_fn)()
+        
+        if verbose:
+            print(f"n = {n}, a_n = {a_n}, b_n = {b_n}, m_n = {m_n}, width = {b_n - a_n}")
+
+        # Figure out which half the root is in, or if we hit it exactly, or if the search failed
+        if (f_a_n - target) * (f_m_n - target) < 0:
+            a_n = a_n
+            b_n = m_n
+        elif (f_b_n - target) * (f_m_n - target) < 0:
+            a_n = m_n
+            b_n = b_n
+        elif f_m_n == target:
+            return m_n
+        else:
+            return None
+    
+    # If we get here we hit iteration limit, return best solution found so far
+    return (a_n + b_n)/2
+\end{minted}
+\caption{\code{goal\_seek} function}
+\label{fig:goal_seek_function}
+\end{listing}
+
+\subsection{Notebook 3: Monte-Carlo simulation (\href{http://www.sba.oakland.edu/faculty/isken/excel_with_python/what_if_3_simulation.html}{html version})}
+
+In the Excel modeling world, Monte-Carlo simulation can be done without add-ins, but packages like \href{https://lumivero.com/products/at-risk/}{@Risk} can make the process much easier. In particular, random variable generation for a wide range of probability distributions is facilitated by add-ins like @Risk. In Python, the \href{https://numpy.org/doc/stable/reference/random/generator.html}{NumPy package provide random variate generation} for a large number of distributions and similarly, \href{https://docs.scipy.org/doc/scipy/reference/stats.html}{SciPy provides functions for computing distribution related quantities} for many probability distributions. Much like we did when creating the \code{data\_table} function, we start with adding uncertainty to a single input variable in the bookstore model and rely on NumPy's vectorized computing capabilities to generate the profit associated with each realization of the random input. Then we can do standard statistical analysis of the simulation output using Python packages such as pandas and SciPy. In spreadsheet based simulation textbooks, the notion of the ``Flaw of Averages'' \citep{savageFlawAveragesWhy2012} is often illustrated. We do the same with our Python based model, showing how replacing random demand by its mean can result in a wildly optimistic estimate of the mean profit found through analyzing the simulation output. Much like doing simulation in Excel without add-ins, using Python makes transparent the quite simple and brute force nature of Monte-Carlo simulation.
+
+Moving on to multiple uncertain inputs raises challenges similar to those we faced when moving from a 1-way to an n-way data table function. In addition to modeling multiple uncertain inputs, we want to be able to specify a range of scenarios to run, just as we did for the \code{data\_table} function. Figure \ref{fig:oo_sim_design_specs} shows the design specifications for our \code{simulate} function.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.5]{images/oo_sim_design_specs}
+\caption{Design specification for \code{simulate()} function}
+\label{fig:oo_sim_design_specs}
+\end{figure}
+
+
+This is followed by a well commented first attempt at a \code{simulate} function. By this point, students are well equipped to understand the code as it builds on basic Python concepts and more advanced concepts that we have already covered in the EwP module. See Listing \ref{fig:simulate_function}.
+
+\begin{listing}
+\centering
+\begin{minted}[fontsize=\tiny]{python}
+def simulate(model, random_inputs, outputs, scenario_inputs=None, keep_random_inputs=False):
+    '''Simulate model for one or more scenarios
+
+    Parameters
+    ----------
+    model : object
+        User defined object containing the appropriate methods and properties for computing outputs from inputs
+    random_intputs : dict of str to sequence of random variates
+        Keys are stochastic input variable names and values are sequence of $n$ random variates, where $n$ is the number of simulation replications
+    outputs : list of str
+        List of output variable names
+    scenario_inputs : optional (default is None), dict of str to sequence
+        Keys are deterministic input variable names and values are sequence of values for each scenario for this variable. Is consumed by
+        scikit-learn ParameterGrid() function. See https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.ParameterGrid.html
+    keep_random_inputs : optional (default is False), boolean
+        If True, all the random input variates are included in the results dataframe
+
+    Returns
+    -------
+    results_df : list of dict
+        Values of all outputs for each simulation replication. If `scenario_inputs` is not None, then this is also for every combination of scenario inputs
+    '''
+    
+    # Clone the model
+    model_clone = copy.deepcopy(model)
+    
+    # Update clone with random_inputs
+    model_clone.update(random_inputs)
+    
+    # Store raw simulation input values if desired
+    if keep_random_inputs:
+        scenario_base_vals = vars(model_clone)
+    else:
+        scenario_base_vals = vars(model)
+    
+    # Initialize output counters and containers
+    scenario_num = 0
+    scenario_results = []
+    
+    # Check if multiple scenarios
+    if scenario_inputs is not None:
+        # Create parameter grid for scenario inputs
+        sim_param_grid = list(ParameterGrid(scenario_inputs))
+        
+        # Scenario loop
+        for params in sim_param_grid:
+            model_clone.update(params)
+            # Initialize scenario related outputs
+            result = {}
+            scenario_vals = copy.copy(params)
+            result['scenario_base_vals'] = scenario_base_vals
+            result['scenario_num'] = scenario_num
+            result['scenario_vals'] = scenario_vals
+            raw_output = {}
+            
+            # Output measure loop
+            for output_name in outputs:
+                output_array = getattr(model_clone, output_name)()
+                raw_output[output_name] = output_array
+            
+            # Gather results for this scenario
+            result['output'] = raw_output
+            scenario_results.append(result)
+            scenario_num += 1
+                
+        return scenario_results
+
+    else:
+        # Similar logic to above, but only a single scenario
+        results = []
+        result = {}
+
+        result['scenario_base_vals'] = scenario_base_vals
+        result['scenario_num'] = scenario_num
+        result['scenario_vals'] = {}
+        
+        raw_output = {}
+        for output_name in outputs:
+            output_array = getattr(model_clone, output_name)()
+            raw_output[output_name] = output_array
+            
+        result['output'] = raw_output  
+        results.append(result)
+
+        return results
+\end{minted}
+\caption{\code{simulate} function}
+\label{fig:simulate_function}
+\end{listing}
+
+The rest of the notebook is spent trying out the \code{simulate()} function and ends with creating a grouped boxplot, see Figure \ref{fig:boxplot}, along with a faceted plot of profit histograms created with the popular \href{https://seaborn.pydata.org/}{Seaborn} package.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=1.0\textwidth]{images/boxplots}
+\caption{Profit boxplots by order quantity}
+\label{fig:boxplot}
+\end{figure}
+
+The first submodule and its three notebooks are very much about the type of modeling typically done in a spreadsheet based course. In a spreadsheet based course, students learn numerous Excel functions and techniques in the process of building and exercising such models. Similarly, numerous Python techniques are scattered throughout the three modeling focused notebooks. Now we shift gears and move beyond what might be considered prototyping and into the realm of deployment. Figure \ref{fig:sim_wrapup} shows how the notebook ends and gives students a preview of the next submodule.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[scale=0.5]{images/sim_wrapup}
+\caption{Closing thoughts in simulation notebook}
+\label{fig:sim_wrapup}
+\end{figure}
+
+\section{Submodule 2: The packaging and documentation notebooks}
+
+Now that we have created some useful modeling functionality, our goal is to make it easier for a modeler to actually use the code. Certainly we do not want to rely on copying, pasting and modifying code when building a new model. In the Python world, the natural next step is to deploy our code as a Python \textit{package} \citep{buezenWelcomePythonPackages2022} that can then be imported like any other Python library. Figure \ref{fig:objectives_packaging} shows the learning objectives from this \href{http://www.sba.oakland.edu/faculty/isken/courses/aap/mod3b_whatif_packaging.html}{submodule page on the course website}.
+
+\begin{figure}[!htbp]
+	\centering
+	\includegraphics[scale=0.5]{images/objectives_packaging}
+	\caption{Learning objectives for Submodule 2}
+	\label{fig:objectives_packaging}
+\end{figure}
+
+Creating a deployable Python package is a good exercise in designing and creating a reusable software artifact. Thinking about how others will interact with your software usually leads to better designed software.  In this submodule we create a Python package that can be imported and used by other modelers. This will require some design changes to our software and will also involve moving code out of Jupyter notebooks and into Python script files. While Jupyter notebooks can be integrated into production environments \citep{uffordInteractiveNotebookInnovation2019}, it is much more common for code to live in Python script files. In addition to creating a deployable package, this submodule also discusses the importance of documentation in its many forms in a Python project.
+
+\subsection{Notebook 4: Project packaging (\href{http://www.sba.oakland.edu/faculty/isken/excel_with_python/what_if_4_project_packaging.html}{html version})}
+
+The first notebook in this submodule starts by explaining what Python packages are and their role in sharing code. We then revisit a concept from earlier in the course -- creating a good project folder structure. For this we use what is known as a \href{https://cookiecutter.readthedocs.io/en/stable/}{cookiecutter} that can automatically generate a project folder structure and key files from the answers to a few prompts \citep{audreyroyandcookiecuttercommunityCookiecutterBetterProject2012}. There are a few different folder layouts used in Python projects and there is a bit of discussion on the folder structure we will use and resources given for exploring this issue further. Students are reminded of the importance of version control and we initialize a git repository for our budding package. The basics of version control were already covered in the first week of the course. My experience is that most students have little exposure to software project management concepts such as project folder structures and version control. This can lead to a jumble of files with incoherent names used as a proxy for version control -- \code{whatif\_v1.py}, \code{whatif\_v2.py}, \code{whatif\_final.py}, \code{whatif\_finalfinal.py}, and so on.
+
+Key software design changes are then made which will make the code easier to use. These changes include creating an abstract \code{Model} base class from which different model classes can be created and moving the \code{data\_table}, \code{goal\_seek}, and \code{simulate} functions into the \code{Model} base class as methods. All of the code is moved into a code module named \code{whatif.py}. Students are now ready to learn about the basics of turning our code into an installable package. Options are presented for installing our package locally so that we can use it for different modeling projects. This includes an explanation of how and where Python searches for packages when \code{import} statements are encountered in code. There is much complexity lurking here and students are reminded that they will need to revisit this topic frequently. I have made every effort to distill things down to a minimal level of complexity needed to convey the important points.
+
+This notebook ends by pointing the students to another notebook in which our newly deployed whatif package is used for a completely different model -- the New Car Simulation that has been a part of Winston and Albright's textbooks for many years \citep{winstonPracticalManagementScience2018,albrightBusinessAnalyticsData2016}. This new model differs structurally from the Bookstore Model, but is representative of many financial models in that cash flows over multiple years need to be computed and summarized. This helps cement the idea that there is value in creating reusable code.
+
+\subsection{Notebook 5: Documentation (\href{http://www.sba.oakland.edu/faculty/isken/excel_with_python/what_if_5_documentation.html}{html version})}
+
+The deployment focused submodule ends with a short notebook discussing the different types of documentation needed in a typical project. This includes code comments, \href{https://peps.python.org/pep-0257/}{docstrings}, \code{readme} files and generating documentation by creating \href{https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html}{reStructuredText} files (similar to, but more powerful than markdown) and using \href{https://www.sphinx-doc.org/en/master/index.html}{Sphinx}, the Python documentation generation tool. This is one of those tasks that few people like to do but can be very important for the long term success of a project. Even if you are just creating a tool for yourself, you will forget the details over time and documentation can be very beneficial in refreshing your memory. 
+
+\section{Submodule 3: Excel data wrangling with Python}
+
+The \href{http://www.sba.oakland.edu/faculty/isken/courses/aap/mod3c_python_excel.html}{EwP module ends} with what has become a relatively common use of Python with Excel -- automating various Excel data wrangling tasks. Examples include:
+
+\begin{itemize}
+	\item
+	You have a whole folder full of csv (or Excel) files with the same
+	file structure and you need to combine them into a single file. You
+	might also need to make some changes to the consolidated file.
+	\item
+	You have an Excel file with multiple sheets of similarly structured
+	data and you want to consolidate them into a single sheet.
+	\item
+	You have an Excel file with data in wide format and you need to
+	convert it to long format, and then perhaps export out individual
+	files (one per the key column(s) in the long formatted data).
+	\item
+	You have an Excel file acting as a simple flat file database.
+	Periodically, you get new Excel files that need to get appended to the
+	``database'' file.
+\end{itemize}
+
+A single Jupyter notebook is used to give a taste of using Python to automate the process of working with Excel files by tackling each of the four examples above. Each of these examples are based on a real problems I encountered either in research or industrial projects. Several web based resources are shared including the \href{https://pbpython.com/}{Practical Business Python blog} written by Chris Moffitt, a data analytics professional \citep{moffittPracticalBusinessPython2022}. This blog, which focuses on helping Excel-centric analytics professionals transition some of their work to Python, includes numerous posts on different aspects of Python and Excel integration.  
+
+There are a number of Python based tools that either include functionality for working with Excel files or are dedicated to specific Excel related operations. These include:
+
+\begin{itemize}
+	\item
+	pandas -
+	\href{https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html}{read\_excel},
+	\href{https://pandas.pydata.org/docs/reference/api/pandas.ExcelWriter.html}{ExcelWriter},
+	\href{https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_excel.html}{to\_excel} -- reading and writing Excel files,
+	\item
+	\href{https://openpyxl.readthedocs.io/en/stable/}{openpyxl} - can
+	read, write, and modify Excel files,
+	\item
+	\href{https://xlsxwriter.readthedocs.io/}{XlsxWriter} - create new Excel files but
+	cannot edit existing Excel files,
+	\item
+	\href{https://www.xlwings.org/}{xlwings} - manipulate the Excel application from Python.
+\end{itemize}
+
+
+\subsection{Example 1: Concatenating many csv files}
+
+While this first example is not necessarily Excel related, using Excel to consolidate csv files through a series of manual Copy-Paste operations is something that many Excel users will admit to having done. After getting familiar with \code{pathlib}, a library for working with file systems which has recently been added to Python's standard library, students are led through the development of a short procedure that creates a list of the csv files to concatenate and then uses pandas to read and combine the files in a \code{DataFrame} and writes out the consolidated data as a csv file.
+
+\subsection{Example 2: Consolidating data from multiple sheets in a Excel file using pandas}
+
+Two different approaches are shown to consolidate data from multiple sheets into a single sheet. One approach uses pandas while the other relies on a library specifically created for working with Excel files from Python, \href{https://openpyxl.readthedocs.io/en/stable/}{openpyxl}. One advantage to using Python rather than Visual Basic for Applications for this task is that Python is well suited for working with data in many different formats including csv, JSON, XML and a myriad of database formats. The Excel file may be just one data source out of a collection of data sources that are used to create some sort of combined database. The generality of Python is a strength in such scenarios.
+
+\subsection{Example 3: Dealing with wide data and a multi-row header}
+
+Reshaping, or tidying, data \citep{wickhamTidyData2014} from wide to long format is a common data wrangling task especially in preparation for plotting. In this example, not only do students have to grapple with reshaping the data in an Excel workbook, they also have to deal with the all too common problem of multi-row header lines in a spreadsheet. Excel's flexibility makes it easy to create such multi-row headers and pity the poor analyst who then has to deal with it when trying to move the data into some sort of data frame or database table. This example is posed as a challenge to the students. Examples of the desired outputs are shown and a few hints given. The answer is provided at the end of the notebook. This example really shows the power of Python in creating a reproducible and automated approach to dealing with a poorly structured Excel workbook, creating not only restructured data frames but also non-trivial plots. Attempting to do all of this in Excel, even with VBA, is not an easy task.
+
+\subsection{Example 4: Appending new spreadsheet data in a consolidated Excel workbook}
+
+Excel is not a database. Of course, that does not stop people from using it as a simple flat-file database. In such a scenario, it is not uncommon to have to periodically append new data to the end of a range of data in an Excel workbook. Again, a combination of openpyxl and pandas allows us to meet this challenge.
+
+\subsection{More on Python/Excel integration}
+
+The examples above barely scratch the surface of the use cases for Python integration with Excel. Our notebook ends with a shout out to the highly regarding \href{https://pbpython.com/}{Practical Business with Python} blog and a list of specific examples that students can explore on their own.
+
+\begin{itemize}
+	\item
+	\href{https://pbpython.com/excel-file-combine.html}{Combining Data
+		From Multiple Excel Files} - file globbing, concatenating dataframes,
+	\item
+	\href{https://pbpython.com/pandas-excel-range.html}{Reading Poorly
+		Structured Excel Files with Pandas} - advanced use of
+	\texttt{read\_excel}, accessing ranges and Tables
+	\item
+	\href{https://pbpython.com/excel-pandas-comp.html}{Common Excel Tasks
+		Demonstrated in Pandas} - totals rows, fuzzy string matching
+	\item
+	\href{https://pbpython.com/excel-pandas-comp-2.html}{Common Excel
+		Tasks Demonstrated in Pandas - Part 2} - selection and filtering
+	\item
+	\href{https://pbpython.com/improve-pandas-excel-output.html}{Improving
+		pandas Excel output} - using XlsxWriter to format Excel workbooks from
+	Python
+	\item
+	\href{https://pbpython.com/advanced-excel-workbooks.html}{Creating
+		Advanced Excel Workbooks} - XlsxWriter, inserting VBA from Python(!),
+	using COM to merge sheets
+	\item
+	\href{https://pbpython.com/xlwings-pandas-excel.html}{Interactive Data
+		Analysis with Python and Excel} - using xlwings to ``glue'' Python and
+	Excel together, using sqlalchemy to interact with databases
+\end{itemize}
+
+% todo Check the hyperlinks above
+
+\section{Software availability and classroom use}
+\label{sec:software}
+
+Each of the submodules described above has its own dedicated course web page. Links to each submodule page can be found on \href{http://www.sba.oakland.edu/faculty/isken/courses/aap/mod3_excel_with_python.html}{this EwP landing page} within the AAP course website. Each page contains learning objectives, a link to a compressed file containing the Jupyter notebooks and other supporting files, a set of activities with accompanying screen casts, and links to additional web based materials to explore. The source reStructuredText files for the course web pages can be found at \href{https://github.com/misken/aap}{this AAP GitHub repository}. There is also a \href{https://github.com/misken/whatif}{whatif Github repository} for the \code{whatif} package. It contains the original notebooks used in the blog posts that motivated this project.
+
+This module has been included in my Advanced Analytics with Python course for the past three years. The course is offered in a seven-week accelerated format during the summer in an online and asynchronous mode. The EwP module is covered over the course of two weeks and is the subject of one of the major homework assignments for the semester. The first part of the assignment involves creating a basic model, similar in complexity to the Bookstore Model, and doing sensitivity analysis, goal seeking and simulation with the model. It requires the students to import and use the \code{whatif.py} package we created as part of the module. The second part of the assignment is based on the last submodule and requires  students to complete a task involving creation of a multi-sheet Excel workbook from a set of csv files using Python. Then, using the openpyxl library, they have to create and add formulas to the workbook and format them properly. The ranges used in the formulas vary by sheet and require determination of the number of rows in each sheet of data and use that information to construct the appropriate formula. Students must create a proper project folder structure and put their project under version control. An example assignment is available from \href{https://drive.google.com/file/d/1prf8acZXZ4RoYBgQ8e9-eijA65uV7T-V/view?usp=sharing}{here}. The module has been well received and several of the working students have reported back to me that they have found use cases for these techniques in their day to day analytical activities.
+
+
+\section{The future of Python and Excel}
+\label{sec:future}
+
+Rumors have swirled for a number of years that Microsoft was considering adding Python as a first class language alternative to VBA within their MS Office suite of packages \cite{cimpanuMicrosoftConsidersAdding2017}. During the review process for this article, this development \href{https://techcommunity.microsoft.com/t5/excel-blog/announcing-python-in-excel-combining-the-power-of-python-and-the/ba-p/3893439}{finally materialized}, albeit in a limited roll out to beta testers. This has potentially enormous implications for the future of both Excel and Python. At this point, it is probably safe to say that this development further underscores the importance of business analytics students adding Python to their analytical toolbox. 
+
+There continues to be significant interest in using Python to manipulate not only Excel workbooks but other office documents such as Powerpoint presentations \citep{cannyPythonpptx2013}. Given that the ubiquity of both Excel and Powerpoint in business education and practice, inclusion of this material in a business school Python based analytics course seems quite appropriate. Students can learn more advanced and extremely useful Python concepts and techniques within a context with which they are intimately familiar. Manipulation of MS Office documents is directly relevant to the job content of many of our students. This teaching module is a natural complement to the commonly taught spreadsheet based analytics and introductory data science courses found in many business schools and provides an interesting way to teach and learn Python for analytics.
+
+
+
+% Acknowledgments here
+%\ACKNOWLEDGMENT{%
+% Enter the text of acknowledgments here
+%}% Leave this (end of acknowledgment)
+
+
+% Appendix here
+% Options are (1) APPENDIX (with or without general title) or 
+%             (2) APPENDICES (if it has more than one unrelated sections)
+% Outcomment the appropriate case if necessary
+%
+% \begin{APPENDIX}{<Title of the Appendix>}
+% \end{APPENDIX}
+%
+%   or 
+%
+% \begin{APPENDICES}
+% \section{<Title of Section A>}
+% \section{<Title of Section B>}
+% etc
+% \end{APPENDICES}
+
+
+% References here (outcomment the appropriate case) 
+
+% CASE 1: BiBTeX used to constantly update the references 
+%   (while the paper is being written).
+\bibliographystyle{informs2014} % outcomment this and next line in Case 1
+\bibliography{python_excel.bib} % if more than one, comma separated
+
+% CASE 2: BiBTeX used to generate mypaper.bbl (to be further fine tuned)
+%\input{mypaper.bbl} % outcomment this line in Case 2
+
+
+\end{document}
+
+
